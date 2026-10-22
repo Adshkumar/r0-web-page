@@ -1,0 +1,475 @@
+---
+import { GITHUB } from '../data/links';
+---
+
+<section class="sec" id="workbench">
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-id"><span class="sec-n">01</span><span>/source-control</span></div>
+      <div>
+        <h2 class="sec-title">Your code and GitHub. <em>In the same workspace.</em></h2>
+        <p class="sec-sub">
+          Browse your project, check local file changes, and work with GitHub without leaving r0.
+          The workflow stays focused on your code—not a separate merge dashboard.
+        </p>
+      </div>
+    </header>
+
+    <div class="sc-window pnl reveal" aria-label="Illustration of r0 source control">
+      <div class="sc-topbar">
+        <div class="sc-brand"><span class="sc-dot"></span><b>r0</b><span class="sc-muted">/ source control</span></div>
+        <a class="sc-repo-link" href={GITHUB} target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.33c-2.23.49-2.7-.95-2.7-.95-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.72 1.23 1.89.88 2.35.67.07-.52.28-.88.51-1.08-1.78-.2-3.64-.89-3.64-3.96 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 4.99c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.08-1.87 3.76-3.65 3.96.29.25.54.73.54 1.48v2.19c0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          Adshkumar / r0 <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <div class="sc-toolbar">
+        <span class="sc-toolbar-label">PROJECT</span>
+        <span class="sc-branch"><span aria-hidden="true">⑂</span> main</span>
+        <span class="sc-toolbar-spacer"></span>
+        <span class="sc-toolbar-label">SOURCE CONTROL</span>
+      </div>
+
+      <div class="sc-body">
+        <aside class="sc-explorer" aria-label="Example project files">
+          <div class="sc-pane-title">EXPLORER</div>
+          <div class="sc-tree-row sc-folder"><span>▾</span> r0</div>
+          <div class="sc-tree-row sc-folder sc-indent"><span>▾</span> crates</div>
+          <div class="sc-tree-row sc-folder sc-indent-2"><span>▾</span> ai</div>
+          <div class="sc-tree-row sc-folder sc-indent-3"><span>▾</span> src</div>
+          <div class="sc-tree-row sc-file sc-indent-4"><span class="sc-rust-icon">R</span> intelligence.rs</div>
+          <div class="sc-tree-row sc-file sc-indent-4"><span class="sc-rust-icon">R</span> workspace_tools.rs</div>
+          <div class="sc-tree-row sc-folder sc-indent"><span>▸</span> src-tauri</div>
+          <div class="sc-tree-row sc-file sc-root-file"><span class="sc-rust-icon">R</span> Cargo.toml</div>
+        </aside>
+
+        <div class="sc-editor">
+          <div class="sc-tab"><span class="sc-rust-icon">R</span> intelligence.rs</div>
+          <div class="sc-crumb">crates <span>›</span> ai <span>›</span> src <span>›</span> intelligence.rs</div>
+          <pre class="sc-code" aria-label="Rust source excerpt"><code><span class="sc-line"><i>17</i><span><b>pub fn</b> bounded_paths_stay_in_workspace(</span></span>
+<span class="sc-line"><i>18</i><span>    root: <em>&amp;str</em>, paths: <em>&amp;[String]</em></span></span>
+<span class="sc-line"><i>19</i><span>) -&gt; <em>bool</em> &#123;</span></span>
+<span class="sc-line"><i>20</i><span>    paths.len() &lt;= MAX_CONTAINMENT_PATHS</span></span>
+<span class="sc-line"><i>21</i><span>        &amp;&amp; paths_stay_in_workspace(root, paths)</span></span>
+<span class="sc-line"><i>22</i><span>&#125;</span></span></code></pre>
+          <div class="sc-status"><span>Rust</span><span>UTF-8</span><span>Ln 17, Col 1</span></div>
+        </div>
+
+        <aside class="sc-changes" aria-label="Example source control panel">
+          <div class="sc-pane-title sc-changes-title">SOURCE CONTROL <span>3</span></div>
+          <div class="sc-commit-label">COMMIT MESSAGE</div>
+          <div class="sc-commit-input">Describe your changes</div>
+          <button class="sc-commit-button" type="button" disabled>Commit</button>
+          <div class="sc-changes-heading">CHANGES <span>3</span></div>
+          <div class="sc-change-row"><span class="sc-change-mark">M</span><span>intelligence.rs</span></div>
+          <div class="sc-change-row"><span class="sc-change-mark">M</span><span>workspace_tools.rs</span></div>
+          <div class="sc-change-row"><span class="sc-change-mark sc-added">A</span><span>tests.rs</span></div>
+          <div class="sc-changes-note">Example source-control view</div>
+        </aside>
+      </div>
+    </div>
+
+    <div class="sc-cards">
+      <article class="sc-card reveal">
+        <span class="sc-card-kicker">01 / REVIEW &amp; STAGE</span>
+        <h3>Choose the changes</h3>
+        <p>Review each file and diff, then stage only the related changes you want in this commit.</p>
+      </article>
+      <article class="sc-card reveal">
+        <span class="sc-card-kicker">02 / COMMIT</span>
+        <h3>Write a focused message</h3>
+        <p>Describe what the staged changes do, then use the Commit action available in your r0 build.</p>
+      </article>
+      <article class="sc-card reveal">
+        <span class="sc-card-kicker">03 / PUSH</span>
+        <h3>Publish your branch</h3>
+        <p>Use Push or Sync Changes if available in your build, or push the commit from r0’s integrated terminal.</p>
+        <a href="/docs/guides/git-workflow">Read the Git workflow guide →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sc-window {
+    overflow: hidden;
+    margin-bottom: 24px;
+    background: var(--bg-elev);
+    border: 1px solid var(--bdr);
+    box-shadow: var(--shadow-float);
+  }
+
+  .sc-topbar,
+  .sc-toolbar,
+  .sc-status {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--bdr);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .sc-topbar {
+    justify-content: space-between;
+    gap: 16px;
+    background: var(--bg);
+  }
+
+  .sc-brand,
+  .sc-repo-link {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .sc-brand b {
+    color: var(--txt);
+    font-size: 12px;
+  }
+
+  .sc-muted,
+  .sc-toolbar-label,
+  .sc-crumb {
+    color: var(--txt-3);
+  }
+
+  .sc-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--amber);
+    border-radius: 50%;
+  }
+
+  .sc-repo-link {
+    color: var(--txt-2);
+  }
+
+  .sc-repo-link:hover,
+  .sc-card a:hover {
+    color: var(--amber);
+  }
+
+  .sc-repo-link svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .sc-toolbar {
+    gap: 14px;
+    min-height: 36px;
+    background: var(--bg-elev);
+  }
+
+  .sc-toolbar-label,
+  .sc-pane-title,
+  .sc-commit-label,
+  .sc-changes-heading,
+  .sc-card-kicker {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .sc-branch {
+    color: var(--txt);
+  }
+
+  .sc-branch span {
+    margin-right: 5px;
+    color: var(--amber);
+  }
+
+  .sc-toolbar-spacer {
+    flex: 1;
+  }
+
+  .sc-body {
+    display: grid;
+    grid-template-columns: minmax(145px, 0.72fr) minmax(0, 2fr) minmax(190px, 0.88fr);
+    min-height: 300px;
+  }
+
+  .sc-explorer,
+  .sc-changes {
+    min-width: 0;
+    padding: 12px 0;
+    background: var(--bg-elev);
+  }
+
+  .sc-explorer {
+    border-right: 1px solid var(--bdr);
+  }
+
+  .sc-changes {
+    border-left: 1px solid var(--bdr);
+  }
+
+  .sc-pane-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 12px 10px;
+    color: var(--txt-2);
+  }
+
+  .sc-tree-row,
+  .sc-change-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    height: 25px;
+    padding-right: 10px;
+    color: var(--txt-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .sc-tree-row span:first-child:not(.sc-rust-icon) {
+    color: var(--txt-3);
+  }
+
+  .sc-folder {
+    color: var(--txt);
+  }
+
+  .sc-indent { padding-left: 17px; }
+  .sc-indent-2 { padding-left: 30px; }
+  .sc-indent-3 { padding-left: 43px; }
+  .sc-indent-4 { padding-left: 56px; }
+  .sc-root-file { padding-left: 17px; }
+
+  .sc-file {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sc-rust-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    flex: 0 0 14px;
+    background: var(--amber-wash);
+    color: var(--amber);
+    font-size: 8px;
+    font-weight: 700;
+  }
+
+  .sc-editor {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    background: var(--bg);
+  }
+
+  .sc-tab {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    height: 34px;
+    padding: 0 12px;
+    border-bottom: 1px solid var(--bdr);
+    color: var(--txt);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .sc-crumb {
+    padding: 9px 12px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .sc-crumb span {
+    padding: 0 4px;
+    color: var(--txt-4);
+  }
+
+  .sc-code {
+    overflow-x: auto;
+    flex: 1;
+    margin: 0;
+    padding: 14px 0;
+    color: var(--txt);
+    font-family: 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    line-height: 1.9;
+  }
+
+  .sc-line {
+    display: flex;
+    min-width: max-content;
+    padding-right: 12px;
+  }
+
+  .sc-line i {
+    width: 38px;
+    flex: 0 0 38px;
+    padding-right: 10px;
+    color: var(--txt-4);
+    font-style: normal;
+    text-align: right;
+    user-select: none;
+  }
+
+  .sc-line b {
+    color: var(--violet);
+    font-weight: 500;
+  }
+
+  .sc-line em {
+    color: var(--cyan);
+    font-style: normal;
+  }
+
+  .sc-status {
+    justify-content: flex-end;
+    gap: 14px;
+    min-height: 24px;
+    border-top: 1px solid var(--bdr);
+    border-bottom: 0;
+    color: var(--txt-3);
+    font-size: 9px;
+  }
+
+  .sc-pane-title span,
+  .sc-changes-heading span {
+    color: var(--txt-3);
+  }
+
+  .sc-commit-label,
+  .sc-changes-heading {
+    display: flex;
+    justify-content: space-between;
+    margin: 9px 11px 6px;
+    color: var(--txt-3);
+  }
+
+  .sc-commit-input {
+    margin: 0 10px 7px;
+    padding: 7px;
+    border: 1px solid var(--bdr);
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .sc-commit-button {
+    margin: 0 10px 14px;
+    width: calc(100% - 20px);
+    padding: 6px;
+    border: 1px solid var(--bdr);
+    background: var(--surface-2);
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .sc-changes-heading {
+    padding-top: 10px;
+    border-top: 1px solid var(--bdr);
+  }
+
+  .sc-change-row {
+    gap: 7px;
+    padding-left: 11px;
+    color: var(--txt-2);
+  }
+
+  .sc-change-mark {
+    color: var(--amber);
+    font-weight: 700;
+  }
+
+  .sc-added {
+    color: var(--cyan);
+  }
+
+  .sc-changes-note {
+    margin: 11px;
+    color: var(--txt-4);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .sc-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .sc-card {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--bdr);
+    background: var(--bg-card);
+  }
+
+  .sc-card-kicker {
+    color: var(--amber);
+  }
+
+  .sc-card h3 {
+    margin: 13px 0 7px;
+    color: var(--txt);
+    font-size: 15px;
+  }
+
+  .sc-card p {
+    margin: 0;
+    color: var(--txt-2);
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .sc-card a {
+    display: inline-block;
+    margin-top: 11px;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  @media (max-width: 760px) {
+    .sc-body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .sc-explorer,
+    .sc-changes {
+      display: none;
+    }
+
+    .sc-cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 500px) {
+    .sc-topbar {
+      align-items: flex-start;
+      flex-direction: column;
+      padding: 10px 12px;
+    }
+
+    .sc-toolbar {
+      padding: 0 10px;
+      gap: 8px;
+    }
+
+    .sc-toolbar-label {
+      font-size: 8px;
+    }
+
+    .sc-crumb {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+</style>

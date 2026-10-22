@@ -1,0 +1,62 @@
+---
+interface Props {
+  keys: string;
+  platform: 'mac' | 'pc';
+}
+
+const { keys, platform } = Astro.props;
+
+function formatKey(key: string) {
+  if (key === 'cmd') return platform === 'mac' ? 'Cmd' : 'Ctrl';
+  if (key === 'ctrl') return 'Ctrl';
+  if (key === 'alt') return platform === 'mac' ? 'Option' : 'Alt';
+  if (key === 'up') return '↑';
+  if (key === 'down') return '↓';
+  if (key === 'left') return '←';
+  if (key === 'right') return '→';
+  if (key === 'pagedown') return 'Page Down';
+  if (key === 'pageup') return 'Page Up';
+  if (key === 'backspace') return 'Backspace';
+  return key.length === 1 ? key.toUpperCase() : key;
+}
+
+const strokes = keys.split(' ').map((stroke) => stroke.split('+').map(formatKey));
+---
+
+<span class="shortcut-keys" aria-label={strokes.map((stroke) => stroke.join(' plus ')).join(', then ')}>
+  {strokes.map((stroke, index) => (
+    <>
+      {index > 0 && <span class="shortcut-then" aria-hidden="true">then</span>}
+      <span class="shortcut-stroke">
+        {stroke.map((key) => <kbd>{key}</kbd>)}
+      </span>
+    </>
+  ))}
+</span>
+
+<style>
+  .shortcut-keys,
+  .shortcut-stroke {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .shortcut-then {
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  kbd {
+    min-width: 25px;
+    padding: 4px 6px;
+    border: 1px solid var(--bdr);
+    background: var(--bg);
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-align: center;
+  }
+</style>

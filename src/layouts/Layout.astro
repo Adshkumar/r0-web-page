@@ -1,0 +1,328 @@
+---
+import '../styles/global.css';
+import { GITHUB, LATEST_RELEASE, AUTHOR, VERSION } from '../data/links';
+import SearchModal from '../components/SearchModal.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  author?: string;
+  jsonLd?: Record<string, any> | Array<Record<string, any>>;
+}
+
+const {
+  title = "r0 — A Code Editor for Building with AI",
+  description = "r0 is a cross-platform desktop code editor with AI coding agents, Git, an integrated terminal, and database tools.",
+  keywords = "r0, code editor, AI coding agents, desktop code editor, Git, terminal, database tools, Tauri, Rust, React",
+  ogType = 'website',
+  publishedTime,
+  author = 'r0 contributors',
+  jsonLd,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://r0-ide.vercel.app');
+const ogImage = new URL('/cover.svg', Astro.site || 'https://r0-ide.vercel.app').toString();
+---
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Android / PWA -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Windows Tiles -->
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <meta name="theme-color" content="#f4f5f8" />
+    <meta name="generator" content={Astro.generator} />
+
+    <script is:inline>
+      const stored = (() => {
+        try {
+          return localStorage.getItem('theme');
+        } catch (e) {
+          return null;
+        }
+      })();
+      const theme = 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    </script>
+
+    <!-- Canonical & discoverability -->
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="help" type="text/markdown" href="/llms.txt" title="LLM-friendly content index" />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Adarsh Kumar" />
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+    <meta property="og:image:alt" content="r0: A code editor for building with AI" />
+    <meta property="og:site_name" content="r0" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {author && <meta property="article:author" content={author} />}
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="r0: A code editor for building with AI" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'r0',
+      softwareVersion: VERSION,
+      description:
+        'r0 is a cross-platform desktop code editor with AI coding agents, Git, an integrated terminal, and database tools.',
+      applicationCategory: 'DeveloperApplication',
+      applicationSubCategory: 'Code Editor',
+      operatingSystem: 'Windows, macOS, Linux',
+      url: 'https://r0-ide.vercel.app',
+      downloadUrl: LATEST_RELEASE,
+      codeRepository: GITHUB,
+      author: {
+        '@type': 'Organization',
+        name: 'r0 contributors',
+        url: AUTHOR,
+      },
+    })} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What is r0?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'r0 is a cross-platform desktop code editor built with Tauri, Rust, and React. It brings code editing, AI coding agents, Git, an integrated terminal, and database tools into one application.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Which platforms can I download r0 for?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'The r0 README lists release downloads for Windows, macOS, and Linux. See the latest GitHub release for available installers and architectures.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How do I install r0?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Download an installer from the latest r0 GitHub release. The available files and supported architectures are listed with that release.',
+          },
+        },
+      ],
+    })} />
+    {jsonLd && (Array.isArray(jsonLd) ? jsonLd : [jsonLd]).map((schema) => (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+    ))}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="atmos" aria-hidden="true">
+      <div class="atmos-glow"></div>
+      <div class="atmos-grid"></div>
+      <div class="atmos-scan"></div>
+    </div>
+    <slot />
+
+    <script>
+      // Scroll reveal, shared by every section.
+      const items = document.querySelectorAll('.reveal');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && items.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+        );
+        items.forEach((el, i) => {
+          (el as HTMLElement).style.transitionDelay = `${Math.min(i % 6, 5) * 50}ms`;
+          io.observe(el);
+        });
+      } else {
+        items.forEach((el) => el.classList.add('in'));
+      }
+
+      // Copy-to-clipboard for any [data-copy] element.
+      document.querySelectorAll<HTMLElement>('[data-copy]').forEach((el) => {
+        el.addEventListener('click', async () => {
+          const text = el.dataset.copy || '';
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch (e) {
+            return;
+          }
+          el.classList.add('copied');
+          window.setTimeout(() => el.classList.remove('copied'), 1600);
+        });
+      });
+
+      // Show Mac modifier glyphs to Mac visitors.
+      if (/Mac|iPhone|iPad/.test(navigator.userAgent)) {
+        const glyphs: Record<string, string> = { 'mod-key': '⌘', 'shift-key': '⇧', 'alt-key': '⌥' };
+        for (const [cls, glyph] of Object.entries(glyphs)) {
+          document.querySelectorAll(`.${cls}`).forEach((el) => (el.textContent = glyph));
+        }
+      }
+
+      // Interactive Lightbox Zoom for article/prose images
+      (() => {
+        const proseImages = document.querySelectorAll<HTMLImageElement>('.prose img');
+        if (!proseImages.length) return;
+
+        const lightbox = document.createElement('div');
+        lightbox.className = 'img-lightbox';
+        lightbox.innerHTML = `
+          <div class="img-lightbox-content">
+            <button class="img-lightbox-close" aria-label="Close zoomed image">&times;</button>
+            <img src="" alt="" />
+            <div class="img-lightbox-caption"></div>
+          </div>
+        `;
+        document.body.appendChild(lightbox);
+
+        const lbImg = lightbox.querySelector<HTMLImageElement>('img')!;
+        const lbCaption = lightbox.querySelector<HTMLElement>('.img-lightbox-caption')!;
+        const lbClose = lightbox.querySelector<HTMLButtonElement>('.img-lightbox-close')!;
+
+        function open(img: HTMLImageElement) {
+          lbImg.src = img.src;
+          lbImg.alt = img.alt || '';
+          lbCaption.textContent = img.alt || '';
+          lightbox.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function close() {
+          lightbox.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+
+        proseImages.forEach((img) => {
+          img.addEventListener('click', (e) => {
+            e.stopPropagation();
+            open(img);
+          });
+        });
+
+        lightbox.addEventListener('click', (e) => {
+          if (e.target !== lbClose && (e.target as HTMLElement).tagName === 'IMG') {
+            close();
+            return;
+          }
+          close();
+        });
+
+        lbClose.addEventListener('click', close);
+
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            close();
+          }
+        });
+      })();
+
+      // Enhanced Code Blocks with Terminal Chrome, Language Badge, and Copy Button
+      (() => {
+        const preElements = document.querySelectorAll<HTMLPreElement>('.prose pre');
+        if (!preElements.length) return;
+
+        preElements.forEach((pre) => {
+          if (pre.closest('.code-block')) return;
+
+          const rawLang = pre.getAttribute('data-language') || 'code';
+          const langDisplay = rawLang.toLowerCase() === 'plaintext' ? 'text' : rawLang;
+
+          const wrapper = document.createElement('div');
+          wrapper.className = 'code-block';
+          wrapper.setAttribute('data-language', langDisplay);
+
+          const header = document.createElement('div');
+          header.className = 'code-block-header';
+          header.innerHTML = `
+            <div class="code-block-left">
+              <span class="code-dots" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </span>
+              <span class="code-lang">${langDisplay.toUpperCase()}</span>
+            </div>
+            <button class="code-copy-btn" type="button" aria-label="Copy code to clipboard">
+              <svg class="copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <svg class="check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span class="copy-label">Copy</span>
+            </button>
+          `;
+
+          const copyBtn = header.querySelector<HTMLButtonElement>('.code-copy-btn')!;
+          const copyLabel = header.querySelector<HTMLElement>('.copy-label')!;
+
+          copyBtn.addEventListener('click', async () => {
+            const codeEl = pre.querySelector('code');
+            const codeText = (codeEl ? codeEl.innerText : pre.innerText).replace(/\n$/, '');
+            try {
+              await navigator.clipboard.writeText(codeText);
+              copyBtn.classList.add('copied');
+              copyLabel.textContent = 'Copied!';
+              setTimeout(() => {
+                copyBtn.classList.remove('copied');
+                copyLabel.textContent = 'Copy';
+              }, 2000);
+            } catch (err) {
+              console.error('Failed to copy code:', err);
+            }
+          });
+
+          pre.parentNode?.insertBefore(wrapper, pre);
+          wrapper.appendChild(header);
+          wrapper.appendChild(pre);
+        });
+      })();
+    </script>
+    <SearchModal />
+  </body>
+</html>

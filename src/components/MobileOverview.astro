@@ -1,0 +1,485 @@
+---
+import { DISCUSSIONS, GITHUB, INSTALL_CMD, ISSUES, RELEASES, VERSION } from '../data/links';
+import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
+---
+
+<div class="mobile-overview">
+  <section class="mobile-hero">
+    <div class="wrap">
+      <a href="/changelog" class="pill mobile-release"><span class="dot"></span>r0 v{VERSION} · release notes →</a>
+      <p class="mobile-kicker">// your code workspace</p>
+      <h1>Build software.<br /><em>Your way.</em></h1>
+      <p class="mobile-intro">Code, work with AI, manage Git, and run your project tools in one desktop editor.</p>
+      <button class="copyline" type="button" data-copy={INSTALL_CMD} aria-label="Copy Windows install command">
+        <span class="copyline-p">$</span><code><span>{INSTALL_CMD}</span></code><span class="copyline-s"></span>
+      </button>
+      <a class="mobile-github" href={GITHUB} target="_blank" rel="noopener noreferrer">Explore r0 on GitHub →</a>
+    </div>
+  </section>
+  <section class="mobile-features">
+    <div class="wrap">
+      <p class="mobile-kicker">// r0 workspace</p>
+      <h2>Tools for the work <em>you do.</em></h2>
+      <div class="mobile-cards">
+        {PRODUCT_FEATURES.map((feature, index) => (
+          <article class="mobile-card">
+            <div><span>0{index + 1}</span><span>{feature.label}</span></div>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </article>
+        ))}
+      </div>
+      <section class="mobile-detail-card" aria-labelledby="mobile-themes-title">
+        <div class="mobile-detail-kicker"><span>F.09</span><span>APPEARANCE</span></div>
+        <h3 id="mobile-themes-title">Themes that feel like yours</h3>
+        <p>Start with r0 Light or r0 Dark, then explore the available theme families.</p>
+        <div class="mobile-theme-options">
+          <span><i class="mobile-theme-swatch swatch-dark"></i>r0 Dark</span>
+          <span><i class="mobile-theme-swatch swatch-light"></i>r0 Light</span>
+        </div>
+        <div class="mobile-theme-families">
+          {THEME_FAMILIES.map((family) => <span>{family}</span>)}
+        </div>
+        <a class="mobile-detail-link" href="/features#themes">Preview themes →</a>
+      </section>
+
+      <section class="mobile-detail-card mobile-git-card" aria-labelledby="mobile-git-title">
+        <div class="mobile-detail-kicker"><span>GIT & GITHUB</span><span>SOURCE CONTROL</span></div>
+        <h3 id="mobile-git-title">Working tree, Git &amp; GitHub review</h3>
+        <p>Review your changes, stage only what belongs in the commit, then commit and push your branch.</p>
+        <div class="mobile-git-steps">
+          <article>
+            <span class="mobile-git-step-number">01</span>
+            <div>
+              <div class="mobile-git-step-label"><span>REVIEW</span><span>WORKING TREE</span></div>
+              <h4>Check your changes</h4>
+              <p>Open Source Control in r0, review the changed files, and inspect each diff before staging.</p>
+            </div>
+          </article>
+          <article>
+            <span class="mobile-git-step-number">02</span>
+            <div>
+              <div class="mobile-git-step-label"><span>STAGE</span><span>SELECT FILES</span></div>
+              <h4>Choose what goes in</h4>
+              <p>Stage only the files for this change. Keep unrelated work out of the same commit.</p>
+            </div>
+          </article>
+          <article>
+            <span class="mobile-git-step-number">03</span>
+            <div>
+              <div class="mobile-git-step-label"><span>COMMIT</span><span>DESCRIBE IT</span></div>
+              <h4>Save a focused commit</h4>
+              <p>Enter a short message describing the change, then use the available Commit action.</p>
+            </div>
+          </article>
+          <article>
+            <span class="mobile-git-step-number">04</span>
+            <div>
+              <div class="mobile-git-step-label"><span>PUSH</span><span>REMOTE BRANCH</span></div>
+              <h4>Publish your branch</h4>
+              <p>Use Push or Sync Changes if your r0 build provides it, or push from the integrated terminal.</p>
+            </div>
+          </article>
+        </div>
+        <div class="mobile-git-terminal">
+          <span>TERMINAL FALLBACK</span>
+          <code>
+            <span>git status</span>
+            <span>git add path/to/file</span>
+            <span>git diff --cached</span>
+            <span>git commit -m "Describe the change"</span>
+            <span>git push</span>
+          </code>
+        </div>
+        <div class="mobile-git-legend" aria-label="Common Git file status indicators">
+          <span><b class="status-modified">M</b> modified</span>
+          <span><b class="status-added">A</b> added</span>
+          <span><b class="status-deleted">D</b> deleted</span>
+          <span><b class="status-untracked">U</b> untracked</span>
+          <span><b class="status-renamed">R</b> renamed</span>
+        </div>
+        <div class="mobile-git-links">
+          <a href="/docs/guides/git-workflow">Read the Git workflow guide →</a>
+        </div>
+        <div class="mobile-github-resources" aria-label="r0 GitHub links">
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">
+            <span>REPOSITORY</span><strong>Browse r0 source</strong><small>Code, README, and project details ↗</small>
+          </a>
+          <a href={`${RELEASES}/latest`} target="_blank" rel="noopener noreferrer">
+            <span>RELEASES</span><strong>Get the latest build</strong><small>Installers and release notes ↗</small>
+          </a>
+          <a href={ISSUES} target="_blank" rel="noopener noreferrer">
+            <span>ISSUES</span><strong>Report a problem</strong><small>File a bug or request a feature ↗</small>
+          </a>
+          <a href={DISCUSSIONS} target="_blank" rel="noopener noreferrer">
+            <span>DISCUSSIONS</span><strong>Join the conversation</strong><small>Questions and community ideas ↗</small>
+          </a>
+        </div>
+      </section>
+    </div>
+  </section>
+</div>
+
+<style>
+  .mobile-hero {
+    padding: 100px 0 48px;
+  }
+
+  .mobile-release {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    padding: 7px 10px;
+    color: var(--txt-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .mobile-kicker {
+    margin: 30px 0 12px;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .mobile-hero h1,
+  .mobile-features h2 {
+    color: var(--txt);
+    font-size: clamp(35px, 10vw, 56px);
+    line-height: 1.04;
+    letter-spacing: -0.05em;
+  }
+
+  .mobile-hero h1 em,
+  .mobile-features h2 em {
+    color: var(--amber);
+    font-style: normal;
+  }
+
+  .mobile-intro {
+    margin: 18px 0 24px;
+    color: var(--txt-2);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .mobile-github {
+    display: inline-block;
+    margin-top: 18px;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  .mobile-features {
+    padding: 28px 0 64px;
+    border-top: 1px solid var(--bdr);
+  }
+
+  .mobile-features .mobile-kicker {
+    margin-top: 0;
+  }
+
+  .mobile-features h2 {
+    font-size: 30px;
+  }
+
+  .mobile-cards {
+    display: grid;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .mobile-card {
+    padding: 16px;
+    border: 1px solid var(--bdr);
+    background: var(--bg-card);
+  }
+
+  .mobile-card > div {
+    display: flex;
+    justify-content: space-between;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .mobile-card h3 {
+    margin: 13px 0 6px;
+    color: var(--txt);
+    font-size: 15px;
+  }
+
+  .mobile-card p {
+    margin: 0;
+    color: var(--txt-2);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .mobile-detail-card {
+    margin-top: 12px;
+    padding: 16px;
+    border: 1px solid var(--bdr);
+    background: var(--bg-card);
+  }
+
+  .mobile-detail-kicker {
+    display: flex;
+    justify-content: space-between;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .mobile-detail-kicker span + span { color: var(--txt-3); }
+
+  .mobile-detail-card h3 {
+    margin: 14px 0 6px;
+    color: var(--txt);
+    font-size: 15px;
+  }
+
+  .mobile-detail-card > p {
+    margin: 0 0 13px;
+    color: var(--txt-2);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .mobile-git-card {
+    margin: 22px 0 12px;
+    padding: 18px;
+  }
+
+  .mobile-git-card > h3 {
+    margin: 13px 0 7px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .mobile-git-steps {
+    display: grid;
+    gap: 8px;
+    margin: 16px 0 0;
+  }
+
+  .mobile-git-steps article {
+    display: grid;
+    grid-template-columns: 25px minmax(0, 1fr);
+    gap: 10px;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid var(--bdr);
+    background: var(--bg);
+  }
+
+  .mobile-git-step-number {
+    padding-top: 1px;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .mobile-git-steps article > div { min-width: 0; }
+
+  .mobile-git-step-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.06em;
+  }
+
+  .mobile-git-step-label span + span { color: var(--txt-3); text-align: right; }
+
+  .mobile-git-steps h4 {
+    margin: 9px 0 5px;
+    color: var(--txt);
+    font-size: 13px;
+  }
+
+  .mobile-git-steps p {
+    margin: 0;
+    color: var(--txt-2);
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .mobile-git-terminal {
+    display: grid;
+    gap: 9px;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--bdr);
+    background: var(--bg-elev);
+  }
+
+  .mobile-git-terminal > span {
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .mobile-git-terminal code {
+    display: grid;
+    gap: 4px;
+    color: var(--txt);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 1.5;
+  }
+
+  .mobile-git-terminal code span {
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-git-terminal code span::before {
+    margin-right: 7px;
+    color: var(--amber);
+    content: "$";
+  }
+
+  .mobile-git-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--bdr);
+    color: var(--txt-2);
+    font-family: var(--font-mono);
+    font-size: 8px;
+  }
+
+  .mobile-git-legend span { display: inline-flex; align-items: center; gap: 4px; }
+
+  .mobile-git-legend b {
+    display: inline-grid;
+    width: 14px;
+    height: 14px;
+    place-items: center;
+    font-size: 8px;
+  }
+
+  .status-modified { color: var(--amber); background: var(--amber-wash); }
+  .status-added { color: var(--green); background: rgba(46, 160, 67, 0.14); }
+  .status-deleted { color: var(--rose); background: rgba(207, 34, 46, 0.12); }
+  .status-untracked { color: var(--violet); background: rgba(130, 80, 223, 0.12); }
+  .status-renamed { color: var(--blue); background: rgba(9, 105, 218, 0.12); }
+
+  .mobile-git-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 11px;
+    border-top: 1px solid var(--bdr);
+  }
+
+  .mobile-git-links a {
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-decoration: none;
+  }
+
+  .mobile-github-resources {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .mobile-github-resources a {
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    min-width: 0;
+    padding: 11px;
+    border: 1px solid var(--bdr);
+    background: var(--bg);
+    text-decoration: none;
+  }
+
+  .mobile-github-resources a:hover { border-color: var(--amber); }
+
+  .mobile-github-resources span {
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.06em;
+  }
+
+  .mobile-github-resources strong {
+    color: var(--txt);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .mobile-github-resources small {
+    color: var(--txt-3);
+    font-size: 9px;
+    line-height: 1.45;
+  }
+
+  .mobile-theme-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-theme-options > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px;
+    border: 1px solid var(--bdr);
+    color: var(--txt-2);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .mobile-theme-swatch {
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--bdr);
+  }
+
+  .swatch-dark { background: linear-gradient(135deg, #18191b 50%, #38bdf8 50%); }
+  .swatch-light { background: linear-gradient(135deg, #fff 50%, #075985 50%); }
+
+  .mobile-theme-families {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .mobile-theme-families span {
+    padding: 4px 6px;
+    border: 1px solid var(--bdr);
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 8px;
+  }
+
+  .mobile-detail-link {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding-top: 11px;
+    border-top: 1px solid var(--bdr);
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-decoration: none;
+  }
+
+</style>

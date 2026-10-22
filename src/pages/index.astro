@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import SourceControl from '../components/SourceControl.astro';
+import ProductFeatures from '../components/ProductFeatures.astro';
+import MobileOverview from '../components/MobileOverview.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <Nav />
+  <main>
+    <div class="desktop-only">
+      <Hero />
+      <SourceControl />
+      <ProductFeatures />
+    </div>
+    <div class="mobile-only">
+      <MobileOverview />
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .mobile-only {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .desktop-only {
+      display: none !important;
+    }
+    .mobile-only {
+      display: block !important;
+    }
+  }
+</style>

@@ -1,0 +1,290 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import ShortcutKeys from '../../../components/ShortcutKeys.astro';
+import DEFAULT_SHORTCUTS from '../../../data/default-shortcuts.json';
+import { GITHUB } from '../../../data/links';
+
+const categories = [
+  'AI sessions',
+  'Files & workspace',
+  'Editor',
+  'Terminal',
+  'Workbench',
+  'Navigation history',
+  'Debugging',
+  'Browser',
+  'Window',
+];
+
+const shortcutsByCategory = categories.map((category) => ({
+  name: category,
+  shortcuts: DEFAULT_SHORTCUTS.filter((shortcut) => shortcut.category === category),
+}));
+
+function contextLabel(context: string) {
+  const labels: Record<string, string> = {
+    always: 'Anywhere',
+    '!terminalFocus': 'Outside the terminal',
+    terminalFocus: 'Terminal focused',
+    editorFocus: 'Editor focused',
+    'editorFocus && vimMode': 'Editor focused · Vim mode',
+    'editorFocus && agentEditHunks': 'Agent edit review active',
+    agentSessionFocus: 'Agent session focused',
+    browserFocus: 'Browser panel focused',
+  };
+
+  return labels[context] || context;
+}
+---
+
+<Layout
+  title="Keyboard shortcuts reference - r0 Docs"
+  description={`Complete reference for ${DEFAULT_SHORTCUTS.length} r0 default keyboard shortcuts.`}
+>
+  <Nav />
+  <main class="shortcut-page">
+    <div class="wrap">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">r0</a><span>/</span><a href="/docs">docs</a><span>/</span><a href="/docs#reference">reference</a><span>/</span><span>keyboard shortcuts</span>
+      </nav>
+
+      <header class="shortcut-header">
+        <p class="eyebrow">// reference · {DEFAULT_SHORTCUTS.length} default bindings</p>
+        <h1>Keyboard shortcuts <em>reference</em></h1>
+        <p>
+          Browse the default r0 keybindings by workflow. <kbd>Cmd</kbd> and <kbd>Option</kbd> are shown for macOS;
+          <kbd>Ctrl</kbd> and <kbd>Alt</kbd> are shown for Linux and Windows.
+        </p>
+        <p class="shortcut-notice">
+          Some bindings are context-sensitive. User keymaps and selected presets can change these defaults.
+          Open <strong>Keyboard Shortcuts</strong> in r0 to check or customize your active bindings.
+        </p>
+        <nav class="category-jump" aria-label="Shortcut categories">
+          {shortcutsByCategory.map((category) => (
+            <a href={`#${category.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+              {category.name}<small>{category.shortcuts.length}</small>
+            </a>
+          ))}
+        </nav>
+      </header>
+
+      <div class="shortcut-groups">
+        {shortcutsByCategory.filter((category) => category.shortcuts.length > 0).map((category) => (
+          <section class="shortcut-section" id={category.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>
+            <div class="section-title">
+              <h2>{category.name}</h2>
+              <span>{category.shortcuts.length} shortcuts</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>macOS</th><th>Linux / Windows</th><th>Action</th><th>Available when</th></tr>
+                </thead>
+                <tbody>
+                  {category.shortcuts.map((shortcut) => (
+                    <tr>
+                      <td><ShortcutKeys keys={shortcut.key} platform="mac" /></td>
+                      <td><ShortcutKeys keys={shortcut.key} platform="pc" /></td>
+                      <td>
+                        <strong>{shortcut.action}</strong>
+                        <small class="command-id">{shortcut.command}</small>
+                      </td>
+                      <td class="context">{contextLabel(shortcut.context)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <footer class="shortcut-footer">
+        <span>Reference from the current r0 default keymap. Custom keymaps may differ.</span>
+        <a href={`${GITHUB}/blob/main/src/features/keymaps/defaults/default-keymaps.ts`} target="_blank" rel="noopener noreferrer">View the source keymap →</a>
+      </footer>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .shortcut-page {
+    min-height: 70vh;
+    padding: 78px 0 70px;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 26px;
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+
+  .breadcrumbs a { color: var(--txt-2); text-decoration: none; }
+  .breadcrumbs a:hover { color: var(--amber); }
+
+  .shortcut-header { max-width: 900px; margin-bottom: 38px; }
+
+  .eyebrow {
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 15px 0 14px;
+    color: var(--txt);
+    font-size: clamp(35px, 6vw, 64px);
+    letter-spacing: -0.055em;
+    line-height: 1.05;
+  }
+
+  h1 em { color: var(--amber); font-style: normal; }
+
+  .shortcut-header > p:not(.eyebrow) {
+    max-width: 780px;
+    color: var(--txt-2);
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .shortcut-header > p kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    border: 1px solid var(--bdr);
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .shortcut-notice {
+    padding: 12px 14px;
+    border-left: 2px solid var(--amber);
+    background: var(--bg-elev);
+  }
+
+  .shortcut-notice strong { color: var(--txt); }
+
+  .category-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 20px;
+  }
+
+  .category-jump a {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    padding: 7px 9px;
+    border: 1px solid var(--bdr);
+    color: var(--txt-2);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-decoration: none;
+  }
+
+  .category-jump small { color: var(--amber); }
+  .category-jump a:hover { border-color: var(--amber); }
+
+  .shortcut-groups { display: grid; gap: 34px; min-width: 0; }
+
+  .shortcut-section { min-width: 0; }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--bdr);
+  }
+
+  .section-title h2 {
+    margin: 0;
+    color: var(--txt);
+    font-size: 19px;
+  }
+
+  .section-title > span {
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--bdr); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    font-size: 11px;
+  }
+
+  th, td {
+    padding: 9px 10px;
+    border-right: 1px solid var(--bdr);
+    border-bottom: 1px solid var(--bdr);
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  th:last-child, td:last-child { border-right: 0; }
+  tbody tr:last-child td { border-bottom: 0; }
+
+  th {
+    background: var(--bg-elev);
+    color: var(--txt-2);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  td:nth-child(1), td:nth-child(2) { min-width: 150px; }
+  td:nth-child(3) { min-width: 190px; }
+
+  td strong { color: var(--txt); font-weight: 550; }
+
+  .command-id {
+    display: block;
+    margin-top: 3px;
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .context { color: var(--txt-2); font-size: 10px; }
+
+  .shortcut-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top: 1px solid var(--bdr);
+    color: var(--txt-3);
+    font-size: 10px;
+  }
+
+  .shortcut-footer a { color: var(--amber); }
+
+  @media (max-width: 700px) {
+    .shortcut-page { padding-top: 70px; }
+    .shortcut-header { margin-bottom: 28px; }
+    .category-jump { gap: 6px; }
+    .shortcut-groups { gap: 25px; }
+    .section-title h2 { font-size: 16px; }
+    .table-wrap table { min-width: 700px; }
+  }
+</style>

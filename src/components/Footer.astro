@@ -1,0 +1,227 @@
+---
+import { GITHUB, RELEASES, LATEST_RELEASE, ISSUES, LICENSE, VERSION, INSTALL_CMD, repoDoc, DISCUSSIONS } from '../data/links';
+
+const latestVersion = VERSION;
+const year = new Date().getFullYear();
+
+const cols = [
+  {
+    title: 'product',
+    links: [
+      { label: 'Overview', href: '/' },
+      { label: 'AI-assisted coding', href: '/features#features' },
+      { label: 'Git & terminal', href: '/features#features' },
+      { label: 'Database tools', href: '/features#features' },
+      { label: 'Download r0', href: LATEST_RELEASE, ext: true },
+      { label: 'Themes & shortcuts', href: '/features#themes' },
+      { label: 'Project README', href: LICENSE, ext: true },
+      { label: 'Releases & Changelog', href: '/changelog' },
+      // { label: 'Wall of Love', href: '/wall-of-love' },
+      // { label: 'Design Partners', href: '/design-partners' },
+    ],
+  },
+  {
+    title: 'docs',
+    links: [
+      { label: 'Docs Index', href: '/docs' },
+      { label: 'Getting Started', href: '/docs#getting-started' },
+      { label: 'How-To Guides', href: '/docs#guides' },
+      { label: 'Project overview', href: '/docs/reference/project-overview' },
+      { label: 'Keyboard shortcuts', href: '/docs/reference/keyboard-shortcuts' },
+      { label: 'Engineering Blog', href: '/blog' },
+    ],
+  },
+  {
+    title: 'project & code',
+    links: [
+      { label: 'GitHub Repository', href: GITHUB, ext: true },
+      { label: 'GitHub Discussions', href: DISCUSSIONS, ext: true },
+      { label: 'Latest Release', href: LATEST_RELEASE, ext: true },
+      { label: 'Issue Tracker', href: ISSUES, ext: true },
+    ],
+  },
+];
+---
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="f-brand">
+      <a href="/" class="logo-link" aria-label="r0 home">
+        <span class="brand-mark">r0</span>
+      </a>
+      <p>r0 is a cross-platform desktop code editor for building software with AI, Git, an integrated terminal, and database tools.</p>
+      <div class="f-install">
+        <button class="copyline" type="button" data-copy={INSTALL_CMD} aria-label="Copy install command">
+          <span class="copyline-p">$</span>
+          <code><span>{INSTALL_CMD}</span></code>
+          <span class="copyline-s"></span>
+        </button>
+      </div>
+      <span class="f-ver"><i></i>v{latestVersion} · stable channel</span>
+    </div>
+
+    {cols.map((c) => (
+      <nav class="f-col" aria-label={c.title}>
+        <h3>{c.title}</h3>
+        {c.links.map((l) => (
+          <a
+            href={l.href}
+            target={'ext' in l && l.ext ? '_blank' : undefined}
+            rel={'ext' in l && l.ext ? 'noopener noreferrer' : undefined}
+          >{l.label}</a>
+        ))}
+      </nav>
+    ))}
+  </div>
+
+  <div class="wrap f-base">
+    <span>&copy; {year} r0 · GitHub project</span>
+    <div class="f-base-links">
+      <a href="/docs">Docs</a>
+      <span class="sep">&bull;</span>
+      <a href="/blog">Blog</a>
+      <span class="sep">&bull;</span>
+      <a href="/changelog">Changelog</a>
+    </div>
+  </div>
+
+  <div class="f-wordmark" aria-hidden="true">r0</div>
+</footer>
+
+<style>
+  footer {
+    padding: 56px 0 0;
+    border-top: 1px solid var(--bdr);
+    overflow: hidden;
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+
+  .f-brand p {
+    max-width: 320px;
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--txt-2);
+  }
+
+  .brand-mark {
+    color: var(--txt);
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.1em;
+  }
+
+  .f-install {
+    max-width: 440px;
+    margin-top: 16px;
+  }
+
+  .f-ver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--txt-3);
+  }
+
+  .f-ver i {
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+  }
+
+  .f-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .f-col h3 {
+    margin-bottom: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+
+  .f-col a {
+    width: fit-content;
+    font-size: 12.5px;
+    color: var(--txt-2);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .f-col a:hover {
+    color: var(--txt);
+  }
+
+  .f-base {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    border-top: 1px solid var(--bdr);
+    font-size: 11px;
+    color: var(--txt-3);
+  }
+
+  .f-base-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .f-base a {
+    color: var(--txt-3);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .f-base a:hover {
+    color: var(--amber);
+  }
+
+  .f-base .sep {
+    color: var(--txt-4);
+  }
+
+  .f-wordmark {
+    padding-inline: 16px;
+    font-size: clamp(90px, 21vw, 300px);
+    font-weight: 800;
+    line-height: 0.8;
+    letter-spacing: -0.07em;
+    text-align: center;
+    color: var(--txt);
+    opacity: 0.05;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 860px) {
+    .footer-inner {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+    }
+    .f-brand { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 580px) {
+    .footer-inner { grid-template-columns: 1fr; }
+    .f-base { flex-direction: column; align-items: flex-start; }
+  }
+</style>

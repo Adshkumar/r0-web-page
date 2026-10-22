@@ -1,0 +1,570 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import ProductFeatures from '../components/ProductFeatures.astro';
+import { GITHUB } from '../data/links';
+import { PRODUCT_SHORTCUTS, THEME_FAMILIES } from '../data/features';
+import DEFAULT_SHORTCUTS from '../data/default-shortcuts.json';
+
+const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
+---
+
+<Layout
+  title="Features - r0"
+  description="Explore r0 editor features, themes, and keyboard shortcuts."
+>
+  <Nav />
+  <main class="features-page">
+    <header class="features-hero">
+      <div class="wrap">
+        <p class="features-kicker">// the r0 workspace</p>
+        <h1>Everything in place.<br /><em>Nothing in the way.</em></h1>
+        <p class="features-lede">
+          A focused desktop editor for your code, AI-assisted workflow, and the tools you use to move a project forward.
+        </p>
+        <nav class="features-jump" aria-label="On this page">
+          <a href="#features">01 / Features</a>
+          <a href="#themes">02 / Themes</a>
+          <a href="#shortcuts">03 / Shortcuts</a>
+        </nav>
+      </div>
+    </header>
+
+    <ProductFeatures showMore={false} />
+
+    <section class="details-section" id="themes">
+      <div class="wrap">
+        <header class="details-heading">
+          <div class="section-index">F.09 <span>APPEARANCE</span></div>
+          <h2>Make your workspace <em>feel like yours.</em></h2>
+          <p>Preview r0's light and dark themes, then explore the available theme families.</p>
+        </header>
+
+        <div class="theme-layout">
+          <div class="theme-demo" data-theme-preview data-preview-theme="dark">
+            <div class="theme-demo-top">
+              <span><i></i><i></i><i></i></span>
+              <span class="theme-demo-file">src / main.rs</span>
+              <span class="theme-demo-badge">r0 theme preview</span>
+            </div>
+            <div class="theme-demo-content">
+              <aside class="theme-demo-sidebar">
+                <span class="demo-sidebar-title">EXPLORER</span>
+                <span class="demo-tree">⌄  r0-project</span>
+                <span class="demo-tree indent">⌄  src</span>
+                <span class="demo-tree indent-2">●  main.rs</span>
+                <span class="demo-tree indent">◇  Cargo.toml</span>
+              </aside>
+              <div class="theme-code">
+                <div><span>01</span><code><b>fn</b> main() &#123;</code></div>
+                <div><span>02</span><code>&nbsp;&nbsp;let message = <i>"Hello, r0"</i>;</code></div>
+                <div><span>03</span><code>&nbsp;&nbsp;<em>println!</em>("&#123;message&#125;");</code></div>
+                <div><span>04</span><code>&#125;</code></div>
+                <div class="theme-cursor-row"><span>05</span><code><i class="theme-cursor"></i></code></div>
+              </div>
+            </div>
+            <div class="theme-demo-footer">
+              <span>Rust</span><span>UTF-8</span><span>r0 Light / r0 Dark</span>
+            </div>
+          </div>
+
+          <div class="theme-controls">
+            <p class="theme-control-label">PREVIEW THE DEFAULT THEMES</p>
+            <div class="theme-options">
+              <button class="theme-option" type="button" data-theme-choice="dark" aria-pressed="true">
+                <span class="theme-option-dots dark-dots"><i></i><i></i><i></i></span>
+                <span><b>r0 Dark</b><small>Charcoal · sky accent</small></span>
+                <span class="theme-option-check" aria-hidden="true">●</span>
+              </button>
+              <button class="theme-option" type="button" data-theme-choice="light" aria-pressed="false">
+                <span class="theme-option-dots light-dots"><i></i><i></i><i></i></span>
+                <span><b>r0 Light</b><small>Soft neutral · deep sky</small></span>
+                <span class="theme-option-check" aria-hidden="true">●</span>
+              </button>
+            </div>
+
+            <p class="theme-control-label families-label">THEME FAMILIES</p>
+            <div class="theme-families">
+              {THEME_FAMILIES.map((family) => <span>{family}</span>)}
+            </div>
+            <p class="theme-note">Explore theme families and customize the editor with extensions or imported themes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="details-section shortcuts-section" id="shortcuts">
+      <div class="wrap">
+        <header class="details-heading shortcuts-heading">
+          <div class="section-index">F.10 <span>KEYBOARD</span></div>
+          <h2>Keep the flow <em>under your fingers.</em></h2>
+          <p>Handy defaults for moving around, editing, and opening your workspace tools.</p>
+        </header>
+
+        <div class="shortcut-grid">
+          {shortcutGroups.map((group) => (
+            <section class="shortcut-group" aria-label={`${group} shortcuts`}>
+              <h3><span>//</span> {group}</h3>
+              <ul>
+                {PRODUCT_SHORTCUTS.filter((shortcut) => shortcut.group === group).map((shortcut) => (
+                  <li>
+                    <span class="shortcut-action">{shortcut.action}</span>
+                    <span class="shortcut-keys" aria-label={shortcut.keys.map((stroke) => stroke.join(' plus ')).join(', then ')}>
+                      {shortcut.keys.map((stroke, strokeIndex) => (
+                        <>
+                          {strokeIndex > 0 && <span class="shortcut-then" aria-hidden="true">then</span>}
+                          <span class="shortcut-stroke">
+                            {stroke.map((key) => <kbd>{key}</kbd>)}
+                          </span>
+                        </>
+                      ))}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+        <p class="shortcut-note">
+          Showing 12 examples from {DEFAULT_SHORTCUTS.length} default bindings. <a href="/docs/reference/keyboard-shortcuts">Open the complete shortcut reference →</a>
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">See the project on GitHub →</a>
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const themePreview = document.querySelector<HTMLElement>('[data-theme-preview]');
+  const themeChoices = document.querySelectorAll<HTMLButtonElement>('[data-theme-choice]');
+
+  themeChoices.forEach((choice) => {
+    choice.addEventListener('click', () => {
+      const selectedTheme = choice.dataset.themeChoice;
+      if (!selectedTheme || !themePreview) return;
+
+      themePreview.dataset.previewTheme = selectedTheme;
+      themeChoices.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button === choice));
+      });
+    });
+  });
+</script>
+
+<style>
+  .features-hero {
+    padding: 112px 0 44px;
+    border-bottom: 1px solid var(--bdr);
+  }
+
+  .features-kicker,
+  .section-index,
+  .theme-control-label {
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+
+  .features-hero h1 {
+    margin: 24px 0 18px;
+    color: var(--txt);
+    font-size: clamp(44px, 8vw, 88px);
+    line-height: 0.98;
+    letter-spacing: -0.065em;
+  }
+
+  .features-hero h1 em,
+  .details-heading h2 em {
+    color: var(--amber);
+    font-style: normal;
+  }
+
+  .features-lede {
+    max-width: 620px;
+    margin: 0;
+    color: var(--txt-2);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .features-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+  }
+
+  .features-jump a {
+    padding: 8px 10px;
+    border: 1px solid var(--bdr);
+    color: var(--txt-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-decoration: none;
+  }
+
+  .features-jump a:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+
+  .details-section {
+    padding: 74px 0;
+    border-top: 1px solid var(--bdr);
+    scroll-margin-top: 62px;
+  }
+
+  .details-heading {
+    margin-bottom: 30px;
+  }
+
+  .section-index {
+    display: flex;
+    justify-content: space-between;
+    max-width: 200px;
+  }
+
+  .section-index span {
+    color: var(--txt-3);
+  }
+
+  .details-heading h2 {
+    margin: 17px 0 10px;
+    color: var(--txt);
+    font-size: clamp(28px, 4vw, 44px);
+    letter-spacing: -0.045em;
+  }
+
+  .details-heading p {
+    max-width: 620px;
+    margin: 0;
+    color: var(--txt-2);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .theme-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .theme-demo {
+    --demo-bg: #18191b;
+    --demo-surface: #101112;
+    --demo-fg: #e8e9ec;
+    --demo-muted: #959ba4;
+    --demo-border: #2c2e32;
+    --demo-accent: #38bdf8;
+    --demo-keyword: #e879c6;
+    --demo-string: #8ccf9f;
+    overflow: hidden;
+    border: 1px solid var(--demo-border);
+    background: var(--demo-bg);
+    color: var(--demo-fg);
+    font-family: var(--font-mono);
+    transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+  }
+
+  .theme-demo[data-preview-theme='light'] {
+    --demo-bg: #ffffff;
+    --demo-surface: #f7f7f8;
+    --demo-fg: #1a1c1e;
+    --demo-muted: #5e6369;
+    --demo-border: #dfe2e6;
+    --demo-accent: #075985;
+    --demo-keyword: #b83280;
+    --demo-string: #287d3c;
+  }
+
+  .theme-demo-top,
+  .theme-demo-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 38px;
+    padding: 0 13px;
+    border-bottom: 1px solid var(--demo-border);
+    background: var(--demo-surface);
+    color: var(--demo-muted);
+    font-size: 9px;
+  }
+
+  .theme-demo-top > span:first-child {
+    display: flex;
+    gap: 5px;
+  }
+
+  .theme-demo-top i,
+  .theme-option-dots i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--demo-accent);
+  }
+
+  .theme-demo-top i:nth-child(2) { opacity: 0.6; }
+  .theme-demo-top i:nth-child(3) { opacity: 0.35; }
+  .theme-demo-badge { color: var(--demo-accent); }
+
+  .theme-demo-content {
+    display: grid;
+    grid-template-columns: minmax(110px, 0.7fr) minmax(0, 1.5fr);
+    min-height: 220px;
+  }
+
+  .theme-demo-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    padding: 18px 13px;
+    border-right: 1px solid var(--demo-border);
+    background: var(--demo-surface);
+    color: var(--demo-muted);
+    font-size: 9px;
+  }
+
+  .demo-sidebar-title {
+    margin-bottom: 5px;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+
+  .demo-tree.indent { padding-left: 10px; }
+  .demo-tree.indent-2 { padding-left: 20px; color: var(--demo-accent); }
+
+  .theme-code {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    overflow: hidden;
+    padding: 20px 12px;
+    font-size: clamp(8px, 1vw, 11px);
+  }
+
+  .theme-code > div {
+    display: flex;
+    gap: 15px;
+    white-space: nowrap;
+  }
+
+  .theme-code > div > span:first-child {
+    color: var(--demo-muted);
+    opacity: 0.65;
+  }
+
+  .theme-code b { color: var(--demo-keyword); font-weight: 600; }
+  .theme-code i:not(.theme-cursor) { color: var(--demo-string); font-style: normal; }
+  .theme-code em { color: var(--demo-accent); font-style: normal; }
+
+  .theme-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 13px;
+    background: var(--demo-accent);
+    vertical-align: middle;
+  }
+
+  .theme-demo-footer {
+    min-height: 30px;
+    border-top: 1px solid var(--demo-border);
+    border-bottom: 0;
+  }
+
+  .theme-controls {
+    padding: 20px;
+    border: 1px solid var(--bdr);
+    background: var(--bg-elev);
+  }
+
+  .theme-control-label {
+    margin: 0 0 12px;
+    color: var(--txt-3);
+    font-size: 9px;
+  }
+
+  .theme-options {
+    display: grid;
+    gap: 8px;
+  }
+
+  .theme-option {
+    display: grid;
+    grid-template-columns: 38px 1fr 14px;
+    gap: 11px;
+    align-items: center;
+    width: 100%;
+    padding: 11px;
+    border: 1px solid var(--bdr);
+    background: var(--bg);
+    color: var(--txt);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .theme-option[aria-pressed='true'] { border-color: var(--amber); }
+
+  .theme-option-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    border: 1px solid var(--bdr);
+    background: #18191b;
+  }
+
+  .theme-option-dots i:nth-child(1) { background: #38bdf8; }
+  .theme-option-dots i:nth-child(2) { background: #e879c6; }
+  .theme-option-dots i:nth-child(3) { background: #8ccf9f; }
+  .light-dots { background: #fff; }
+  .light-dots i:nth-child(1) { background: #075985; }
+  .light-dots i:nth-child(2) { background: #b83280; }
+  .light-dots i:nth-child(3) { background: #287d3c; }
+
+  .theme-option b,
+  .theme-option small {
+    display: block;
+  }
+
+  .theme-option b { font-size: 11px; }
+  .theme-option small { margin-top: 4px; color: var(--txt-3); font-size: 9px; }
+  .theme-option-check { color: var(--txt-4); font-size: 10px; }
+  .theme-option[aria-pressed='true'] .theme-option-check { color: var(--amber); }
+  .families-label { margin-top: 22px; }
+
+  .theme-families {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .theme-families span {
+    padding: 5px 7px;
+    border: 1px solid var(--bdr);
+    color: var(--txt-2);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .theme-note {
+    margin: 14px 0 0;
+    color: var(--txt-3);
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  .shortcuts-section {
+    border-bottom: 1px solid var(--bdr);
+    background: var(--bg-elev);
+  }
+
+  .shortcut-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--bdr);
+    border-left: 1px solid var(--bdr);
+  }
+
+  .shortcut-group {
+    padding: 17px;
+    border-right: 1px solid var(--bdr);
+    border-bottom: 1px solid var(--bdr);
+  }
+
+  .shortcut-group h3 {
+    margin: 0 0 11px;
+    color: var(--txt);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  .shortcut-group h3 span { color: var(--amber); }
+
+  .shortcut-group ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .shortcut-group li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    border-top: 1px solid var(--bdr);
+  }
+
+  .shortcut-action {
+    color: var(--txt-2);
+    font-size: 10px;
+  }
+
+  .shortcut-keys,
+  .shortcut-stroke {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .shortcut-keys { gap: 5px; }
+
+  .shortcut-stroke kbd {
+    min-width: 22px;
+    padding: 4px 5px;
+    border: 1px solid var(--bdr-strong);
+    background: var(--bg);
+    color: var(--txt);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    text-align: center;
+  }
+
+  .shortcut-then {
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 8px;
+  }
+
+  .shortcut-note {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 14px 0 0;
+    color: var(--txt-3);
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  .shortcut-note a { color: var(--amber); }
+
+  @media (max-width: 900px) {
+    .theme-layout { grid-template-columns: 1fr; }
+    .shortcut-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 620px) {
+    .features-hero { padding-top: 94px; }
+    .features-hero h1 { font-size: clamp(42px, 12vw, 64px); }
+    .details-section { padding: 52px 0; }
+    .theme-demo-content { grid-template-columns: 92px minmax(0, 1fr); }
+    .theme-demo-sidebar { padding-inline: 9px; }
+    .theme-code { padding-inline: 8px; font-size: 8px; }
+    .shortcut-grid { grid-template-columns: 1fr; }
+    .shortcut-group { padding: 14px 12px; }
+    .shortcut-group li { gap: 5px; }
+    .shortcut-action { font-size: 9px; }
+    .shortcut-stroke kbd { min-width: 18px; padding-inline: 3px; font-size: 7px; }
+  }
+</style>

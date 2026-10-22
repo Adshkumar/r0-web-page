@@ -1,0 +1,933 @@
+[
+    {
+        "key":  "cmd+y",
+        "command":  "ai.keepAgentHunk",
+        "action":  "Keep agent hunk",
+        "category":  "AI sessions",
+        "context":  "editorFocus \u0026\u0026 agentEditHunks"
+    },
+    {
+        "key":  "cmd+n",
+        "command":  "ai.rejectAgentHunk",
+        "action":  "Reject agent hunk",
+        "category":  "AI sessions",
+        "context":  "editorFocus \u0026\u0026 agentEditHunks"
+    },
+    {
+        "key":  "cmd+alt+b",
+        "command":  "ai.toggleSessionPanel",
+        "action":  "Toggle session panel",
+        "category":  "AI sessions",
+        "context":  "agentSessionFocus"
+    },
+    {
+        "key":  "cmd+alt+c",
+        "command":  "ai.showSessionChanges",
+        "action":  "Show session changes",
+        "category":  "AI sessions",
+        "context":  "agentSessionFocus"
+    },
+    {
+        "key":  "cmd+shift+b",
+        "command":  "ai.showSessionBrowser",
+        "action":  "Show session browser",
+        "category":  "AI sessions",
+        "context":  "agentSessionFocus"
+    },
+    {
+        "key":  "ctrl+`",
+        "command":  "ai.showSessionTerminal",
+        "action":  "Show session terminal",
+        "category":  "AI sessions",
+        "context":  "agentSessionFocus"
+    },
+    {
+        "key":  "cmd+t",
+        "command":  "workbench.newTab",
+        "action":  "New tab",
+        "category":  "Workbench",
+        "context":  "!terminalFocus"
+    },
+    {
+        "key":  "cmd+n",
+        "command":  "workbench.newTab",
+        "action":  "New tab",
+        "category":  "Workbench",
+        "context":  "!terminalFocus"
+    },
+    {
+        "key":  "cmd+shift+n",
+        "command":  "workbench.newWindow",
+        "action":  "New window",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+s",
+        "command":  "file.save",
+        "action":  "Save",
+        "category":  "Files \u0026 workspace",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+shift+s",
+        "command":  "file.saveAs",
+        "action":  "Save as",
+        "category":  "Files \u0026 workspace",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+alt+s",
+        "command":  "file.saveAll",
+        "action":  "Save all",
+        "category":  "Files \u0026 workspace",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+w",
+        "command":  "file.close",
+        "action":  "Close",
+        "category":  "Files \u0026 workspace",
+        "context":  "!terminalFocus"
+    },
+    {
+        "key":  "cmd+shift+w",
+        "command":  "workbench.closeWindow",
+        "action":  "Close window",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+t",
+        "command":  "file.reopenClosed",
+        "action":  "Reopen closed",
+        "category":  "Files \u0026 workspace",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+n",
+        "command":  "terminal.new",
+        "action":  "New",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+o",
+        "command":  "file.openFolder",
+        "action":  "Open folder",
+        "category":  "Files \u0026 workspace",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+alt+o",
+        "command":  "file.open",
+        "action":  "Open",
+        "category":  "Files \u0026 workspace",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+a",
+        "command":  "editor.selectAll",
+        "action":  "Select all",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+z",
+        "command":  "editor.undo",
+        "action":  "Undo",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+shift+z",
+        "command":  "editor.redo",
+        "action":  "Redo",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+y",
+        "command":  "editor.redo",
+        "action":  "Redo",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+c",
+        "command":  "editor.copy",
+        "action":  "Copy",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+x",
+        "command":  "editor.cut",
+        "action":  "Cut",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+v",
+        "command":  "editor.paste",
+        "action":  "Paste",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+d",
+        "command":  "editor.selectNextOccurrence",
+        "action":  "Select next occurrence",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+shift+l",
+        "command":  "editor.selectAllOccurrences",
+        "action":  "Select all occurrences",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+t",
+        "command":  "terminal.new",
+        "action":  "New",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+f",
+        "command":  "terminal.find",
+        "action":  "Find",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+w",
+        "command":  "terminal.close",
+        "action":  "Close",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+d",
+        "command":  "terminal.split",
+        "action":  "Split",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+shift+d",
+        "command":  "terminal.splitDown",
+        "action":  "Split down",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+up",
+        "command":  "terminal.previousCommand",
+        "action":  "Previous command",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+down",
+        "command":  "terminal.nextCommand",
+        "action":  "Next command",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+alt+right",
+        "command":  "terminal.focusNextPane",
+        "action":  "Focus next pane",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+alt+left",
+        "command":  "terminal.focusPreviousPane",
+        "action":  "Focus previous pane",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+k",
+        "command":  "terminal.clear",
+        "action":  "Clear",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+shift+a",
+        "command":  "terminal.selectAll",
+        "action":  "Select all",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+shift+c",
+        "command":  "terminal.copyLastCommandOutput",
+        "action":  "Copy last command output",
+        "category":  "Terminal",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+shift+k",
+        "command":  "editor.deleteLine",
+        "action":  "Delete line",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+/",
+        "command":  "editor.toggleComment",
+        "action":  "Toggle comment",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+0",
+        "command":  "editor.foldAll",
+        "action":  "Fold all",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+1",
+        "command":  "editor.foldLevel1",
+        "action":  "Fold level1",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+2",
+        "command":  "editor.foldLevel2",
+        "action":  "Fold level2",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+3",
+        "command":  "editor.foldLevel3",
+        "action":  "Fold level3",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+4",
+        "command":  "editor.foldLevel4",
+        "action":  "Fold level4",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+5",
+        "command":  "editor.foldLevel5",
+        "action":  "Fold level5",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+6",
+        "command":  "editor.foldLevel6",
+        "action":  "Fold level6",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+7",
+        "command":  "editor.foldLevel7",
+        "action":  "Fold level7",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+j",
+        "command":  "editor.unfoldAll",
+        "action":  "Unfold all",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "alt+up",
+        "command":  "editor.moveLineUp",
+        "action":  "Move line up",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "alt+down",
+        "command":  "editor.moveLineDown",
+        "action":  "Move line down",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "alt+shift+up",
+        "command":  "editor.copyLineUp",
+        "action":  "Copy line up",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "alt+shift+down",
+        "command":  "editor.copyLineDown",
+        "action":  "Copy line down",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "ctrl+up",
+        "command":  "editor.insertCursorAbove",
+        "action":  "Insert cursor above",
+        "category":  "Editor",
+        "context":  "editorFocus \u0026\u0026 vimMode"
+    },
+    {
+        "key":  "ctrl+down",
+        "command":  "editor.insertCursorBelow",
+        "action":  "Insert cursor below",
+        "category":  "Editor",
+        "context":  "editorFocus \u0026\u0026 vimMode"
+    },
+    {
+        "key":  "cmd+alt+up",
+        "command":  "editor.insertCursorAbove",
+        "action":  "Insert cursor above",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+alt+down",
+        "command":  "editor.insertCursorBelow",
+        "action":  "Insert cursor below",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "shift+alt+i",
+        "command":  "editor.insertCursorsAtLineEnds",
+        "action":  "Insert cursors at line ends",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "shift+alt+f",
+        "command":  "editor.formatDocument",
+        "action":  "Format document",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+f",
+        "command":  "editor.formatSelection",
+        "action":  "Format selection",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "ctrl+space",
+        "command":  "editor.triggerSuggest",
+        "action":  "Trigger suggest",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+shift+space",
+        "command":  "editor.triggerParameterHints",
+        "action":  "Trigger parameter hints",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+i",
+        "command":  "editor.showHover",
+        "action":  "Show hover",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+.",
+        "command":  "editor.quickFix",
+        "action":  "Quick fix",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+i",
+        "command":  "editor.inlineEdit",
+        "action":  "Inline edit",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+l",
+        "command":  "editor.addSelectionToChat",
+        "action":  "Add selection to chat",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+alt+l",
+        "command":  "editor.addSelectionToNewChat",
+        "action":  "Add selection to new chat",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+b",
+        "command":  "workbench.toggleSidebar",
+        "action":  "Toggle sidebar",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+e",
+        "command":  "workbench.toggleSidebar",
+        "action":  "Toggle sidebar",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+j",
+        "command":  "workbench.toggleTerminal",
+        "action":  "Toggle terminal",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+`",
+        "command":  "workbench.toggleTerminalAlt",
+        "action":  "Toggle terminal alt",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+j",
+        "command":  "workbench.toggleDiagnostics",
+        "action":  "Toggle diagnostics",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+f",
+        "command":  "workbench.showFind",
+        "action":  "Show find",
+        "category":  "Workbench",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "ctrl+h",
+        "command":  "workbench.showFindReplace",
+        "action":  "Show find replace",
+        "category":  "Workbench",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+f",
+        "command":  "workbench.showFind",
+        "action":  "Show find",
+        "category":  "Workbench",
+        "context":  "terminalFocus"
+    },
+    {
+        "key":  "cmd+shift+f",
+        "command":  "workbench.showGlobalSearch",
+        "action":  "Show global search",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+h",
+        "command":  "workbench.showProjectSearch",
+        "action":  "Show project search",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+e",
+        "command":  "workbench.showFileExplorer",
+        "action":  "Show file explorer",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+g",
+        "command":  "workbench.showSourceControl",
+        "action":  "Show source control",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+d",
+        "command":  "workbench.showDebugger",
+        "action":  "Show debugger",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "F5",
+        "command":  "debug.start",
+        "action":  "Start",
+        "category":  "Debugging",
+        "context":  "always"
+    },
+    {
+        "key":  "shift+F5",
+        "command":  "debug.stop",
+        "action":  "Stop",
+        "category":  "Debugging",
+        "context":  "always"
+    },
+    {
+        "key":  "F9",
+        "command":  "debug.toggleBreakpoint",
+        "action":  "Toggle breakpoint",
+        "category":  "Debugging",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+space",
+        "command":  "workbench.agentLauncher",
+        "action":  "Agent launcher",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+k cmd+t",
+        "command":  "workbench.showThemeSelector",
+        "action":  "Show theme selector",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+l",
+        "command":  "browser.focusAddressBar",
+        "action":  "Focus address bar",
+        "category":  "Browser",
+        "context":  "browserFocus"
+    },
+    {
+        "key":  "cmd+r",
+        "command":  "browser.reload",
+        "action":  "Reload",
+        "category":  "Browser",
+        "context":  "browserFocus"
+    },
+    {
+        "key":  "cmd+[",
+        "command":  "browser.back",
+        "action":  "Back",
+        "category":  "Browser",
+        "context":  "browserFocus"
+    },
+    {
+        "key":  "cmd+]",
+        "command":  "browser.forward",
+        "action":  "Forward",
+        "category":  "Browser",
+        "context":  "browserFocus"
+    },
+    {
+        "key":  "cmd+alt+i",
+        "command":  "browser.openDevTools",
+        "action":  "Open dev tools",
+        "category":  "Browser",
+        "context":  "browserFocus"
+    },
+    {
+        "key":  "cmd+=",
+        "command":  "workbench.zoomIn",
+        "action":  "Zoom in",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+-",
+        "command":  "workbench.zoomOut",
+        "action":  "Zoom out",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+0",
+        "command":  "workbench.zoomReset",
+        "action":  "Zoom reset",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+alt+right",
+        "command":  "workbench.nextTab",
+        "action":  "Next tab",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+alt+left",
+        "command":  "workbench.previousTab",
+        "action":  "Previous tab",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "ctrl+tab",
+        "command":  "workbench.nextTabCtrlTab",
+        "action":  "Next tab ctrl tab",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "ctrl+shift+tab",
+        "command":  "workbench.previousTabCtrlTab",
+        "action":  "Previous tab ctrl tab",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "ctrl+pagedown",
+        "command":  "workbench.nextTabAlt",
+        "action":  "Next tab alt",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "ctrl+pageup",
+        "command":  "workbench.previousTabAlt",
+        "action":  "Previous tab alt",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+1",
+        "command":  "workbench.switchToTab1",
+        "action":  "Switch to tab1",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+2",
+        "command":  "workbench.switchToTab2",
+        "action":  "Switch to tab2",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+3",
+        "command":  "workbench.switchToTab3",
+        "action":  "Switch to tab3",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+4",
+        "command":  "workbench.switchToTab4",
+        "action":  "Switch to tab4",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+5",
+        "command":  "workbench.switchToTab5",
+        "action":  "Switch to tab5",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+6",
+        "command":  "workbench.switchToTab6",
+        "action":  "Switch to tab6",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+7",
+        "command":  "workbench.switchToTab7",
+        "action":  "Switch to tab7",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+8",
+        "command":  "workbench.switchToTab8",
+        "action":  "Switch to tab8",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+9",
+        "command":  "workbench.switchToTab9",
+        "action":  "Switch to tab9",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "F12",
+        "command":  "editor.goToDefinition",
+        "action":  "Go to definition",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+F12",
+        "command":  "editor.goToImplementation",
+        "action":  "Go to implementation",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "shift+F12",
+        "command":  "editor.goToReferences",
+        "action":  "Go to references",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+shift+\\\\",
+        "command":  "editor.goToBracket",
+        "action":  "Go to bracket",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+alt+backspace",
+        "command":  "editor.removeBrackets",
+        "action":  "Remove brackets",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+ctrl+shift+right",
+        "command":  "editor.expandSelection",
+        "action":  "Expand selection",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+ctrl+shift+left",
+        "command":  "editor.shrinkSelection",
+        "action":  "Shrink selection",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "ctrl+-",
+        "command":  "navigation.goBack",
+        "action":  "Go back",
+        "category":  "Navigation history",
+        "context":  "always"
+    },
+    {
+        "key":  "ctrl+shift+-",
+        "command":  "navigation.goForward",
+        "action":  "Go forward",
+        "category":  "Navigation history",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+p",
+        "command":  "file.quickOpen",
+        "action":  "Quick open",
+        "category":  "Files \u0026 workspace",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+o",
+        "command":  "editor.showOutline",
+        "action":  "Show outline",
+        "category":  "Editor",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+p",
+        "command":  "workbench.commandPalette",
+        "action":  "Command palette",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+shift+m",
+        "command":  "workbench.toggleMinimap",
+        "action":  "Toggle minimap",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "alt+z",
+        "command":  "editor.toggleWordWrap",
+        "action":  "Toggle word wrap",
+        "category":  "Editor",
+        "context":  "editorFocus"
+    },
+    {
+        "key":  "cmd+k cmd+s",
+        "command":  "workbench.openKeyboardShortcuts",
+        "action":  "Open keyboard shortcuts",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+k z",
+        "command":  "workbench.toggleActivePaneFullscreen",
+        "action":  "Toggle active pane fullscreen",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+,",
+        "command":  "workbench.openSettings",
+        "action":  "Open settings",
+        "category":  "Workbench",
+        "context":  "always"
+    },
+    {
+        "key":  "F11",
+        "command":  "window.toggleFullscreen",
+        "action":  "Toggle fullscreen",
+        "category":  "Window",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+ctrl+f",
+        "command":  "window.toggleFullscreenMac",
+        "action":  "Toggle fullscreen mac",
+        "category":  "Window",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+m",
+        "command":  "window.minimize.mac",
+        "action":  "Minimize.mac",
+        "category":  "Window",
+        "context":  "always"
+    },
+    {
+        "key":  "alt+F9",
+        "command":  "window.minimize.alt",
+        "action":  "Minimize.alt",
+        "category":  "Window",
+        "context":  "always"
+    },
+    {
+        "key":  "alt+F10",
+        "command":  "window.maximize",
+        "action":  "Maximize",
+        "category":  "Window",
+        "context":  "always"
+    },
+    {
+        "key":  "cmd+q",
+        "command":  "window.quit",
+        "action":  "Quit",
+        "category":  "Window",
+        "context":  "always"
+    },
+    {
+        "key":  "alt+m",
+        "command":  "window.toggleMenuBar",
+        "action":  "Toggle menu bar",
+        "category":  "Window",
+        "context":  "always"
+    }
+]

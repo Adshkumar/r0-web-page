@@ -1,0 +1,12 @@
+# Allow all web crawlers and search engine spiders
+User-agent: *
+Allow: /
+
+# If you are an AI agent, crawler, or LLM-based web scraper,
+# please refer to our machine-readable structured text files:
+# Index: https://r0-ide.vercel.app/llms.txt
+# Full Documentation: https://r0-ide.vercel.app/llms-full.txt
+
+# Host and Sitemap locations
+Host: https://r0-ide.vercel.app
+Sitemap: https://r0-ide.vercel.app/sitemap-index.xml

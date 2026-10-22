@@ -1,0 +1,121 @@
+---
+import { PRODUCT_FEATURES } from '../data/features';
+
+interface Props {
+  showMore?: boolean;
+}
+
+const { showMore = true } = Astro.props;
+---
+
+<section class="sec" id="features">
+  <div class="wrap">
+    <header class="sec-head">
+      <div class="sec-id"><span class="sec-n">02</span><span>/features</span></div>
+      <div>
+        <h2 class="sec-title">Everything you need to <em>move a project forward.</em></h2>
+        <p class="sec-sub">Code, AI, Git, and your everyday project tools in one desktop workspace.</p>
+      </div>
+    </header>
+    <div class="feature-grid">
+      {PRODUCT_FEATURES.map((feature, index) => (
+        <article class="feature-card reveal">
+          <div class="feature-top"><span>F.{String(index + 1).padStart(2, '0')}</span><span>{feature.label}</span></div>
+          <h3>{feature.title}</h3>
+          <p>{feature.description}</p>
+          <div class="feature-details">
+            {feature.details.map((detail) => <span>{detail}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+    {showMore && (
+      <a class="feature-more" href="/features">
+        <span>Explore themes, shortcuts, and every feature</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    )}
+  </div>
+</section>
+
+<style>
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--bdr);
+    border-left: 1px solid var(--bdr);
+  }
+
+  .feature-card {
+    display: flex;
+    min-height: 208px;
+    flex-direction: column;
+    padding: 21px;
+    border-right: 1px solid var(--bdr);
+    border-bottom: 1px solid var(--bdr);
+    background: var(--bg-elev);
+  }
+
+  .feature-top {
+    display: flex;
+    justify-content: space-between;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .feature-card h3 {
+    margin: 18px 0 8px;
+    color: var(--txt);
+    font-size: 17px;
+  }
+
+  .feature-card p {
+    margin: 0 0 20px;
+    color: var(--txt-2);
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .feature-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+
+  .feature-details span {
+    padding: 4px 7px;
+    border: 1px solid var(--bdr);
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .feature-more {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding: 14px 16px;
+    border: 1px solid var(--bdr);
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-decoration: none;
+  }
+
+  .feature-more:hover {
+    border-color: var(--amber);
+  }
+
+  @media (max-width: 900px) {
+    .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 620px) {
+    .feature-grid { grid-template-columns: 1fr; }
+    .feature-card { min-height: 0; }
+  }
+</style>

@@ -1,0 +1,19 @@
+# r0 — website reference
+
+r0 is a desktop code editor built with Rust, Tauri, and React. It brings code editing and project development tools into one desktop workspace.
+
+The website highlights editing, supported AI coding integrations, Git, terminal workflows, and supported database tools. Exact feature availability, providers, and supported platforms may vary by release. Consult the project repository for current details.
+
+## Project links
+
+- Home page: https://r0-ide.vercel.app
+- Repository and README: https://github.com/Adshkumar/r0
+- Release downloads and notes: https://github.com/Adshkumar/r0/releases
+- Issues: https://github.com/Adshkumar/r0/issues
+- Website documentation: https://r0-ide.vercel.app/docs
+
+The website's Git view is a sample illustration, not live repository data. The website does not claim independent benchmark results.
+
+## Installation
+
+Follow the current platform-specific instructions in the r0 README and release notes. Verify the source of any remote installer before running it.

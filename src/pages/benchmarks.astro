@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { GITHUB } from '../data/links';
+---
+
+<Layout
+  title="r0 project details"
+  description="Explore r0's source code, current features, and release information."
+>
+  <Nav />
+  <main class="details">
+    <div class="wrap">
+      <p class="eyebrow">// project details</p>
+      <h1>Explore r0 <em>from the source.</em></h1>
+      <p class="intro">
+        This site does not publish independent performance benchmarks. Visit the r0 repository for current,
+        verifiable project details, source code, and release notes.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href={GITHUB} target="_blank" rel="noopener noreferrer">View r0 on GitHub →</a>
+        <a class="btn btn-ghost" href={`${GITHUB}/releases`} target="_blank" rel="noopener noreferrer">Browse releases →</a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .details {
+    min-height: 65vh;
+    padding: 150px 0 80px;
+  }
+
+  .eyebrow {
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+
+  h1 {
+    max-width: 760px;
+    margin: 22px 0;
+    color: var(--txt);
+    font-size: clamp(38px, 7vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+  }
+
+  h1 em { color: var(--amber); font-style: normal; }
+
+  .intro {
+    max-width: 620px;
+    color: var(--txt-2);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+</style>

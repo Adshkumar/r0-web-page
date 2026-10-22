@@ -1,0 +1,17 @@
+{
+ "name": "r0",
+ "short_name": "r0",
+ "description": "A desktop code editor built with Rust, Tauri, and React.",
+ "start_url": "/",
+ "display": "standalone",
+ "background_color": "#06070b",
+ "theme_color": "#06070b",
+ "icons": [
+  {
+   "src": "/favicon.svg",
+   "sizes": "any",
+   "type": "image/svg+xml",
+   "purpose": "any maskable"
+  }
+ ]
+}

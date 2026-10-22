@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#111318"/>
+  <path d="M0 460H1200" stroke="#2b2e35" stroke-width="2"/>
+  <text x="72" y="215" fill="#f0a45d" font-family="Arial, sans-serif" font-size="126" font-weight="700" letter-spacing="-8">r0</text>
+  <text x="72" y="305" fill="#f3f4f6" font-family="Arial, sans-serif" font-size="44" font-weight="600">A desktop code editor</text>
+  <text x="72" y="370" fill="#a4a7af" font-family="Arial, sans-serif" font-size="28">Code, AI, Git, and project tools in one workspace.</text>
+  <text x="72" y="545" fill="#777b85" font-family="Consolas, monospace" font-size="19">RUST  /  TAURI  /  REACT</text>
+</svg>
