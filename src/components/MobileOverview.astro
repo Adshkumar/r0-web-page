@@ -7,12 +7,17 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
   <section class="mobile-hero">
     <div class="wrap">
       <a href="/changelog" class="pill mobile-release"><span class="dot"></span>r0 v{VERSION} · release notes →</a>
-      <p class="mobile-kicker">// your code workspace</p>
-      <h1>Build software.<br /><em>Your way.</em></h1>
-      <p class="mobile-intro">Code, work with AI, manage Git, and run your project tools in one desktop editor.</p>
-      <button class="copyline" type="button" data-copy={INSTALL_CMD} aria-label="Copy Windows install command">
-        <span class="copyline-p">$</span><code><span>{INSTALL_CMD}</span></code><span class="copyline-s"></span>
-      </button>
+      <p class="mobile-kicker">// THE AI-READY CODE EDITOR</p>
+      <h1>Code with AI.<br /><em>Build your way.</em></h1>
+      <p class="mobile-intro">
+        Edit code, work with AI coding agents, manage Git, run terminal commands, and inspect supported databases—all from one desktop editor.
+      </p>
+      <div class="mobile-install">
+        <span class="mobile-install-label">QUICK INSTALL · WINDOWS POWERSHELL</span>
+        <button class="copyline" type="button" data-copy={INSTALL_CMD} aria-label="Copy Windows PowerShell install command">
+          <span class="copyline-p">$</span><code><span>{INSTALL_CMD}</span></code><span class="copyline-s"></span>
+        </button>
+      </div>
       <a class="mobile-github" href={GITHUB} target="_blank" rel="noopener noreferrer">Explore r0 on GitHub →</a>
     </div>
   </section>
@@ -140,6 +145,7 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
     color: var(--amber);
     font-family: var(--font-mono);
     font-size: 11px;
+    letter-spacing: 0.06em;
   }
 
   .mobile-hero h1,
@@ -157,10 +163,19 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
   }
 
   .mobile-intro {
-    margin: 18px 0 24px;
+    margin: 18px 0 16px;
     color: var(--txt-2);
     font-size: 14px;
     line-height: 1.7;
+  }
+
+  .mobile-install-label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.06em;
   }
 
   .mobile-github {
