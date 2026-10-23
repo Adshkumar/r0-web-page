@@ -4,12 +4,12 @@
 
 :root {
   /* ── Dark (default) ── */
-  --bg: #06070b;
-  --bg-elev: #0b0c12;
-  --panel: #0d0e16;
-  --surface: rgba(192, 202, 245, 0.028);
-  --surface-2: rgba(192, 202, 245, 0.055);
-  --surface-solid: #0d0e16;
+  --bg: #111318;
+  --bg-elev: #171a20;
+  --panel: #1c2027;
+  --surface: rgba(192, 202, 245, 0.035);
+  --surface-2: rgba(192, 202, 245, 0.065);
+  --surface-solid: #1c2027;
   --code-bg: rgba(192, 202, 245, 0.032);
   --code-surface: #0a0c14;
   --code-surface-header: #0f111c;
@@ -47,8 +47,8 @@
   --bar-muted: #394062;
   --track: rgba(192, 202, 245, 0.07);
 
-  --grid: rgba(192, 202, 245, 0.035);
-  --nav-bg: rgba(6, 7, 11, 0.84);
+  --grid: rgba(192, 202, 245, 0.025);
+  --nav-bg: rgba(17, 19, 24, 0.9);
   --shadow-card: none;
   --shadow-float: 0 60px 140px -60px rgba(0, 0, 0, 0.95);
   --sheen: none;
@@ -73,12 +73,12 @@
 }
 
 :root[data-theme='light'] {
-  --bg: #f4f5f8;
-  --bg-elev: #ffffff;
-  --panel: #ffffff;
-  --surface: rgba(11, 13, 20, 0.025);
-  --surface-2: rgba(11, 13, 20, 0.05);
-  --surface-solid: #ffffff;
+  --bg: #dde4ec;
+  --bg-elev: #e9edf2;
+  --panel: #d2dce7;
+  --surface: rgba(35, 48, 64, 0.035);
+  --surface-2: rgba(35, 48, 64, 0.065);
+  --surface-solid: #e9edf2;
   --code-bg: rgba(11, 13, 20, 0.035);
   --code-surface: #0e111a;
   --code-surface-header: #141824;
@@ -114,8 +114,8 @@
   --bar-muted: #c4c9d6;
   --track: rgba(11, 13, 20, 0.07);
 
-  --grid: rgba(11, 13, 20, 0.045);
-  --nav-bg: rgba(244, 245, 248, 0.88);
+  --grid: rgba(35, 48, 64, 0.045);
+  --nav-bg: rgba(221, 228, 236, 0.94);
   --shadow-float: 0 50px 100px -50px rgba(11, 13, 20, 0.35);
 
   --s-com: #6e7781;
@@ -179,13 +179,13 @@ body {
   inset: -30% -10% auto;
   height: 90vh;
   background:
-    radial-gradient(44% 38% at 22% 30%, rgba(251, 191, 36, 0.09), transparent 72%),
-    radial-gradient(48% 42% at 80% 20%, rgba(122, 162, 247, 0.1), transparent 74%);
-  filter: blur(20px);
+    radial-gradient(44% 38% at 24% 24%, rgba(251, 191, 36, 0.045), transparent 72%),
+    radial-gradient(48% 42% at 78% 12%, rgba(192, 202, 245, 0.035), transparent 74%);
+  filter: blur(30px);
 }
 
 :root[data-theme='light'] .atmos-glow {
-  opacity: 0.7;
+  opacity: 0.38;
 }
 
 .atmos-grid {
@@ -202,12 +202,12 @@ body {
 .atmos-scan {
   position: absolute;
   inset: 0;
-  opacity: 0.5;
-  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0 1px, transparent 1px 3px);
+  opacity: 0.22;
+  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 4px);
 }
 
 :root[data-theme='light'] .atmos-scan {
-  opacity: 0.12;
+  opacity: 0.035;
 }
 
 main,
