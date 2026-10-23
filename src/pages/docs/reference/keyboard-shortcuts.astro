@@ -54,8 +54,7 @@ function contextLabel(context: string) {
         <p class="eyebrow">// reference · {DEFAULT_SHORTCUTS.length} default bindings</p>
         <h1>Keyboard shortcuts <em>reference</em></h1>
         <p>
-          Browse the default r0 keybindings by workflow. <kbd>Cmd</kbd> and <kbd>Option</kbd> are shown for macOS;
-          <kbd>Ctrl</kbd> and <kbd>Alt</kbd> are shown for Linux and Windows.
+          Browse the default r0 keybindings by workflow. <kbd>Ctrl</kbd> and <kbd>Alt</kbd> are shown for Windows and Linux.
         </p>
         <p class="shortcut-notice">
           Some bindings are context-sensitive. User keymaps and selected presets can change these defaults.
@@ -80,12 +79,11 @@ function contextLabel(context: string) {
             <div class="table-wrap">
               <table>
                 <thead>
-                  <tr><th>macOS</th><th>Linux / Windows</th><th>Action</th><th>Available when</th></tr>
+                  <tr><th>Windows / Linux</th><th>Action</th><th>Available when</th></tr>
                 </thead>
                 <tbody>
                   {category.shortcuts.map((shortcut) => (
                     <tr>
-                      <td><ShortcutKeys keys={shortcut.key} platform="mac" /></td>
                       <td><ShortcutKeys keys={shortcut.key} platform="pc" /></td>
                       <td>
                         <strong>{shortcut.action}</strong>
@@ -250,8 +248,8 @@ function contextLabel(context: string) {
     letter-spacing: 0.05em;
   }
 
-  td:nth-child(1), td:nth-child(2) { min-width: 150px; }
-  td:nth-child(3) { min-width: 190px; }
+  td:nth-child(1) { min-width: 150px; }
+  td:nth-child(2) { min-width: 190px; }
 
   td strong { color: var(--txt); font-weight: 550; }
 
@@ -285,6 +283,6 @@ function contextLabel(context: string) {
     .category-jump { gap: 6px; }
     .shortcut-groups { gap: 25px; }
     .section-title h2 { font-size: 16px; }
-    .table-wrap table { min-width: 700px; }
+    .table-wrap table { min-width: 540px; }
   }
 </style>

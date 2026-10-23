@@ -1,5 +1,5 @@
 ---
-import { GITHUB, RELEASES, LATEST_RELEASE, ISSUES, LICENSE, VERSION, INSTALL_CMD, repoDoc, DISCUSSIONS } from '../data/links';
+import { GITHUB, RELEASES, LATEST_RELEASE, ISSUES, LICENSE, VERSION, INSTALL_CMD, DISCUSSIONS } from '../data/links';
 
 const latestVersion = VERSION;
 const year = new Date().getFullYear();
@@ -12,10 +12,10 @@ const cols = [
       { label: 'AI-assisted coding', href: '/features#features' },
       { label: 'Git & terminal', href: '/features#features' },
       { label: 'Database tools', href: '/features#features' },
-      { label: 'Download r0', href: LATEST_RELEASE, ext: true },
+      { label: 'Latest Release', href: LATEST_RELEASE, ext: true },
       { label: 'Themes & shortcuts', href: '/features#themes' },
       { label: 'Project README', href: LICENSE, ext: true },
-      { label: 'Releases & Changelog', href: '/changelog' },
+      { label: 'Release Notes', href: '/releases' },
       // { label: 'Wall of Love', href: '/wall-of-love' },
       // { label: 'Design Partners', href: '/design-partners' },
     ],
@@ -27,6 +27,7 @@ const cols = [
       { label: 'Getting Started', href: '/docs#getting-started' },
       { label: 'How-To Guides', href: '/docs#guides' },
       { label: 'Project overview', href: '/docs/reference/project-overview' },
+      { label: 'Architecture', href: '/architecture' },
       { label: 'Keyboard shortcuts', href: '/docs/reference/keyboard-shortcuts' },
       { label: 'Engineering Blog', href: '/blog' },
     ],
@@ -36,7 +37,7 @@ const cols = [
     links: [
       { label: 'GitHub Repository', href: GITHUB, ext: true },
       { label: 'GitHub Discussions', href: DISCUSSIONS, ext: true },
-      { label: 'Latest Release', href: LATEST_RELEASE, ext: true },
+      { label: 'GitHub Releases archive', href: RELEASES, ext: true },
       { label: 'Issue Tracker', href: ISSUES, ext: true },
     ],
   },
@@ -49,7 +50,7 @@ const cols = [
       <a href="/" class="logo-link" aria-label="r0 home">
         <span class="brand-mark">r0</span>
       </a>
-      <p>r0 is a cross-platform desktop code editor for building software with AI, Git, an integrated terminal, and database tools.</p>
+      <p>r0 is a Windows and Linux desktop code editor for building software with AI, Git, an integrated terminal, and database tools.</p>
       <div class="f-install">
         <button class="copyline" type="button" data-copy={INSTALL_CMD} aria-label="Copy install command">
           <span class="copyline-p">$</span>
@@ -81,7 +82,7 @@ const cols = [
       <span class="sep">&bull;</span>
       <a href="/blog">Blog</a>
       <span class="sep">&bull;</span>
-      <a href="/changelog">Changelog</a>
+      <a href="/releases">Releases</a>
     </div>
   </div>
 
@@ -110,6 +111,11 @@ const cols = [
     color: var(--txt-2);
   }
 
+  .f-brand,
+  .f-col {
+    min-width: 0;
+  }
+
   .brand-mark {
     color: var(--txt);
     font-family: var(--font-mono);
@@ -120,7 +126,12 @@ const cols = [
 
   .f-install {
     max-width: 440px;
+    width: 100%;
     margin-top: 16px;
+  }
+
+  .f-install .copyline {
+    min-width: 0;
   }
 
   .f-ver {
@@ -221,7 +232,7 @@ const cols = [
   }
 
   @media (max-width: 580px) {
-    .footer-inner { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: minmax(0, 1fr); }
     .f-base { flex-direction: column; align-items: flex-start; }
   }
 </style>

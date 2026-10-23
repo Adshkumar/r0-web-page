@@ -2,11 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { GITHUB, RELEASES, VERSION, INSTALL_CMD } from '../data/links';
-import { getAllChangelogs } from '../data/changelogs';
+import { GITHUB, RELEASES } from '../data/links';
+import { getAllReleases } from '../data/releases';
 
-const changelogs = getAllChangelogs();
-const latest = changelogs[0];
+const releaseEntries = getAllReleases();
 
 function formatDate(iso: string) {
   const [y, m, d] = iso.split('-');
@@ -17,8 +16,8 @@ function formatDate(iso: string) {
 ---
 
 <Layout
-  title="Changelog - r0"
-  description="Release updates for r0, the cross-platform desktop code editor."
+  title="Releases - r0"
+  description="Verified release notes for r0, including fixes, improvements, and new features."
 >
   <Nav />
 
@@ -29,13 +28,13 @@ function formatDate(iso: string) {
         <div class="cl-breadcrumbs">
           <a href="/" class="cl-crumb-link">r0</a>
           <span class="cl-crumb-sep">/</span>
-          <span class="cl-crumb-cur">changelog</span>
+          <span class="cl-crumb-cur">releases</span>
         </div>
 
         <div class="cl-headline-row">
           <div>
-            <p class="kicker"><span>//</span> release history & updates</p>
-            <h1 class="cl-title">Changelog</h1>
+            <p class="kicker"><span>//</span> published release notes</p>
+            <h1 class="cl-title">Releases</h1>
           </div>
           <div class="cl-actions">
             <a class="btn btn-ghost" href={RELEASES} target="_blank" rel="noopener noreferrer">
@@ -45,47 +44,44 @@ function formatDate(iso: string) {
         </div>
 
         <p class="cl-sub">
-          Release notes from the r0 project. See GitHub for the latest release files and complete release history.
+          Changes below are summarized from published GitHub release notes and commit comparisons. The public issue tracker currently has no issue records to link, so fixes are described by the behavior changed. Draft releases and tags without published release notes are not listed.
         </p>
 
         <!-- Quick Jump Navigation -->
         <div class="cl-quickjump">
           <span class="qj-label">Releases:</span>
-          {changelogs.map((cl, idx) => (
-            <a href={`#${cl.tag}`} class:list={['qj-pill', { 'qj-pill--latest': idx === 0 }]}>
+          {releaseEntries.map((release, idx) => (
+            <a href={`#${release.tag}`} class:list={['qj-pill', { 'qj-pill--latest': idx === 0 }]}>
               {idx === 0 && <span class="dot" aria-hidden="true"></span>}
-              <span>{cl.tag}</span>
-              <small>({cl.date})</small>
+              <span>{release.tag}</span>
+              <small>({release.date})</small>
             </a>
           ))}
         </div>
       </header>
 
-      <!-- Releases Timeline -->
+      <!-- Published release notes -->
       <section class="cl-timeline" aria-label="Release entries">
-        {changelogs.map((cl, idx) => (
-          <article class="cl-entry" id={cl.tag}>
+        {releaseEntries.map((release, idx) => (
+          <article class="cl-entry" id={release.tag}>
             <div class="cl-entry-aside">
               <div class="cl-ver-badge">
-                <span class="cl-ver-num">{cl.tag}</span>
+                <span class="cl-ver-num">{release.tag}</span>
                 {idx === 0 && <span class="cl-tag-latest">Latest</span>}
               </div>
-              <time class="cl-date" datetime={cl.date}>{formatDate(cl.date)}</time>
-              <div class="cl-stats">
-                <span class="cl-stat-pill">{cl.commitCount} {cl.commitCount === 1 ? 'commit' : 'commits'}</span>
-              </div>
+              <time class="cl-date" datetime={release.date}>{formatDate(release.date)}</time>
               <div class="cl-links">
                 <a
-                  href={`${GITHUB}/releases/tag/${cl.tag}`}
+                  href={`${GITHUB}/releases/tag/${release.tag}`}
                   class="cl-ext-link"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  GitHub Release &rarr;
+                  View release &rarr;
                 </a>
-                {cl.commitRange.includes('..') && (
+                {release.commitRange.includes('..') && (
                   <a
-                    href={`${GITHUB}/compare/${cl.commitRange}`}
+                    href={`${GITHUB}/compare/${release.commitRange}`}
                     class="cl-ext-link"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -98,12 +94,12 @@ function formatDate(iso: string) {
 
             <div class="cl-entry-main">
               <div class="cl-entry-header">
-                <h2 class="cl-entry-title">{cl.title}</h2>
-                <p class="cl-entry-summary">{cl.summary}</p>
+                <h2 class="cl-entry-title">{release.title}</h2>
+                <p class="cl-entry-summary">{release.summary}</p>
               </div>
 
               <div class="cl-categories">
-                {cl.categories.map((cat) => (
+                {release.categories.map((cat) => (
                   <div class="cl-category">
                     <h3 class="cl-cat-title">
                       <span class="cl-cat-prefix">//</span> {cat.name}
@@ -124,22 +120,6 @@ function formatDate(iso: string) {
         ))}
       </section>
 
-      <!-- Bottom install helper -->
-      <div class="cl-bottom-cta">
-        <div class="cta-box">
-          <div class="cta-copy">
-            <h3>Get the latest release (v{VERSION})</h3>
-            <p>Get the current r0 desktop release for your platform.</p>
-          </div>
-          <div class="cta-action">
-            <button class="copyline" type="button" data-copy={INSTALL_CMD} aria-label="Copy install command">
-              <span class="copyline-p">$</span>
-              <code><span>{INSTALL_CMD}</span></code>
-              <span class="copyline-s"></span>
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </main>
 
@@ -333,19 +313,6 @@ function formatDate(iso: string) {
     color: var(--txt-3);
   }
 
-  .cl-stats {
-    margin-top: 4px;
-  }
-
-  .cl-stat-pill {
-    display: inline-block;
-    padding: 2px 8px;
-    border: 1px solid var(--bdr);
-    background: var(--code-bg);
-    font-size: 10.5px;
-    color: var(--txt-3);
-  }
-
   .cl-links {
     display: flex;
     flex-direction: column;
@@ -442,39 +409,6 @@ function formatDate(iso: string) {
 
   .cl-text {
     flex: 1;
-  }
-
-  /* ── bottom CTA ── */
-  .cl-bottom-cta {
-    margin-top: 72px;
-    border: 1px solid var(--bdr-hi);
-    background: var(--surface);
-    padding: 32px 36px;
-  }
-
-  .cta-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-
-  .cta-copy h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--txt);
-    margin-bottom: 6px;
-  }
-
-  .cta-copy p {
-    font-size: 13px;
-    color: var(--txt-2);
-  }
-
-  .cta-action {
-    max-width: 500px;
-    flex: 1 1 320px;
   }
 
   @media (max-width: 860px) {

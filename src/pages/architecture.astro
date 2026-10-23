@@ -1,0 +1,776 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { GITHUB, RELEASES } from '../data/links';
+
+const journeyStages = [
+  {
+    index: '01',
+    label: 'OPEN A PROJECT',
+    title: 'Start in context',
+    steps: [
+      { number: '01', title: 'Launch r0', description: 'The desktop app starts its React workbench and native services.' },
+      { number: '02', title: 'Open a workspace', description: 'Settings and project context prepare files, search, and language tools.' },
+    ],
+    areas: 'BOOTSTRAP · WORKSPACE · PROJECT',
+  },
+  {
+    index: '02',
+    label: 'BUILD AND EXPLORE',
+    title: 'Work across tools',
+    steps: [
+      { number: '03', title: 'Edit and navigate', description: 'Browse, open, search, and change project files.' },
+      { number: '04', title: 'Use integrations', description: 'Bring in AI, terminal, Git, database, and debugger tools as needed.' },
+    ],
+    areas: 'EDITOR · AI · TERMINAL · GIT',
+  },
+  {
+    index: '03',
+    label: 'VERIFY AND SHIP',
+    title: 'Review each change',
+    steps: [
+      { number: '05', title: 'Check the result', description: 'Inspect edits and diffs, run project checks, and review status.' },
+      { number: '06', title: 'Commit and continue', description: 'Stage intended files, commit, and continue the development loop.' },
+    ],
+    areas: 'REVIEW · RUN ACTIONS · VERSION CONTROL',
+  },
+];
+
+const coreLayers = [
+  {
+    label: 'PRESENTATION',
+    title: 'React + TypeScript workbench',
+    source: 'src/',
+    description: 'Renders the application shell and feature-owned interface, hooks, stores, and services. The code is organized around user-facing capabilities such as AI, Git, terminal, and workspace navigation.',
+    href: `${GITHUB}/tree/main/src`,
+  },
+  {
+    label: 'DESKTOP HOST',
+    title: 'Tauri application',
+    source: 'src-tauri/',
+    description: 'Owns the native app lifecycle, desktop plugins, window setup, shared managed state, and the bridge between frontend requests and Rust-side functionality.',
+    href: `${GITHUB}/tree/main/src-tauri`,
+  },
+  {
+    label: 'COMMAND ADAPTERS',
+    title: 'Domain-organized Rust commands',
+    source: 'src-tauri/src/commands/',
+    description: 'Groups desktop-facing operations by area—AI, project, editor, database, version control, UI, and development—so app-specific transport concerns are distinct from the domain crates.',
+    href: `${GITHUB}/tree/main/src-tauri/src/commands`,
+  },
+  {
+    label: 'DOMAIN SERVICES',
+    title: 'Rust workspace crates',
+    source: 'crates/',
+    description: 'Holds focused native capabilities such as AI integrations, project/file operations, terminal sessions, Git, databases, language servers, extensions, search, remote support, and debugging.',
+    href: `${GITHUB}/tree/main/crates`,
+  },
+];
+
+const subsystems = [
+  {
+    area: 'Workbench and startup',
+    frontend: 'features/bootstrap · features/layout · features/window',
+    native: 'src-tauri app setup',
+    role: 'Mounts the shell, initializes settings and feature contributions, manages windows, and prepares shared native services.',
+  },
+  {
+    area: 'Editor and language tools',
+    frontend: 'features/editor · features/outline · features/references',
+    native: 'crates/lsp · crates/runtime',
+    role: 'Connects editing and navigation workflows with language-server, runtime, and editor services.',
+  },
+  {
+    area: 'Project files and search',
+    frontend: 'features/workspace · features/file-explorer · features/file-search · features/quick-open',
+    native: 'crates/project · crates/fff-search',
+    role: 'Works with project roots, file operations, workspace changes, quick navigation, and search.',
+  },
+  {
+    area: 'AI and agents',
+    frontend: 'features/ai',
+    native: 'crates/ai · crates/claude-ide · commands/ai',
+    role: 'Connects the agent interface and session workflows to supported agent/protocol integrations and native workspace operations.',
+  },
+  {
+    area: 'Git and GitHub',
+    frontend: 'features/git · features/github',
+    native: 'crates/version-control · crates/github · commands/version_control',
+    role: 'Separates local repository operations from GitHub-connected features and their workbench UI.',
+  },
+  {
+    area: 'Terminal and execution',
+    frontend: 'features/terminal · features/run-actions',
+    native: 'crates/terminal · crates/exec-path · crates/runtime · crates/wsl',
+    role: 'Coordinates terminal sessions and execution-related support across available host environments.',
+  },
+  {
+    area: 'Database and debugging',
+    frontend: 'features/database · features/debugger',
+    native: 'crates/database · crates/debugger',
+    role: 'Provides dedicated database and debugging integration areas. Exact providers and setup depend on the installed build.',
+  },
+  {
+    area: 'Extensions and appearance',
+    frontend: 'features/extensions · extensions/themes · features/settings',
+    native: 'crates/extensions · app settings and plugins',
+    role: 'Connects extension/runtime and theme customization with user settings and desktop integration.',
+  },
+  {
+    area: 'Additional integrations',
+    frontend: 'features/browser · features/docker · features/remote · features/collaboration',
+    native: 'crates/browser · crates/docker · crates/remote · crates/wsl',
+    role: 'Organizes browser, container, remote, WSL, and collaboration-related capabilities into focused product areas.',
+  },
+];
+
+const sourceLinks = [
+  { label: 'Frontend application entry', path: 'src/main.tsx' },
+  { label: 'Application shell', path: 'src/App.tsx' },
+  { label: 'Workbench composition', path: 'src/workbench-app.tsx' },
+  { label: 'Bootstrap orchestration', path: 'src/features/bootstrap/services/initialize-app-bootstrap.ts' },
+  { label: 'Native application entry', path: 'src-tauri/src/main.rs' },
+  { label: 'Native service setup', path: 'src-tauri/src/app_setup.rs' },
+  { label: 'Domain command modules', path: 'src-tauri/src/commands/mod.rs' },
+  { label: 'Rust workspace manifest', path: 'Cargo.toml' },
+];
+
+const simplifiedFlow = `User action
+  → React feature updates UI state
+  → Tauri command request crosses the desktop boundary
+  → Rust command validates and coordinates the operation
+  → Domain service performs native or integration work
+  ← command result returns, or events report ongoing changes
+  ← React feature updates the view`;
+---
+
+<Layout
+  title="Architecture & Internals - r0"
+  description="A source-grounded architecture guide to r0: user workflows, React workbench, staged startup, Tauri commands and events, Rust services, and subsystem boundaries."
+>
+  <Nav />
+  <main class="architecture-page">
+    <div class="wrap">
+      <header class="architecture-hero">
+        <div class="breadcrumbs"><a href="/">r0</a><span>/</span><span>Docs</span><span>/</span><span>Architecture &amp; Internals</span></div>
+        <p class="architecture-kicker">// SYSTEMS GUIDE · FROM USER FLOW TO IMPLEMENTATION</p>
+        <h1>Architecture &amp;<br /><em>Internals.</em></h1>
+        <p class="architecture-lede">
+          r0 is a native desktop IDE with a React and TypeScript workbench, a Tauri application host,
+          domain-organized Rust commands, and a multi-crate Rust workspace. This guide follows a real
+          project session from launch through editing, tools, review, and Git—and explains what each
+          architectural layer contributes.
+        </p>
+        <div class="architecture-meta">
+          <span>REACT + TYPESCRIPT</span><span>TAURI</span><span>RUST WORKSPACE</span><span>WINDOWS + LINUX RELEASES</span>
+        </div>
+      </header>
+
+      <nav class="architecture-toc" aria-label="On this page">
+        <span>ON THIS PAGE</span>
+        <a href="#user-flow">User flow</a>
+        <a href="#system-map">System map</a>
+        <a href="#startup">Startup</a>
+        <a href="#request-lifecycle">Request lifecycle</a>
+        <a href="#subsystems">Subsystems</a>
+        <a href="#state">State &amp; events</a>
+        <a href="#core-principles">Core principles</a>
+        <a href="#vertical-walkthrough">Walkthrough</a>
+        <a href="#source-map">Source map</a>
+        <a href="#contributor-checklist">Contributors</a>
+      </nav>
+
+      <section class="architecture-section" id="user-flow" aria-labelledby="user-flow-title">
+        <header class="section-heading">
+          <p class="section-index">01 / HIGH-LEVEL USER FLOW</p>
+          <h2 id="user-flow-title">One project session, end to end</h2>
+          <p>
+            Start from what the person does. r0 keeps editing, AI assistance, project tools, verification,
+            and source control near the same workspace; each step activates different frontend features
+            and native services as needed.
+          </p>
+        </header>
+        <div class="journey-grid">
+          {journeyStages.map((stage) => (
+            <article class="journey-card">
+              <div class="journey-card-top">
+                <span class="journey-card-index">{stage.index}</span>
+                <span class="journey-card-label">{stage.label}</span>
+              </div>
+              <h3>{stage.title}</h3>
+              <ol>
+                {stage.steps.map((step) => (
+                  <li>
+                    <span>{step.number}</span>
+                    <div><strong>{step.title}</strong><p>{step.description}</p></div>
+                  </li>
+                ))}
+              </ol>
+              <code class="journey-card-areas">{stage.areas}</code>
+            </article>
+          ))}
+        </div>
+        <aside class="callout">
+          <strong>What this flow does—and does not—mean</strong>
+          <p>
+            It describes a common development loop, not a required wizard or a promise that every optional
+            integration is enabled. AI providers, language servers, database connections, remote tools,
+            and GitHub access depend on configuration and the capabilities of the installed release.
+          </p>
+        </aside>
+      </section>
+
+      <section class="architecture-section" id="system-map" aria-labelledby="system-map-title">
+        <header class="section-heading">
+          <p class="section-index">02 / HIGH-LEVEL SYSTEM MAP</p>
+          <h2 id="system-map-title">The workbench sits inside a desktop application</h2>
+          <p>
+            The frontend owns presentation and feature workflows. Tauri hosts it and exposes native
+            capabilities. Rust command adapters connect that desktop boundary to domain services and,
+            where configured, external tools or providers.
+          </p>
+        </header>
+        <div class="architecture-code-panel architecture-map-panel">
+          <div class="architecture-code-header"><span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>ARCHITECTURE.MAP</span><span class="code-language">SYSTEM</span></div>
+          <div class="system-diagram" aria-label="r0 system layers and how they connect">
+            {coreLayers.map((layer, index) => (
+              <>
+                <article class:list={['system-node', `system-node-${index + 1}`]}>
+                  <span class="system-node-index">0{index + 1}</span>
+                  <div class="system-node-content">
+                    <span class="system-node-label">{layer.label}</span>
+                    <h3>{layer.title}</h3>
+                    <code>{layer.source}</code>
+                  </div>
+                  <a href={layer.href} target="_blank" rel="noopener noreferrer" aria-label={`Browse ${layer.title} source`}>↗</a>
+                </article>
+                {index < coreLayers.length - 1 && (
+                  <div class="system-connector" aria-hidden="true">
+                    <span></span>
+                    <small>{['TAURI COMMANDS + EVENTS', 'DOMAIN COMMAND ROUTING', 'NATIVE SERVICE CALLS'][index]}</small>
+                    <span></span>
+                    <b>↓</b>
+                  </div>
+                )}
+              </>
+            ))}
+            <div class="system-connector system-connector-last" aria-hidden="true">
+              <span></span><small>ONLY WHEN A FEATURE NEEDS IT</small><span></span><b>↓</b>
+            </div>
+            <div class="system-dependencies">
+              <span>CONNECTED CAPABILITIES</span>
+              <div><b>Local project</b><b>Operating system</b><b>Configured providers</b><b>External tools</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="layer-grid layer-grid-centered">
+          {coreLayers.map((layer) => (
+            <article class="layer-card">
+              <div class="layer-label">{layer.label}</div>
+              <h3>{layer.title}</h3>
+              <code class="layer-path">{layer.source}</code>
+              <p>{layer.description}</p>
+              <a href={layer.href} target="_blank" rel="noopener noreferrer">Browse this source <span aria-hidden="true">↗</span></a>
+            </article>
+          ))}
+        </div>
+        <aside class="callout callout-muted">
+          <strong>Architecture boundary</strong>
+          <p>
+            This is a desktop app, not a browser-hosted IDE backend. The React UI runs in the desktop
+            webview; Tauri connects it to the local Rust application. External AI services or remote
+            project integrations are separate, opt-in paths rather than the default owner of every file operation.
+          </p>
+        </aside>
+      </section>
+
+      <section class="architecture-section" id="startup" aria-labelledby="startup-title">
+        <header class="section-heading">
+          <p class="section-index">03 / APPLICATION STARTUP</p>
+          <h2 id="startup-title">From process entry to ready workbench</h2>
+          <p>
+            Startup is split across the native process and frontend. The frontend tracks named bootstrap
+            phases so settings, foundational services, and extensions do not all need to initialize in
+            one blocking step.
+          </p>
+        </header>
+        <div class="startup-grid">
+          <article><span>01 · NATIVE ENTRY</span><h3>Start the desktop process</h3><p><code>src-tauri/src/main.rs</code> prepares the Tauri application, its plugins, window behavior, and app configuration. The native process owns OS integration and shutdown.</p></article>
+          <article><span>02 · FRONTEND ENTRY</span><h3>Mount the application shell</h3><p><code>src/main.tsx</code> creates the React root. <code>src/App.tsx</code> provides the outer shell and lazy-loads the workbench or specialized windows.</p></article>
+          <article><span>03 · SETTINGS + FOUNDATION</span><h3>Prepare required state</h3><p>The bootstrap service coordinates settings with foundational async work and records progress. The workbench can render while non-blocking setup continues.</p></article>
+          <article><span>04 · WORKBENCH READY</span><h3>Register feature contributions</h3><p>After the first workbench frame, startup finishes foundation tasks, registers contributions, and then starts extension-runtime work before reaching the corresponding readiness phases.</p></article>
+          <article><span>05 · NATIVE SERVICES</span><h3>Keep reusable managers available</h3><p><code>app_setup.rs</code> places shared managers—such as terminal, agent bridge, language server, debugger, and search state—into Tauri-managed application state.</p></article>
+        </div>
+        <div class="code-example">
+          <div class="code-heading"><span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="code-heading-label">BOOTSTRAP SEQUENCE</span><span class="code-language">TYPESCRIPT</span><a href={`${GITHUB}/blob/main/src/features/bootstrap/bootstrap-async.ts`} target="_blank" rel="noopener noreferrer">Open source ↗</a></div>
+          <p>The bootstrap implementation waits for settings and foundational tasks, reports their outcomes, then advances the workbench phase.</p>
+          <pre class="syntax-pre"><code class="syntax-code"><span class="syntax-line"><span class="syntax-keyword">const</span> foundationalResults = <span class="syntax-keyword">await</span> Promise.<span class="syntax-function">allSettled</span>([</span>
+<span class="syntax-line">  settingsLoaded,</span>
+<span class="syntax-line">  ...foundationalBootstrapSteps.<span class="syntax-function">map</span>((step) <span class="syntax-operator">=&gt;</span> step.<span class="syntax-function">run</span>()),</span>
+<span class="syntax-line">]);</span>
+<span class="syntax-line"><span class="syntax-function">reportBootstrapResults</span>(steps, foundationalResults);</span>
+<span class="syntax-line">useBootstrapPhaseStore.<span class="syntax-function">getState</span>().actions.<span class="syntax-function">reachPhase</span>(<span class="syntax-string">"workbench-ready"</span>);</span>
+<span class="syntax-line"></span>
+<span class="syntax-line"><span class="syntax-keyword">const</span> extensionResults = <span class="syntax-keyword">await</span> Promise.<span class="syntax-function">allSettled</span>(</span>
+<span class="syntax-line">  extensionBootstrapSteps.<span class="syntax-function">map</span>((step) <span class="syntax-operator">=&gt;</span> step.<span class="syntax-function">run</span>()),</span>
+<span class="syntax-line">);</span>
+<span class="syntax-line"><span class="syntax-function">reportBootstrapResults</span>(extensionBootstrapSteps, extensionResults);</span>
+<span class="syntax-line">useBootstrapPhaseStore.<span class="syntax-function">getState</span>().actions.<span class="syntax-function">reachPhase</span>(<span class="syntax-string">"extensions-ready"</span>);</span></code></pre>
+        </div>
+      </section>
+
+      <section class="architecture-section" id="request-lifecycle" aria-labelledby="request-title">
+        <header class="section-heading">
+          <p class="section-index">04 / COMMANDS, EVENTS, AND REQUEST LIFECYCLE</p>
+          <h2 id="request-title">A UI action becomes a native operation</h2>
+          <p>
+            The Tauri boundary supports request/response commands and asynchronous events. Commands are
+            grouped by domain in the app; domain crates hold reusable native capabilities. The exact path
+            varies by feature.
+          </p>
+        </header>
+        <div class="request-flow">
+          <div><span>01 / FEATURE</span><strong>Capture intent</strong><p>UI reads current workspace and user input.</p></div>
+          <i aria-hidden="true">→</i>
+          <div><span>02 / BRIDGE</span><strong>Send request</strong><p>Tauri transports a command and its arguments.</p></div>
+          <i aria-hidden="true">→</i>
+          <div><span>03 / ADAPTER</span><strong>Coordinate work</strong><p>Rust handler checks context and accesses managed services.</p></div>
+          <i aria-hidden="true">→</i>
+          <div><span>04 / DOMAIN</span><strong>Perform operation</strong><p>Project, AI, Git, terminal, or another service does its work.</p></div>
+        </div>
+        <div class="architecture-code-panel flow-panel">
+          <div class="architecture-code-header"><span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>COMMAND / EVENT SEQUENCE</span><span class="code-language">FLOW</span></div>
+          <pre class="flow-code flow-code-compact"><code>{simplifiedFlow}</code></pre>
+        </div>
+        <div class="example-grid">
+          <article>
+            <span>SHORT REQUEST</span>
+            <h3>Project operation</h3>
+            <p>A user action such as opening or changing a project file is handled through project-oriented commands and services. A completed operation returns a result; an error must stay visible to the caller.</p>
+          </article>
+          <article>
+            <span>LONG-LIVED SESSION</span>
+            <h3>Terminal or agent</h3>
+            <p>A terminal or agent session outlives a single command. r0 tracks session state and routes output/events so the right workbench window can update while the process is active.</p>
+          </article>
+          <article>
+            <span>BACKGROUND CHANGE</span>
+            <h3>Workspace file watcher</h3>
+            <p>The native workspace-change sink delivers file-change batches to subscribed windows and feeds the search index. This keeps editor views and search aware of file changes without making each view poll independently.</p>
+          </article>
+        </div>
+        <div class="code-example">
+          <div class="code-heading"><span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="code-heading-label">MANAGED NATIVE SERVICES</span><span class="code-language">RUST</span><a href={`${GITHUB}/blob/main/src-tauri/src/app_setup.rs`} target="_blank" rel="noopener noreferrer">Open source ↗</a></div>
+          <p>Tauri-managed state lets command handlers share long-lived managers. This excerpt follows the actual manager types used by app setup.</p>
+          <pre class="syntax-pre"><code class="syntax-code"><span class="syntax-line"><span class="syntax-keyword">let</span> terminal_manager = <span class="syntax-type">Arc</span>::new(<span class="syntax-type">TerminalManager</span>::new());</span>
+<span class="syntax-line">app.<span class="syntax-function">manage</span>(terminal_manager.<span class="syntax-function">clone</span>());</span>
+<span class="syntax-line">app.<span class="syntax-function">manage</span>(<span class="syntax-type">FrontendTerminalSessions</span>::default());</span>
+<span class="syntax-line"></span>
+<span class="syntax-line"><span class="syntax-keyword">let</span> acp_bridge = <span class="syntax-type">Arc</span>::new(<span class="syntax-type">Mutex</span>::new(<span class="syntax-type">AcpAgentBridge</span>::new(</span>
+<span class="syntax-line">  <span class="syntax-type">Arc</span>::new(<span class="syntax-type">TauriAcpEventSink</span>::new(app.<span class="syntax-function">handle</span>().<span class="syntax-function">clone</span>())),</span>
+<span class="syntax-line">  <span class="syntax-function">acp_host_info</span>(app.<span class="syntax-function">handle</span>()),</span>
+<span class="syntax-line">  terminal_manager,</span>
+<span class="syntax-line">  commands::<span class="syntax-function">agent_launch_env</span>(app.<span class="syntax-function">handle</span>().<span class="syntax-function">clone</span>()),</span>
+<span class="syntax-line">)));</span>
+<span class="syntax-line">app.<span class="syntax-function">manage</span>(acp_bridge);</span></code></pre>
+        </div>
+        <aside class="callout callout-muted">
+          <strong>Commands are not the only data path</strong>
+          <p>
+            A command is a good fit for a discrete request and result. For streams, file notifications,
+            and agent updates, the native side can emit events to a window or event sink. Window/session
+            ownership matters: event delivery should target the intended subscriber instead of broadcasting
+            unrelated workspace activity everywhere.
+          </p>
+        </aside>
+      </section>
+
+      <section class="architecture-section" id="subsystems" aria-labelledby="subsystems-title">
+        <header class="section-heading">
+          <p class="section-index">05 / IDE SUBSYSTEMS</p>
+          <h2 id="subsystems-title">How the product areas map to source</h2>
+          <p>
+            Frontend feature directories group the user-facing workflow; Rust crates group native
+            implementation. <code>src-tauri/src/commands</code> connects the two where a feature needs
+            desktop capabilities.
+          </p>
+        </header>
+        <div class="subsystem-table-wrap">
+          <table class="subsystem-table">
+            <thead><tr><th>Product area</th><th>Frontend</th><th>Native / Rust</th><th>What the area owns</th></tr></thead>
+            <tbody>
+              {subsystems.map((item) => (
+                <tr><th scope="row">{item.area}</th><td data-label="Frontend"><code>{item.frontend}</code></td><td data-label="Native / Rust"><code>{item.native}</code></td><td data-label="Responsibility">{item.role}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div class="subsystem-notes">
+          <article><h3>Editor and language intelligence</h3><p>The workbench’s editor, outline, references, and navigation features are distinct from native language-server management. A language feature can depend on the project being open and the language tooling being available and configured.</p></article>
+          <article><h3>AI and workspace changes</h3><p>Agent integrations are a workflow layer, not a substitute for review. The frontend handles sessions and user-facing change review; Rust AI services and commands coordinate supported providers and workspace operations.</p></article>
+          <article><h3>Git is split by responsibility</h3><p>Local source-control operations live in the version-control domain; GitHub integrations have their own feature and crate areas. Provider credentials and remote access are separate from merely opening a local repository.</p></article>
+          <article><h3>Integrations are capability-dependent</h3><p>Database engines, debuggers, browser tools, Docker, remote environments, extensions, and AI providers may require installation, configuration, or platform support. A directory in the repository does not imply every integration is active in every build.</p></article>
+        </div>
+      </section>
+
+      <section class="architecture-section" id="state" aria-labelledby="state-title">
+        <header class="section-heading">
+          <p class="section-index">06 / STATE, SESSIONS, AND LIFECYCLE</p>
+          <h2 id="state-title">Keep ephemeral work attached to its owner</h2>
+          <p>
+            The app has more than one kind of state. Durable preferences, active workspace context,
+            frontend view state, native service managers, and live terminal or agent sessions have
+            different owners and lifetimes.
+          </p>
+        </header>
+        <div class="lifecycle-grid">
+          <article><span>USER SETTINGS</span><h3>Persist preferences</h3><p>Settings initialize early because themes, keymaps, and other interface behavior depend on them. Bootstrap phases coordinate consumers so they do not write defaults over settings that have not loaded.</p></article>
+          <article><span>WORKSPACE CONTEXT</span><h3>Scope project work</h3><p>The active project/root informs file operations, search, language tools, terminal context, and version control. Multi-window workflows need explicit project and window ownership.</p></article>
+          <article><span>MANAGED SERVICES</span><h3>Reuse native managers</h3><p>Tauri-managed state holds services such as terminal and language-server managers that are reused by commands. The app setup composes them with event sinks and per-window/session coordination.</p></article>
+          <article><span>LIVE SESSIONS</span><h3>Start, stream, clean up</h3><p>Terminal and agent sessions have identifiers and connections. Window close, retry, or session replacement must clean up or supersede stale links so output is not attributed to the wrong session.</p></article>
+        </div>
+        <div class="lifecycle-sequence" aria-label="Session lifecycle">
+          <span>Create session</span><b>→</b><span>Associate window + workspace</span><b>→</b><span>Send input / receive events</span><b>→</b><span>Close or replace</span><b>→</b><span>Release connections</span>
+        </div>
+      </section>
+
+      <section class="architecture-section" id="core-principles" aria-labelledby="principles-title">
+        <header class="section-heading">
+          <p class="section-index">07 / CORE ARCHITECTURAL PRINCIPLES</p>
+          <h2 id="principles-title">What keeps the IDE maintainable</h2>
+          <p>These principles follow from the product’s actual structure and help contributors change one workflow without breaking neighboring ones.</p>
+        </header>
+        <div class="principle-list">
+          <article><span>01</span><div><h3>Organize the UI by capability</h3><p>Feature areas such as AI, Git, terminal, database, and workspace own their components, services, stores, and tests. Keep UI behavior close to the workflow it serves.</p></div></article>
+          <article><span>02</span><div><h3>Keep desktop adapters at the boundary</h3><p>Tauri commands adapt app-level requests to native capabilities. Put reusable domain behavior in its service/crate when appropriate instead of coupling domain logic to a particular screen.</p></div></article>
+          <article><span>03</span><div><h3>Use async events for ongoing work</h3><p>Commands can start or control an operation; events can report progress, output, or workspace changes. Model subscriptions and teardown as part of the feature, not incidental UI code.</p></div></article>
+          <article><span>04</span><div><h3>Make workspace and window ownership explicit</h3><p>A desktop app can have multiple windows and concurrent projects. Route file-change and session events to their intended owner, and verify the active project before performing mutations.</p></div></article>
+          <article><span>05</span><div><h3>Stage startup by dependency</h3><p>Load essential settings and foundational services before dependents need them; let later contributions such as extension runtime follow the workbench-ready phase.</p></div></article>
+          <article><span>06</span><div><h3>Keep optional integrations optional</h3><p>AI providers, language servers, databases, remote environments, and extensions have their own setup and failure modes. Surface missing prerequisites instead of disguising an unavailable integration as success.</p></div></article>
+        </div>
+      </section>
+
+      <section class="architecture-section" id="vertical-walkthrough" aria-labelledby="walkthrough-title">
+        <header class="section-heading">
+          <p class="section-index">08 / VERTICAL WALKTHROUGH</p>
+          <h2 id="walkthrough-title">Trace a user-visible change through the stack</h2>
+          <p>For example, following a terminal action from its panel to native session management gives a practical way to orient yourself in this repository.</p>
+        </header>
+        <ol class="trace-list">
+          <li><strong>Find the feature UI</strong><code>src/features/terminal/</code><p>Look for the panel/component and hook responsible for the interaction.</p></li>
+          <li><strong>Find frontend session behavior</strong><code>src/features/terminal/services/ · hooks/ · stores/</code><p>Identify how the UI tracks the active terminal, sends input, and subscribes to output or lifecycle events.</p></li>
+          <li><strong>Find the desktop adapter</strong><code>src-tauri/src/terminal.rs · src-tauri/src/main.rs</code><p>Inspect the Tauri commands and their registration/managed state. The app exposes operations including beginning a frontend session, creating a terminal, writing input, and resizing.</p></li>
+          <li><strong>Find reusable native behavior</strong><code>crates/terminal/</code><p>Follow the terminal manager, shell, connection, and protocol modules for implementation details.</p></li>
+          <li><strong>Verify the full interaction</strong><code>frontend tests · Rust tests · app build</code><p>Cover session start, output, retry/cleanup, and window ownership where relevant—not only the first successful launch.</p></li>
+        </ol>
+      </section>
+
+      <section class="architecture-section" id="source-map" aria-labelledby="source-title">
+        <header class="section-heading">
+          <p class="section-index">09 / SOURCE MAP</p>
+          <h2 id="source-title">Where to read next</h2>
+          <p>Use these entry points to follow the implementation. The repository is the source of truth as modules and integrations evolve.</p>
+        </header>
+        <div class="repo-tree">
+          <div class="architecture-code-panel">
+            <div class="architecture-code-header"><span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>REPOSITORY.MAP</span><span class="code-language">TREE</span></div>
+            <pre><code>{`src/
+  main.tsx                 React mount
+  App.tsx                  Shell, error boundary, lazy entry points
+  workbench-app.tsx        Main workbench composition
+  features/                Feature-owned UI, state, and services
+
+src-tauri/src/
+  main.rs                  Native process and Tauri builder
+  app_setup.rs             App setup and shared managed state
+  commands/                Domain-organized desktop adapters
+  terminal.rs              Terminal session bridge
+  file_events.rs           Workspace change delivery
+  acp_events.rs            Agent protocol event sink
+
+crates/
+  ai/ project/ terminal/ version-control/
+  database/ lsp/ extensions/ fff-search/
+  debugger/ browser/ docker/ remote/ wsl/ ...`}</code></pre>
+          </div>
+          <div class="source-link-list">
+            {sourceLinks.map((link) => (
+              <a href={`${GITHUB}/blob/main/${link.path}`} target="_blank" rel="noopener noreferrer">
+                <span>{link.label}</span><code>{link.path}</code><b aria-hidden="true">↗</b>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="architecture-section" id="contributor-checklist" aria-labelledby="contribute-title">
+        <header class="section-heading">
+          <p class="section-index">10 / CONTRIBUTOR CHECKLIST</p>
+          <h2 id="contribute-title">Make a change at the right layer</h2>
+        </header>
+        <div class="contributor-checklist">
+          <p><span>01</span> Start from the user workflow and identify the owning frontend feature.</p>
+          <p><span>02</span> Trace each native call to its Tauri command and domain service.</p>
+          <p><span>03</span> Define the response, event, error, workspace, and window ownership behavior.</p>
+          <p><span>04</span> Add a focused regression test at the layer where the behavior lives.</p>
+          <p><span>05</span> Run relevant checks, review the diff, and verify the integrated workflow.</p>
+        </div>
+        <div class="architecture-links">
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">Browse the r0 repository ↗</a>
+          <a href={`${GITHUB}/tree/main/src-tauri/src/commands`} target="_blank" rel="noopener noreferrer">Explore command adapters ↗</a>
+          <a href={`${GITHUB}/tree/main/crates`} target="_blank" rel="noopener noreferrer">Explore Rust crates ↗</a>
+          <a href={RELEASES} target="_blank" rel="noopener noreferrer">Check published releases ↗</a>
+        </div>
+        <p class="accuracy-note">
+          This guide describes implementation areas present in the public repository, not a guarantee that every
+          provider, database, debugger, or platform integration is enabled in every release. Check the installed
+          version’s release notes and project documentation for current support.
+        </p>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .architecture-page { min-height: 80vh; padding: 96px 0 88px; overflow-x: clip; }
+  .breadcrumbs { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 26px; color: var(--txt-3); font-size: 10px; text-transform: uppercase; }
+  .breadcrumbs a { color: var(--txt-2); }
+  .architecture-hero { padding-bottom: 32px; border-bottom: 1px solid var(--bdr); }
+  .architecture-kicker, .section-index, .layer-label, .code-heading > span {
+    color: var(--amber); font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em;
+  }
+  .architecture-hero h1 { margin: 18px 0; color: var(--txt); font-size: clamp(42px, 8vw, 76px); line-height: .98; letter-spacing: -.06em; }
+  .architecture-hero h1 em { color: var(--amber); font-style: normal; }
+  .architecture-lede { max-width: 820px; color: var(--txt-2); font-size: 14px; line-height: 1.85; }
+  .architecture-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 22px; }
+  .architecture-meta span { padding: 6px 8px; border: 1px solid var(--bdr); color: var(--txt-3); font-family: var(--font-mono); font-size: 8px; letter-spacing: .08em; }
+  .architecture-toc { position: sticky; top: 48px; z-index: 5; display: flex; flex-wrap: wrap; gap: 8px 15px; align-items: center; margin: 0 -8px; padding: 13px 8px; border-bottom: 1px solid var(--bdr); background: var(--bg); }
+  .architecture-toc > span { color: var(--txt-3); font-family: var(--font-mono); font-size: 8px; letter-spacing: .1em; }
+  .architecture-toc a { color: var(--txt-2); font-size: 10px; text-decoration: none; }
+  .architecture-toc a:hover { color: var(--amber); }
+  .architecture-section { padding-top: clamp(40px, 4vw, 54px); scroll-margin-top: 100px; }
+  .section-heading { max-width: 820px; margin-bottom: 21px; }
+  .section-heading h2 { margin: 10px 0; color: var(--txt); font-size: clamp(23px, 3vw, 34px); line-height: 1.15; letter-spacing: -.04em; }
+  .section-heading > p:last-child { color: var(--txt-2); font-size: 12px; line-height: 1.8; }
+  .section-heading code, .startup-grid code, .subsystem-table code, .subsystem-notes code, .trace-list code, .lifecycle-grid code { color: var(--amber); font-family: var(--font-mono); font-size: .92em; overflow-wrap: anywhere; }
+  .journey-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--bdr); background: var(--bg-elev); }
+  .journey-card { display: flex; min-width: 0; flex-direction: column; padding: 20px; border-right: 1px solid var(--bdr); }
+  .journey-card:last-child { border-right: 0; }
+  .journey-card-top { display: flex; align-items: center; gap: 10px; padding-bottom: 13px; border-bottom: 1px solid var(--bdr); }
+  .journey-card-index { color: var(--amber); font-family: var(--font-mono); font-size: 9px; }
+  .journey-card-label { color: var(--txt); font-family: var(--font-mono); font-size: 9px; font-weight: 600; letter-spacing: .06em; }
+  .journey-card h3 { margin: 15px 0 8px; color: var(--txt); font-size: 16px; letter-spacing: -.02em; }
+  .journey-card ol { padding: 0; margin: 0; list-style: none; }
+  .journey-card li { display: grid; grid-template-columns: 25px minmax(0, 1fr); gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--bdr); }
+  .journey-card li:last-child { border-bottom: 0; }
+  .journey-card li > span { padding-top: 2px; color: var(--txt-3); font-family: var(--font-mono); font-size: 8px; }
+  .journey-card li strong { color: var(--txt); font-size: 10px; font-weight: 600; }
+  .journey-card li p { margin-top: 5px; color: var(--txt-2); font-size: 10px; line-height: 1.65; }
+  .journey-card-areas { display: block; margin-top: auto; padding-top: 14px; color: var(--txt-3); font-family: var(--font-mono); font-size: 8px; letter-spacing: .04em; overflow-wrap: anywhere; }
+  .callout { margin-top: 15px; padding: 16px 18px; border-left: 2px solid var(--amber); background: var(--amber-wash); }
+  .callout strong { color: var(--txt); font-size: 11px; }
+  .callout p { margin-top: 6px; color: var(--txt-2); font-size: 10.5px; line-height: 1.75; }
+  .callout-muted { border-left-color: var(--bdr-hi); background: var(--surface); }
+  .architecture-code-panel, .code-example { min-width: 0; overflow: hidden; border: 1px solid var(--code-bdr); border-radius: 5px; background: var(--code-surface); box-shadow: 0 10px 36px -10px rgba(0, 0, 0, .38); }
+  .architecture-map-panel { width: 100%; max-width: 1080px; margin: 0 auto; }
+  .architecture-code-header, .code-heading { display: flex; min-height: 38px; align-items: center; gap: 11px; padding: 0 13px; border-bottom: 1px solid var(--code-bdr); background: var(--code-surface-header); }
+  .architecture-code-header > span:nth-child(2), .code-heading-label { color: var(--txt-3); font-family: var(--font-mono); font-size: 8px; letter-spacing: .09em; }
+  .architecture-code-header .code-dots, .code-heading .code-dots { display: inline-flex; flex: 0 0 auto; gap: 5px; }
+  .architecture-code-header .code-dots i, .code-heading .code-dots i { width: 8px; height: 8px; border-radius: 50%; background: #42465b; }
+  .architecture-code-header .code-dots i:first-child, .code-heading .code-dots i:first-child { background: #ff5f56; }
+  .architecture-code-header .code-dots i:nth-child(2), .code-heading .code-dots i:nth-child(2) { background: #ffbd2e; }
+  .architecture-code-header .code-dots i:nth-child(3), .code-heading .code-dots i:nth-child(3) { background: #27c93f; }
+  .code-language { margin-left: auto; padding: 3px 7px; border: 1px solid var(--code-bdr); border-radius: 3px; color: var(--txt-3); font-family: var(--font-mono); font-size: 8px; letter-spacing: .08em; }
+  .architecture-code-header .code-language { margin-left: auto; }
+  .system-diagram { display: grid; justify-items: center; padding: 23px 24px 25px; background-image: linear-gradient(rgba(192, 202, 245, .018) 1px, transparent 1px), linear-gradient(90deg, rgba(192, 202, 245, .018) 1px, transparent 1px); background-size: 26px 26px; }
+  .system-node { display: grid; grid-template-columns: 34px minmax(0, 1fr) 26px; gap: 13px; align-items: center; width: min(100%, 720px); min-height: 82px; padding: 13px 16px; border: 1px solid rgba(192, 202, 245, .16); border-left: 3px solid var(--amber); background: #10131e; box-shadow: 0 8px 24px rgba(0, 0, 0, .18); }
+  .system-node-2 { border-left-color: #7aa2f7; }
+  .system-node-3 { border-left-color: #bb9af7; }
+  .system-node-4 { border-left-color: #7dcfff; }
+  .system-node-index { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid rgba(192, 202, 245, .16); border-radius: 50%; color: #8992b0; font-family: var(--font-mono); font-size: 9px; }
+  .system-node-content { min-width: 0; }
+  .system-node-label { color: #8992b0; font-family: var(--font-mono); font-size: 8px; letter-spacing: .12em; }
+  .system-node h3 { margin-top: 4px; color: #e4e8f7; font-size: 13px; }
+  .system-node code { display: inline-block; margin-top: 5px; color: #929cbd; font-family: var(--font-mono); font-size: 9px; overflow-wrap: anywhere; }
+  .system-node > a { display: grid; width: 24px; height: 24px; place-items: center; border: 1px solid rgba(192, 202, 245, .14); border-radius: 3px; color: #fbbf24; font-size: 12px; text-decoration: none; }
+  .system-node > a:hover { border-color: var(--amber); background: rgba(251, 191, 36, .08); }
+  .system-connector { display: grid; grid-template-columns: minmax(30px, 1fr) auto minmax(30px, 1fr); column-gap: 12px; justify-items: center; align-items: center; width: min(100%, 620px); height: 43px; color: #8992b0; }
+  .system-connector > span { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(192, 202, 245, .24)); }
+  .system-connector > span:nth-of-type(2) { transform: rotate(180deg); }
+  .system-connector small { font-family: var(--font-mono); font-size: 8px; letter-spacing: .1em; text-align: center; }
+  .system-connector b { grid-column: 2; align-self: start; color: var(--amber); font-size: 12px; font-weight: 400; line-height: 1; }
+  .system-connector-last { height: 40px; }
+  .system-dependencies { width: min(100%, 720px); padding: 13px 15px 15px; border: 1px dashed rgba(192, 202, 245, .19); background: rgba(16, 19, 30, .8); text-align: center; }
+  .system-dependencies > span { color: #8992b0; font-family: var(--font-mono); font-size: 8px; letter-spacing: .11em; }
+  .system-dependencies > div { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin-top: 10px; }
+  .system-dependencies b { padding: 6px 9px; border: 1px solid rgba(192, 202, 245, .12); border-radius: 3px; color: #b4bdd7; background: rgba(192, 202, 245, .035); font-size: 9px; font-weight: 400; }
+  .flow-code { max-width: 100%; overflow-x: auto; margin: 0; padding: 18px 19px; border: 0; background: var(--code-surface); color: #a9b1d6; font-family: var(--font-mono); font-size: 11px; line-height: 1.8; tab-size: 2; white-space: pre; }
+  .flow-code code { font: inherit; }
+  .layer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--bdr); border-left: 1px solid var(--bdr); }
+  .layer-grid-centered { width: 100%; max-width: 1080px; margin: 0 auto; }
+  .layer-card { min-width: 0; padding: 19px; border-right: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr); background: var(--bg-elev); }
+  .layer-card h3 { margin-top: 9px; color: var(--txt); font-size: 15px; }
+  .layer-path { display: inline-block; margin-top: 8px; color: var(--amber); font-family: var(--font-mono); font-size: 9px; overflow-wrap: anywhere; }
+  .layer-card p { margin-top: 10px; color: var(--txt-2); font-size: 10.5px; line-height: 1.75; }
+  .layer-card > a { display: inline-flex; gap: 7px; margin-top: 14px; color: var(--amber); font-size: 10px; text-decoration: none; }
+  .layer-card > a:hover { color: var(--txt); }
+  .startup-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .startup-grid article { min-width: 0; padding: 17px; border: 1px solid var(--bdr); background: var(--bg-elev); }
+  .startup-grid article > span, .example-grid article > span, .lifecycle-grid article > span { color: var(--amber); font-family: var(--font-mono); font-size: 8px; letter-spacing: .1em; }
+  .startup-grid h3 { margin-top: 9px; color: var(--txt); font-size: 13px; }
+  .startup-grid p { margin-top: 7px; color: var(--txt-2); font-size: 10.5px; line-height: 1.7; }
+  .code-example { width: 100%; max-width: 1080px; margin: 15px auto 0; }
+  .code-heading { flex-wrap: wrap; }
+  .code-heading a { margin-left: auto; color: var(--amber); font-size: 9px; text-decoration: none; white-space: nowrap; }
+  .code-example > p { padding: 13px 17px 0; color: #8992b0; font-size: 11px; line-height: 1.6; }
+  .code-example pre { max-width: 100%; overflow-x: auto; padding: 13px 17px 17px; color: #c0caf5; font-family: var(--font-mono); font-size: 12px; line-height: 1.8; }
+  .code-example pre code { font: inherit; }
+  .syntax-code { display: block; min-width: max-content; color: #c0caf5; font-size: 0; }
+  .syntax-line { display: block; min-height: 1.8em; font-size: 12px; white-space: pre; }
+  .syntax-keyword { color: #bb9af7; }
+  .syntax-type { color: #7dcfff; }
+  .syntax-function { color: #7aa2f7; }
+  .syntax-string { color: #9ece6a; }
+  .syntax-operator { color: #89ddff; }
+  .request-flow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px; align-items: center; }
+  .request-flow > div { min-height: 120px; padding: 13px; border: 1px solid var(--bdr); background: var(--bg-elev); }
+  .request-flow > div > span { color: var(--amber); font-family: var(--font-mono); font-size: 8px; letter-spacing: .08em; }
+  .request-flow strong { display: block; margin-top: 10px; color: var(--txt); font-size: 11px; }
+  .request-flow p { margin-top: 6px; color: var(--txt-3); font-size: 9px; line-height: 1.6; }
+  .request-flow > i { color: var(--amber); font-size: 12px; font-style: normal; }
+  .flow-panel { margin-top: 12px; }
+  .flow-code-compact { white-space: pre; }
+  .example-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+  .example-grid article, .subsystem-notes article { min-width: 0; padding: 16px; border: 1px solid var(--bdr); background: var(--surface); }
+  .example-grid h3, .subsystem-notes h3 { margin-top: 8px; color: var(--txt); font-size: 12px; }
+  .example-grid p, .subsystem-notes p { margin-top: 7px; color: var(--txt-2); font-size: 10px; line-height: 1.7; }
+  .subsystem-table-wrap { overflow-x: auto; border: 1px solid var(--bdr); background: var(--bg-elev); }
+  .subsystem-table { width: 100%; min-width: 900px; border-collapse: collapse; text-align: left; }
+  .subsystem-table th, .subsystem-table td { padding: 12px; border-right: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr); vertical-align: top; color: var(--txt-2); font-size: 9.5px; line-height: 1.7; }
+  .subsystem-table thead th { color: var(--amber); background: var(--surface); font-family: var(--font-mono); font-size: 8px; letter-spacing: .08em; text-transform: uppercase; }
+  .subsystem-table tbody th { min-width: 145px; color: var(--txt); font-size: 10px; }
+  .subsystem-table td:nth-child(2), .subsystem-table td:nth-child(3) { min-width: 200px; }
+  .subsystem-table td:last-child { min-width: 260px; }
+  .subsystem-notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+  .lifecycle-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .lifecycle-grid article { padding: 17px; border: 1px solid var(--bdr); background: var(--bg-elev); }
+  .lifecycle-grid h3 { margin-top: 8px; color: var(--txt); font-size: 12px; }
+  .lifecycle-grid p { margin-top: 7px; color: var(--txt-2); font-size: 10px; line-height: 1.7; }
+  .lifecycle-sequence { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; margin-top: 12px; padding: 14px; border: 1px solid var(--bdr); background: var(--code-bg); }
+  .lifecycle-sequence span { color: var(--txt-2); font-family: var(--font-mono); font-size: 9px; }
+  .lifecycle-sequence b { color: var(--amber); font-size: 10px; }
+  .principle-list { border-top: 1px solid var(--bdr); }
+  .principle-list article { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; padding: 16px; border: 1px solid var(--bdr); border-top: 0; background: var(--bg-elev); }
+  .principle-list article > span { color: var(--amber); font-family: var(--font-mono); font-size: 10px; }
+  .principle-list h3 { color: var(--txt); font-size: 12px; }
+  .principle-list p { margin-top: 6px; color: var(--txt-2); font-size: 10px; line-height: 1.7; }
+  .trace-list { display: grid; gap: 0; padding: 0; margin: 0; list-style: none; counter-reset: trace; }
+  .trace-list li { display: grid; grid-template-columns: minmax(140px, .7fr) minmax(0, 1fr); gap: 5px 16px; padding: 15px; border: 1px solid var(--bdr); border-bottom: 0; background: var(--bg-elev); }
+  .trace-list li:last-child { border-bottom: 1px solid var(--bdr); }
+  .trace-list strong { color: var(--txt); font-size: 11px; }
+  .trace-list code { color: var(--amber); font-family: var(--font-mono); font-size: 9px; overflow-wrap: anywhere; }
+  .trace-list p { grid-column: 2; color: var(--txt-2); font-size: 10px; line-height: 1.65; }
+  .repo-tree { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 12px; align-items: start; }
+  .repo-tree > .architecture-code-panel { min-width: 0; }
+  .repo-tree > .architecture-code-panel > pre { overflow: auto; margin: 0; padding: 17px; color: #a9b1d6; font-family: var(--font-mono); font-size: 10px; line-height: 1.75; white-space: pre; }
+  .repo-tree > pre code { font: inherit; }
+  .source-link-list { display: grid; border-top: 1px solid var(--bdr); }
+  .source-link-list a { display: grid; grid-template-columns: minmax(80px, .8fr) minmax(0, 1fr) 15px; gap: 9px; align-items: center; padding: 10px; border: 1px solid var(--bdr); border-top: 0; background: var(--bg-elev); color: var(--txt-2); font-size: 9px; text-decoration: none; }
+  .source-link-list a:hover { color: var(--amber); background: var(--amber-wash); }
+  .source-link-list code { color: var(--txt-3); font-family: var(--font-mono); font-size: 8px; overflow-wrap: anywhere; }
+  .source-link-list b { color: var(--amber); text-align: right; }
+  .contributor-checklist { display: grid; gap: 0; border-top: 1px solid var(--bdr); }
+  .contributor-checklist p { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; padding: 12px; border: 1px solid var(--bdr); border-top: 0; background: var(--bg-elev); color: var(--txt-2); font-size: 10px; line-height: 1.7; }
+  .contributor-checklist span { color: var(--amber); font-family: var(--font-mono); font-size: 9px; }
+  .architecture-links { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 18px; }
+  .architecture-links a { color: var(--amber); font-size: 10px; text-decoration: none; }
+  .architecture-links a:hover { color: var(--txt); }
+  .accuracy-note { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--bdr); color: var(--txt-3); font-size: 9px; line-height: 1.7; }
+  @media (max-width: 900px) {
+    .architecture-section { padding-top: 42px; }
+    .request-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .request-flow > div { min-height: 108px; }
+    .request-flow > i { display: none; }
+    .example-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .example-grid article:last-child { grid-column: 1 / -1; }
+    .repo-tree { grid-template-columns: minmax(0, 1fr); }
+    .startup-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .journey-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .journey-card { border-bottom: 1px solid var(--bdr); }
+    .journey-card:nth-child(2n) { border-right: 0; }
+    .journey-card:last-child { border-bottom: 0; }
+  }
+  @media (max-width: 740px) {
+    .architecture-toc { position: static; }
+    .layer-grid, .startup-grid, .lifecycle-grid, .subsystem-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .architecture-page { padding: 78px 0 56px; }
+    .architecture-section { padding-top: 36px; scroll-margin-top: 16px; }
+    .architecture-hero { padding-bottom: 24px; }
+    .architecture-hero h1 { margin: 15px 0 12px; font-size: clamp(40px, 11vw, 56px); }
+    .architecture-lede { font-size: 12px; line-height: 1.75; }
+    .architecture-meta { gap: 6px; margin-top: 16px; }
+    .architecture-meta span { font-size: 7px; }
+    .architecture-toc { gap: 9px 13px; margin-inline: -8px; padding: 11px 8px; }
+    .section-heading { margin-bottom: 16px; }
+    .section-heading h2 { margin: 8px 0; font-size: clamp(22px, 6vw, 28px); }
+    .section-heading > p:last-child { font-size: 11px; line-height: 1.7; }
+    .callout { padding: 13px; }
+    .layer-grid, .startup-grid, .lifecycle-grid, .subsystem-notes, .example-grid, .journey-grid { grid-template-columns: minmax(0, 1fr); }
+    .example-grid article:last-child { grid-column: auto; }
+    .journey-card, .journey-card:nth-child(2n) { padding: 15px; border-right: 0; border-bottom: 1px solid var(--bdr); }
+    .journey-card:last-child { border-bottom: 0; }
+    .layer-card, .startup-grid article, .lifecycle-grid article { padding: 14px; }
+    .request-flow { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+    .request-flow > div { min-height: 0; padding: 12px; }
+    .request-flow > i { display: block; justify-self: center; transform: rotate(90deg); }
+    .trace-list li { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 12px; }
+    .trace-list p { grid-column: 1; }
+    .source-link-list a { grid-template-columns: minmax(0, 1fr) 15px; }
+    .source-link-list code { grid-column: 1; grid-row: 2; }
+    .source-link-list b { grid-column: 2; grid-row: 1 / span 2; }
+    .flow-code { padding: 13px; font-size: 8px; }
+    .system-diagram { padding: 15px 10px 17px; }
+    .system-node { grid-template-columns: 26px minmax(0, 1fr) 24px; gap: 9px; min-height: 74px; padding: 11px 10px; }
+    .system-node-index { width: 24px; height: 24px; font-size: 8px; }
+    .system-node h3 { font-size: 11px; }
+    .system-node code { font-size: 8px; }
+    .system-connector { column-gap: 7px; }
+    .system-connector small { font-size: 7px; }
+    .syntax-line { font-size: 10px; }
+    .code-heading { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 8px; padding: 8px 9px; }
+    .code-heading .code-dots { grid-column: 1; grid-row: 1; }
+    .code-heading-label { grid-column: 2; grid-row: 1; max-width: none; line-height: 1.4; }
+    .code-heading .code-language { grid-column: 3; grid-row: 1; }
+    .code-heading a { grid-column: 2 / -1; grid-row: 2; justify-self: end; margin-left: 0; }
+    .lifecycle-sequence { gap: 6px; padding: 11px; }
+    .lifecycle-sequence span { font-size: 8px; }
+    .principle-list article { grid-template-columns: 28px minmax(0, 1fr); gap: 8px; padding: 13px 11px; }
+    .architecture-links { gap: 11px 15px; }
+  }
+  @media (max-width: 640px) {
+    .subsystem-table-wrap { overflow: visible; border: 0; background: transparent; }
+    .subsystem-table, .subsystem-table tbody { display: grid; min-width: 0; gap: 9px; }
+    .subsystem-table thead { display: none; }
+    .subsystem-table tr { display: block; overflow: hidden; border: 1px solid var(--bdr); background: var(--bg-elev); }
+    .subsystem-table tbody th { display: block; min-width: 0; padding: 12px; border: 0; border-bottom: 1px solid var(--bdr); color: var(--txt); font-size: 11px; }
+    .subsystem-table td { display: grid; grid-template-columns: minmax(88px, .36fr) minmax(0, 1fr); gap: 10px; min-width: 0 !important; padding: 10px 12px; border: 0; border-bottom: 1px solid var(--bdr); font-size: 9px; }
+    .subsystem-table td:last-child { border-bottom: 0; }
+    .subsystem-table td::before { content: attr(data-label); color: var(--txt-3); font-family: var(--font-mono); font-size: 8px; letter-spacing: .04em; text-transform: uppercase; }
+  }
+  @media (max-width: 380px) {
+    .architecture-page { padding-top: 72px; }
+    .breadcrumbs { gap: 6px; font-size: 9px; }
+    .architecture-kicker, .section-index { font-size: 8px; }
+    .architecture-toc { gap: 8px 10px; }
+    .architecture-toc a { font-size: 9px; }
+    .system-node { grid-template-columns: 23px minmax(0, 1fr) 22px; gap: 7px; padding-inline: 8px; }
+    .system-node-index { width: 22px; height: 22px; }
+    .system-dependencies { padding-inline: 9px; }
+    .subsystem-table td { grid-template-columns: minmax(76px, .34fr) minmax(0, 1fr); gap: 7px; padding-inline: 9px; }
+    .code-heading { grid-template-columns: 22px minmax(0, 1fr) auto; gap: 6px; }
+  }
+</style>

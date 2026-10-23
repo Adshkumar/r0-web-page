@@ -15,7 +15,7 @@ interface Props {
 
 const {
   title = "r0 — A Code Editor for Building with AI",
-  description = "r0 is a cross-platform desktop code editor with AI coding agents, Git, an integrated terminal, and database tools.",
+  description = "r0 is a Windows and Linux desktop code editor with AI coding agents, Git, an integrated terminal, and database tools.",
   keywords = "r0, code editor, AI coding agents, desktop code editor, Git, terminal, database tools, Tauri, Rust, React",
   ogType = 'website',
   publishedTime,
@@ -95,10 +95,10 @@ const ogImage = new URL('/cover.svg', Astro.site || 'https://r0-ide.vercel.app')
       name: 'r0',
       softwareVersion: VERSION,
       description:
-        'r0 is a cross-platform desktop code editor with AI coding agents, Git, an integrated terminal, and database tools.',
+        'r0 is a desktop code editor for Windows and Linux with AI coding agents, Git, an integrated terminal, and database tools.',
       applicationCategory: 'DeveloperApplication',
       applicationSubCategory: 'Code Editor',
-      operatingSystem: 'Windows, macOS, Linux',
+      operatingSystem: 'Windows, Linux',
       url: 'https://r0-ide.vercel.app',
       downloadUrl: LATEST_RELEASE,
       codeRepository: GITHUB,
@@ -117,7 +117,7 @@ const ogImage = new URL('/cover.svg', Astro.site || 'https://r0-ide.vercel.app')
           name: 'What is r0?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'r0 is a cross-platform desktop code editor built with Tauri, Rust, and React. It brings code editing, AI coding agents, Git, an integrated terminal, and database tools into one application.',
+            text: 'r0 is a desktop code editor for Windows and Linux, built with Tauri, Rust, and React. It brings code editing, AI coding agents, Git, an integrated terminal, and database tools into one application.',
           },
         },
         {
@@ -125,7 +125,7 @@ const ogImage = new URL('/cover.svg', Astro.site || 'https://r0-ide.vercel.app')
           name: 'Which platforms can I download r0 for?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'The r0 README lists release downloads for Windows, macOS, and Linux. See the latest GitHub release for available installers and architectures.',
+            text: 'The r0 release downloads are currently available for Windows and Linux. See the latest GitHub release for available installers and architectures.',
           },
         },
         {

@@ -11,7 +11,7 @@ draft: false
 
 r0 is a desktop code editor built with Rust, Tauri, and React. It brings editing and project tools into one workspace.
 
-The r0 repository is the best place to check the current feature set, supported platforms, and installation steps. Integrations and release details can change over time.
+The r0 repository is the best place to check the current feature set, supported platforms, and installation steps. Current desktop releases are available for Windows and Linux; integrations and release details can change over time.
 
 ## Explore the project
 

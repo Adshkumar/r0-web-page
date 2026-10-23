@@ -1,12 +1,12 @@
 ---
-import { DISCUSSIONS, GITHUB, INSTALL_CMD, ISSUES, RELEASES, VERSION } from '../data/links';
+import { DISCUSSIONS, GITHUB, INSTALL_CMD, ISSUES, LATEST_RELEASE, RELEASES, VERSION, WINDOWS_CMD_INSTALL_CMD } from '../data/links';
 import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
 ---
 
 <div class="mobile-overview">
   <section class="mobile-hero">
     <div class="wrap">
-      <a href="/changelog" class="pill mobile-release"><span class="dot"></span>r0 v{VERSION} · release notes →</a>
+      <a href="/releases" class="pill mobile-release"><span class="dot"></span>r0 v{VERSION} · release notes →</a>
       <p class="mobile-kicker">// THE AI-READY CODE EDITOR</p>
       <h1>Code with AI.<br /><em>Build your way.</em></h1>
       <p class="mobile-intro">
@@ -17,6 +17,44 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
         <button class="copyline" type="button" data-copy={INSTALL_CMD} aria-label="Copy Windows PowerShell install command">
           <span class="copyline-p">$</span><code><span>{INSTALL_CMD}</span></code><span class="copyline-s"></span>
         </button>
+        <details class="mobile-install-more">
+          <summary>Other ways to install r0</summary>
+          <div class="mobile-install-methods">
+            <section>
+              <div class="mobile-install-method-heading"><span>WINDOWS · COMMAND PROMPT</span><span>CMD.EXE</span></div>
+              <p>Run this in Command Prompt to start the Windows installer:</p>
+              <button class="copyline" type="button" data-copy={WINDOWS_CMD_INSTALL_CMD} aria-label="Copy Windows Command Prompt install command">
+                <span class="copyline-p">$</span><code><span>{WINDOWS_CMD_INSTALL_CMD}</span></code><span class="copyline-s"></span>
+              </button>
+            </section>
+            <section>
+              <div class="mobile-install-method-heading"><span>DIRECT DOWNLOAD</span><span>WINDOWS</span></div>
+              <p>Download the installer for your processor: <code>R0_&lt;version&gt;_x64-setup.exe</code> for most PCs or <code>R0_&lt;version&gt;_arm64-setup.exe</code> for Windows on ARM.</p>
+              <a href={LATEST_RELEASE} target="_blank" rel="noopener noreferrer">Choose a Windows installer →</a>
+            </section>
+            <section>
+              <div class="mobile-install-method-heading"><span>LINUX · DEBIAN / UBUNTU</span><span>.DEB</span></div>
+              <p>Download the <code>amd64</code> package for x64 or <code>arm64</code> for ARM64, then install it from the directory containing the download:</p>
+              <code class="mobile-install-example">sudo apt install ./&lt;downloaded-file&gt;.deb</code>
+            </section>
+            <section>
+              <div class="mobile-install-method-heading"><span>LINUX · FEDORA</span><span>.RPM</span></div>
+              <p>Download the package matching your processor, then install it from the directory containing the download:</p>
+              <code class="mobile-install-example">sudo dnf install ./&lt;downloaded-file&gt;.rpm</code>
+            </section>
+            <section>
+              <div class="mobile-install-method-heading"><span>LINUX · APPIMAGE</span><span>PORTABLE</span></div>
+              <p>When an AppImage is available, make it executable and launch it:</p>
+              <code class="mobile-install-example">chmod +x &lt;file&gt;.AppImage<br />./&lt;file&gt;.AppImage</code>
+            </section>
+            <section>
+              <div class="mobile-install-method-heading"><span>LINUX · PORTABLE ARCHIVE</span><span>X64 · ARM64</span></div>
+              <p>Extract the archive for <code>linux-x86_64</code> or <code>linux-aarch64</code> and run <code>r0</code> from its extracted directory. The portable build uses system WebKitGTK 4.1 libraries.</p>
+            </section>
+            <a class="mobile-install-releases" href={RELEASES} target="_blank" rel="noopener noreferrer">Browse all Windows and Linux release files ↗</a>
+          </div>
+        </details>
+        <a class="mobile-install-guide" href="/docs/getting-started/installation">Read installation instructions →</a>
       </div>
       <a class="mobile-github" href={GITHUB} target="_blank" rel="noopener noreferrer">Explore r0 on GitHub →</a>
     </div>
@@ -110,7 +148,7 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">
             <span>REPOSITORY</span><strong>Browse r0 source</strong><small>Code, README, and project details ↗</small>
           </a>
-          <a href={`${RELEASES}/latest`} target="_blank" rel="noopener noreferrer">
+          <a href={LATEST_RELEASE} target="_blank" rel="noopener noreferrer">
             <span>RELEASES</span><strong>Get the latest build</strong><small>Installers and release notes ↗</small>
           </a>
           <a href={ISSUES} target="_blank" rel="noopener noreferrer">
@@ -176,6 +214,103 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
     font-family: var(--font-mono);
     font-size: 8px;
     letter-spacing: 0.06em;
+  }
+
+  .mobile-install-more {
+    margin-top: 9px;
+    border: 1px solid var(--bdr);
+    background: var(--bg-card);
+  }
+
+  .mobile-install-more summary {
+    padding: 10px 12px;
+    color: var(--amber);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    list-style-position: inside;
+  }
+
+  .mobile-install-methods {
+    display: grid;
+    gap: 10px;
+    padding: 0 10px 10px;
+  }
+
+  .mobile-install-methods section {
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--bdr);
+    background: var(--bg);
+  }
+
+  .mobile-install-method-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .mobile-install-method-heading span + span {
+    color: var(--txt-3);
+    text-align: right;
+  }
+
+  .mobile-install-methods p {
+    margin: 8px 0;
+    color: var(--txt-2);
+    font-size: 10px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-install-methods p code {
+    color: var(--txt);
+    font-family: var(--font-mono);
+    font-size: 9px;
+  }
+
+  .mobile-install-methods section > a {
+    display: inline-block;
+    margin-top: 2px;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-decoration: none;
+  }
+
+  .mobile-install-example {
+    display: block;
+    padding: 8px;
+    border: 1px solid var(--bdr);
+    background: var(--bg-elev);
+    color: var(--txt);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-install-releases,
+  .mobile-install-guide {
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-decoration: none;
+  }
+
+  .mobile-install-releases {
+    padding: 10px;
+    border: 1px solid var(--bdr);
+    background: var(--bg);
+  }
+
+  .mobile-install-guide {
+    display: inline-block;
+    margin-top: 8px;
   }
 
   .mobile-github {

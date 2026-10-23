@@ -8,6 +8,11 @@ import { PRODUCT_SHORTCUTS, THEME_FAMILIES } from '../data/features';
 import DEFAULT_SHORTCUTS from '../data/default-shortcuts.json';
 
 const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
+const shortcutGroupDetails = {
+  Navigate: 'Move through files and code',
+  Edit: 'Make changes without leaving the keyboard',
+  Workspace: 'Reach project tools and settings',
+};
 ---
 
 <Layout
@@ -18,10 +23,10 @@ const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
   <main class="features-page">
     <header class="features-hero">
       <div class="wrap">
-        <p class="features-kicker">// the r0 workspace</p>
-        <h1>Everything in place.<br /><em>Nothing in the way.</em></h1>
+        <p class="features-kicker">// THE R0 IDE</p>
+        <h1>Your whole coding loop.<br /><em>One focused workspace.</em></h1>
         <p class="features-lede">
-          A focused desktop editor for your code, AI-assisted workflow, and the tools you use to move a project forward.
+          Edit project files, work with supported AI integrations, run commands, and review Git changes without losing sight of your project.
         </p>
         <nav class="features-jump" aria-label="On this page">
           <a href="#features">01 / Features</a>
@@ -98,14 +103,20 @@ const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
       <div class="wrap">
         <header class="details-heading shortcuts-heading">
           <div class="section-index">F.10 <span>KEYBOARD</span></div>
-          <h2>Keep the flow <em>under your fingers.</em></h2>
-          <p>Handy defaults for moving around, editing, and opening your workspace tools.</p>
+          <h2>Stay in the flow.<br /><em>Let the keyboard do the work.</em></h2>
+          <p>Useful defaults for navigating code, making edits, and opening the tools around your project.</p>
         </header>
 
         <div class="shortcut-grid">
           {shortcutGroups.map((group) => (
             <section class="shortcut-group" aria-label={`${group} shortcuts`}>
-              <h3><span>//</span> {group}</h3>
+              <header class="shortcut-group-header">
+                <div>
+                  <p><span>//</span> {group}</p>
+                  <h3>{shortcutGroupDetails[group]}</h3>
+                </div>
+                <span class="shortcut-count">{String(PRODUCT_SHORTCUTS.filter((shortcut) => shortcut.group === group).length).padStart(2, '0')}</span>
+              </header>
               <ul>
                 {PRODUCT_SHORTCUTS.filter((shortcut) => shortcut.group === group).map((shortcut) => (
                   <li>
@@ -126,10 +137,11 @@ const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
             </section>
           ))}
         </div>
-        <p class="shortcut-note">
-          Showing 12 examples from {DEFAULT_SHORTCUTS.length} default bindings. <a href="/docs/reference/keyboard-shortcuts">Open the complete shortcut reference →</a>
-          <a href={GITHUB} target="_blank" rel="noopener noreferrer">See the project on GitHub →</a>
-        </p>
+        <div class="shortcut-footer">
+          <p>Showing {PRODUCT_SHORTCUTS.length} examples from {DEFAULT_SHORTCUTS.length} default bindings.</p>
+          <a href="/docs/reference/keyboard-shortcuts">Browse all keyboard shortcuts <span aria-hidden="true">→</span></a>
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">Explore r0 on GitHub <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
     </section>
   </main>
@@ -170,9 +182,10 @@ const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
   }
 
   .features-hero h1 {
+    max-width: 1050px;
     margin: 24px 0 18px;
     color: var(--txt);
-    font-size: clamp(44px, 8vw, 88px);
+    font-size: clamp(42px, 6.4vw, 76px);
     line-height: 0.98;
     letter-spacing: -0.065em;
   }
@@ -213,13 +226,14 @@ const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
   }
 
   .details-section {
-    padding: 74px 0;
+    padding: clamp(56px, 6vw, 82px) 0;
     border-top: 1px solid var(--bdr);
     scroll-margin-top: 62px;
   }
 
   .details-heading {
-    margin-bottom: 30px;
+    max-width: 790px;
+    margin-bottom: 28px;
   }
 
   .section-index {
@@ -233,9 +247,10 @@ const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
   }
 
   .details-heading h2 {
-    margin: 17px 0 10px;
+    margin: 15px 0 10px;
     color: var(--txt);
-    font-size: clamp(28px, 4vw, 44px);
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
     letter-spacing: -0.045em;
   }
 
@@ -468,25 +483,54 @@ const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
   .shortcut-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--bdr);
-    border-left: 1px solid var(--bdr);
+    gap: 12px;
   }
 
   .shortcut-group {
-    padding: 17px;
-    border-right: 1px solid var(--bdr);
+    min-width: 0;
+    padding: 18px 18px 12px;
+    border: 1px solid var(--bdr);
+    background: var(--bg);
+  }
+
+  .shortcut-group-header {
+    display: flex;
+    min-height: 54px;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    padding-bottom: 13px;
     border-bottom: 1px solid var(--bdr);
   }
 
-  .shortcut-group h3 {
-    margin: 0 0 11px;
+  .shortcut-group-header p {
+    margin: 0;
     color: var(--txt);
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .06em;
     text-transform: uppercase;
   }
 
-  .shortcut-group h3 span { color: var(--amber); }
+  .shortcut-group-header p span { color: var(--amber); }
+  .shortcut-group-header h3 {
+    margin: 6px 0 0;
+    color: var(--txt-3);
+    font-size: 9px;
+    font-weight: 400;
+  }
+  .shortcut-count {
+    display: grid;
+    width: 25px;
+    height: 25px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid var(--bdr);
+    color: var(--txt-3);
+    font-family: var(--font-mono);
+    font-size: 8px;
+  }
 
   .shortcut-group ul {
     margin: 0;
@@ -495,17 +539,19 @@ const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
   }
 
   .shortcut-group li {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
-    min-height: 40px;
+    gap: 8px;
+    min-height: 45px;
     border-top: 1px solid var(--bdr);
   }
 
   .shortcut-action {
     color: var(--txt-2);
     font-size: 10px;
+    line-height: 1.45;
   }
 
   .shortcut-keys,
@@ -539,32 +585,56 @@ const shortcutGroups = ['Navigate', 'Edit', 'Workspace'] as const;
   .shortcut-note {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: flex-start;
+    gap: 8px 24px;
     margin: 14px 0 0;
     color: var(--txt-3);
     font-size: 10px;
     line-height: 1.6;
   }
 
-  .shortcut-note a { color: var(--amber); }
+  .shortcut-footer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 12px 24px;
+    align-items: center;
+    margin-top: 15px;
+  }
+  .shortcut-footer p { margin: 0; color: var(--txt-3); font-size: 10px; line-height: 1.6; }
+  .shortcut-footer a { color: var(--amber); font-family: var(--font-mono); font-size: 10px; line-height: 1.5; }
+  .shortcut-footer a:hover { color: var(--txt); }
 
   @media (max-width: 900px) {
-    .theme-layout { grid-template-columns: 1fr; }
+    .theme-layout { grid-template-columns: minmax(0, 1fr); gap: 14px; }
     .shortcut-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .shortcut-group:last-child { grid-column: 1 / -1; }
+    .shortcut-footer { grid-template-columns: 1fr auto; }
+    .shortcut-footer p { grid-column: 1 / -1; }
   }
 
   @media (max-width: 620px) {
-    .features-hero { padding-top: 94px; }
-    .features-hero h1 { font-size: clamp(42px, 12vw, 64px); }
-    .details-section { padding: 52px 0; }
-    .theme-demo-content { grid-template-columns: 92px minmax(0, 1fr); }
+    .features-hero { padding: 94px 0 32px; }
+    .features-hero h1 { max-width: 560px; margin: 18px 0 13px; font-size: clamp(39px, 10vw, 58px); line-height: 1.02; }
+    .features-lede { max-width: 520px; font-size: 13px; }
+    .features-jump { gap: 6px; margin-top: 20px; }
+    .features-jump a { padding: 7px 8px; font-size: 9px; }
+    .details-section { padding: 48px 0; }
+    .details-heading { margin-bottom: 20px; }
+    .details-heading h2 { margin: 12px 0 8px; font-size: clamp(26px, 7vw, 34px); }
+    .details-heading p { font-size: 11px; }
+    .theme-demo-content { grid-template-columns: minmax(88px, .65fr) minmax(0, 1.35fr); min-height: 190px; }
     .theme-demo-sidebar { padding-inline: 9px; }
     .theme-code { padding-inline: 8px; font-size: 8px; }
     .shortcut-grid { grid-template-columns: 1fr; }
-    .shortcut-group { padding: 14px 12px; }
-    .shortcut-group li { gap: 5px; }
-    .shortcut-action { font-size: 9px; }
-    .shortcut-stroke kbd { min-width: 18px; padding-inline: 3px; font-size: 7px; }
+    .shortcut-group:last-child { grid-column: auto; }
+    .shortcut-group { padding: 15px 13px 10px; }
+    .shortcut-group li { min-height: 43px; gap: 6px; }
+    .shortcut-action { font-size: 10px; }
+    .shortcut-keys { gap: 4px; }
+    .shortcut-stroke { gap: 3px; }
+    .shortcut-stroke kbd { min-width: 21px; padding: 4px 5px; font-size: 8px; }
+    .shortcut-footer { grid-template-columns: minmax(0, 1fr); gap: 9px; margin-top: 13px; }
+    .shortcut-footer p { grid-column: auto; }
+    .shortcut-footer a { font-size: 9px; }
   }
 </style>

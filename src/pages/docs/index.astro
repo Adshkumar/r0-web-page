@@ -12,7 +12,7 @@ const reference = allDocs.filter((d) => d.data.category === 'reference').sort((a
 
 const sections = [
   { id: 'getting-started', title: 'Getting Started', items: gettingStarted, desc: 'Install r0 and open your first project' },
-  { id: 'guides', title: 'Guides', items: guides, desc: 'Work with AI and Git in your project' },
+  { id: 'guides', title: 'Guides', items: guides, desc: 'Practical workflows for editing, AI, Git, and your project tools' },
   { id: 'reference', title: 'Reference', items: reference, desc: 'Project links and verified product information' },
 ];
 
@@ -21,7 +21,7 @@ const totalDocsCount = allDocs.length + 1;
 
 <Layout
   title="Docs - r0"
-  description="Product overview, installation guidance, and reference material for the r0 desktop code editor."
+  description="Installation instructions, practical guides for r0 editor workflows, and product reference material."
 >
   <Nav />
 
@@ -91,7 +91,7 @@ const totalDocsCount = allDocs.length + 1;
                       <h3 class="article-title">Keyboard shortcuts reference</h3>
                       <span class="article-arrow">&rarr;</span>
                     </div>
-                    <p class="article-desc">All 133 default r0 keyboard bindings, grouped by workflow with macOS, Linux, and Windows key labels.</p>
+                    <p class="article-desc">All 133 default r0 keyboard bindings, grouped by workflow with Windows and Linux key labels.</p>
                   </div>
                 </a>
               )}

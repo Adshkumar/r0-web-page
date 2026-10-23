@@ -6,4 +6,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://r0-ide.vercel.app',
   integrations: [sitemap()],
+  redirects: {
+    '/changelog': '/releases',
+  },
 });
