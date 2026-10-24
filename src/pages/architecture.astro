@@ -534,7 +534,7 @@ crates/
 </Layout>
 
 <style>
-  .architecture-page { min-height: 80vh; padding: 96px 0 88px; overflow-x: clip; }
+  .architecture-page { min-height: 80vh; padding: clamp(68px, 8vw, 96px) 0 clamp(56px, 7vw, 88px); overflow-x: clip; }
   .breadcrumbs { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 26px; color: var(--txt-3); font-size: 10px; text-transform: uppercase; }
   .breadcrumbs a { color: var(--txt-2); }
   .architecture-hero { padding-bottom: 32px; border-bottom: 1px solid var(--bdr); }
@@ -707,7 +707,7 @@ crates/
     .layer-grid, .startup-grid, .lifecycle-grid, .subsystem-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 640px) {
-    .architecture-page { padding: 78px 0 56px; }
+    .architecture-page { padding: 68px 0 48px; }
     .architecture-section { padding-top: 36px; scroll-margin-top: 16px; }
     .architecture-hero { padding-bottom: 24px; }
     .architecture-hero h1 { margin: 15px 0 12px; font-size: clamp(40px, 11vw, 56px); }
@@ -762,7 +762,7 @@ crates/
     .subsystem-table td::before { content: attr(data-label); color: var(--txt-3); font-family: var(--font-mono); font-size: 8px; letter-spacing: .04em; text-transform: uppercase; }
   }
   @media (max-width: 380px) {
-    .architecture-page { padding-top: 72px; }
+    .architecture-page { padding-top: 64px; }
     .breadcrumbs { gap: 6px; font-size: 9px; }
     .architecture-kicker, .section-index { font-size: 8px; }
     .architecture-toc { gap: 8px 10px; }

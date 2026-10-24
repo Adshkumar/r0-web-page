@@ -719,12 +719,21 @@ pre {
 .logo-link {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
 }
 
 .logo-img {
   height: 22px;
   width: auto;
   display: block;
+}
+
+.logo-name {
+  color: var(--txt);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.06em;
 }
 
 .logo-light { display: none; }
@@ -832,9 +841,9 @@ pre {
    ═══════════════════════════════════════════════════════════════ */
 
 @media (max-width: 900px) {
-  .sec { padding-block: 64px; }
-  .section { padding: 64px 0; }
-  .section--tight { padding: 52px 0; }
+  .sec { padding-block: 56px; }
+  .section { padding: 56px 0; }
+  .section--tight { padding: 44px 0; }
 }
 
 @media (max-width: 800px) {
@@ -855,10 +864,13 @@ pre {
   .wrap,
   .container { padding-inline: 16px; }
   body { font-size: 12.5px; }
-  .sec { padding-block: 44px; }
-  .sec-head { margin-bottom: 20px; }
+  .sec { padding-block: 36px; }
+  .section { padding: 36px 0; }
+  .section--tight { padding: 28px 0; }
+  .sec-head { gap: 8px; margin-bottom: 16px; }
+  .sec-sub { margin-top: 10px; font-size: 12.5px; }
   .term-body { font-size: 11.5px; padding: 14px; }
-  .pnl-b { padding: 16px 12px; }
+  .pnl-b { padding: 14px 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

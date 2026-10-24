@@ -57,7 +57,7 @@ const docArticleSchema = {
     '@type': 'Organization',
     name: 'r0',
     url: siteUrl,
-    logo: 'https://r0-ide.vercel.app/favicon.svg',
+    logo: 'https://r0-ide.vercel.app/r0-icon.png',
   },
   mainEntityOfPage: {
     '@type': 'WebPage',
@@ -182,8 +182,8 @@ const breadcrumbSchema = {
 
 <style>
   .doc-page {
-    padding-top: calc(48px + 40px);
-    padding-bottom: 96px;
+    padding-top: clamp(64px, calc(48px + 4vw), 88px);
+    padding-bottom: clamp(56px, 8vw, 96px);
     min-height: 85vh;
   }
 
@@ -323,15 +323,20 @@ const breadcrumbSchema = {
 
   .prose :global(table) {
     width: 100%;
+    max-width: 100%;
+    display: block;
+    overflow-x: auto;
     border-collapse: collapse;
-    margin: 28px 0;
+    margin: 24px 0;
     font-size: 13px;
+    overscroll-behavior-inline: contain;
   }
 
   .prose :global(th), .prose :global(td) {
     border: 1px solid var(--bdr);
-    padding: 10px 14px;
+    padding: 9px 12px;
     text-align: left;
+    overflow-wrap: anywhere;
   }
 
   .prose :global(th) {

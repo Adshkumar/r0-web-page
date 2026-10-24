@@ -72,8 +72,8 @@ function formatDate(d: Date) {
 
 <style>
   .page-container {
-    padding-top: calc(48px + 40px);
-    padding-bottom: 80px;
+    padding-top: clamp(64px, calc(48px + 4vw), 88px);
+    padding-bottom: clamp(48px, 7vw, 80px);
     min-height: 80vh;
   }
 
@@ -131,7 +131,7 @@ function formatDate(d: Date) {
   .post-card {
     border: 1px solid var(--bdr);
     background: var(--surface);
-    padding: 28px;
+    padding: clamp(16px, 4vw, 28px);
     display: flex;
     flex-direction: column;
     gap: 12px;

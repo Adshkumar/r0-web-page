@@ -1,5 +1,5 @@
 ---
-import { DISCUSSIONS, GITHUB, INSTALL_CMD, ISSUES, LATEST_RELEASE, RELEASES, VERSION, WINDOWS_CMD_INSTALL_CMD } from '../data/links';
+import { DISCUSSIONS, GITHUB, INSTALL_CMD, ISSUES, LATEST_RELEASE, RELEASES, STARS, VERSION, WINDOWS_CMD_INSTALL_CMD } from '../data/links';
 import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
 ---
 
@@ -8,7 +8,7 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
     <div class="wrap">
       <a href="/releases" class="pill mobile-release"><span class="dot"></span>r0 v{VERSION} · release notes →</a>
       <p class="mobile-kicker">// THE AI-READY CODE EDITOR</p>
-      <h1>Code with AI.<br /><em>Build your way.</em></h1>
+      <h1>A desktop IDE for <em>modern software development.</em></h1>
       <p class="mobile-intro">
         Edit code, work with AI coding agents, manage Git, run terminal commands, and inspect supported databases—all from one desktop editor.
       </p>
@@ -56,7 +56,24 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
         </details>
         <a class="mobile-install-guide" href="/docs/getting-started/installation">Read installation instructions →</a>
       </div>
-      <a class="mobile-github" href={GITHUB} target="_blank" rel="noopener noreferrer">Explore r0 on GitHub →</a>
+      <section class="mobile-workflow" aria-label="Ways to work in r0">
+        <div class="mobile-workflow-header">
+          <span><i aria-hidden="true"></i>Ways to work</span>
+          <span>editor workflow</span>
+        </div>
+        <div class="mobile-workflow-grid">
+          <div><strong><b>$</b>r0</strong><span>open your project</span></div>
+          <div><strong><b>+</b>AI</strong><span>work with an agent</span></div>
+          <div><strong><b>+</b>Git</strong><span>review project changes</span></div>
+        </div>
+      </section>
+      <div class="mobile-hero-cta">
+        <a class="mobile-hero-primary" href={GITHUB} target="_blank" rel="noopener noreferrer">
+          <span>Explore r0 on GitHub</span>
+          <span class="mobile-star-count" aria-label={`${STARS} stars`}>★ {STARS}</span>
+        </a>
+        <a class="mobile-hero-secondary" href="/docs">Read the documentation →</a>
+      </div>
     </div>
   </section>
   <section class="mobile-features">
@@ -165,7 +182,7 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
 
 <style>
   .mobile-hero {
-    padding: 100px 0 48px;
+    padding: 76px 0 48px;
   }
 
   .mobile-release {
@@ -217,18 +234,46 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
   }
 
   .mobile-install-more {
-    margin-top: 9px;
-    border: 1px solid var(--bdr);
-    background: var(--bg-card);
+    display: none;
+  }
+
+  .mobile-install-more summary,
+  .mobile-install-guide {
+    display: flex;
+    min-height: 40px;
+    align-items: center;
+    gap: 9px;
+    padding: 0 12px;
+    color: var(--amber);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-decoration: none;
   }
 
   .mobile-install-more summary {
-    padding: 10px 12px;
-    color: var(--amber);
     cursor: pointer;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    list-style-position: inside;
+    list-style: none;
+  }
+
+  .mobile-install-more summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-install-more summary::before {
+    color: var(--amber);
+    content: "›";
+    font-size: 16px;
+    line-height: 1;
+    transition: transform 0.15s ease;
+  }
+
+  .mobile-install-more[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  .mobile-install-more summary:focus-visible {
+    outline: 1px solid var(--amber);
+    outline-offset: -2px;
   }
 
   .mobile-install-methods {
@@ -294,8 +339,7 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
     overflow-wrap: anywhere;
   }
 
-  .mobile-install-releases,
-  .mobile-install-guide {
+  .mobile-install-releases {
     color: var(--amber);
     font-family: var(--font-mono);
     font-size: 9px;
@@ -309,16 +353,138 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
   }
 
   .mobile-install-guide {
-    display: inline-block;
-    margin-top: 8px;
+    margin-top: 2px;
+    border: 1px solid var(--bdr);
+    background: var(--bg-card);
+    transition: border-color 0.15s ease, background 0.15s ease;
   }
 
-  .mobile-github {
-    display: inline-block;
-    margin-top: 18px;
-    color: var(--amber);
+  .mobile-install-guide:hover {
+    border-color: var(--amber);
+    background: var(--bg-card);
+  }
+
+  .mobile-install-guide:focus-visible {
+    outline: 1px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  .mobile-workflow {
+    margin-top: 8px;
+    overflow: hidden;
+    border: 1px solid var(--bdr);
+    background: var(--bg-card);
+  }
+
+  .mobile-workflow-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--bdr);
+    background: var(--surface-2);
     font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .mobile-workflow-header > span:first-child {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--txt-2);
+    font-weight: 600;
+  }
+
+  .mobile-workflow-header i {
+    display: block;
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+  }
+
+  .mobile-workflow-header > span + span {
+    color: var(--txt-3);
+    text-align: right;
+  }
+
+  .mobile-workflow-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--bdr);
+  }
+
+  .mobile-workflow-grid > div {
+    display: flex;
+    min-width: 0;
+    min-height: 64px;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px;
+    background: var(--bg-elev);
+    font-family: var(--font-mono);
+  }
+
+  .mobile-workflow-grid strong {
+    color: var(--txt);
     font-size: 12px;
+  }
+
+  .mobile-workflow-grid strong b {
+    margin-right: 3px;
+    color: var(--amber);
+    font-size: 10px;
+  }
+
+  .mobile-workflow-grid > div > span {
+    margin-top: 4px;
+    color: var(--txt-3);
+    font-size: 9px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-hero-cta {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .mobile-hero-cta a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-decoration: none;
+  }
+
+  .mobile-hero-primary {
+    border: 1px solid var(--amber);
+    background: var(--amber);
+    color: var(--bg);
+  }
+
+  .mobile-star-count {
+    flex: 0 0 auto;
+    padding: 3px 6px;
+    border: 1px solid currentColor;
+  }
+
+  .mobile-hero-secondary {
+    border: 1px solid var(--bdr);
+    color: var(--txt);
+  }
+
+  .mobile-hero-cta a:hover {
+    border-color: var(--amber);
   }
 
   .mobile-features {

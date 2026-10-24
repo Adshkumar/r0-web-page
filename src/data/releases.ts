@@ -15,12 +15,45 @@ export interface ReleaseEntry {
 
 export const releases: ReleaseEntry[] = [
   {
+    version: '0.18.1',
+    tag: 'v0.18.1',
+    date: '2026-10-24',
+    title: 'Performance, installation, and editor workflow improvements',
+    summary: 'This release makes r0 lighter on CPU and memory, improves the Windows installation path, and refines terminal, Git, theme, and command-palette workflows.',
+    commitRange: 'v0.18.0...v0.18.1',
+    categories: [
+      {
+        name: 'New features',
+        items: [
+          'Added a public Windows PowerShell install endpoint at r0-ide.vercel.app/install.ps1, with the installer copied into the web build and routed through the site.',
+        ],
+      },
+      {
+        name: 'Improvements',
+        items: [
+          'Reduced CPU and memory overhead to make the editor more efficient during everyday use.',
+          'Improved terminal defaults and connected Git publishing guidance to the r0 website documentation and changelog.',
+          'Replaced the Nucleo icon dependency with Lucide while keeping the existing icon export API.',
+          'Windows installation now prioritizes PowerShell, and release checks can complete when the dependency audit reports advisory warnings.',
+        ],
+      },
+      {
+        name: 'Fixes',
+        items: [
+          'Corrected Windows installer endpoint and build-output handling so the public install script is served from the expected URL.',
+          'Improved command-palette submenu keyboard navigation, menu interactions, and sidebar visibility; refined theme-picker option handling.',
+          'Updated Rust dependencies to address security-audit findings and stabilized end-to-end checks for editor menus, themes, and the command palette.',
+        ],
+      },
+    ],
+  },
+  {
     version: '0.18.0',
     tag: 'v0.18.0',
     date: '2026-10-20',
     title: 'Installer, editor workflow, and reliability fixes',
     summary: 'This release focuses on a more dependable Windows install and upgrade path, clearer updater guidance, and fixes across the command palette, extensions, terminal, and release pipeline.',
-    commitRange: 'v0.17.5...v0.18.0',
+    commitRange: 'v0.17.6...v0.18.0',
     categories: [
       {
         name: 'Fixes',

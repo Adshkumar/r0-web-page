@@ -107,8 +107,8 @@ const totalDocsCount = allDocs.length + 1;
 
 <style>
   .page-container {
-    padding-top: calc(48px + 40px);
-    padding-bottom: 96px;
+    padding-top: clamp(64px, calc(48px + 4vw), 88px);
+    padding-bottom: clamp(56px, 8vw, 96px);
     min-height: 85vh;
   }
 
