@@ -15,6 +15,23 @@ export interface ReleaseEntry {
 
 export const releases: ReleaseEntry[] = [
   {
+    version: '0.18.3',
+    tag: 'v0.18.3',
+    date: '2026-10-25',
+    title: 'In-app release notes preview',
+    summary: 'Review what is changing before installing an update, revisit notes for the installed version, and find the online changelog from the project README.',
+    commitRange: 'v0.18.2...v0.18.3',
+    categories: [
+      {
+        name: 'New features',
+        items: [
+          "Added a View release notes action in Settings so you can preview an available update before installing it, plus a What's New entry in the account menu for notes on the installed version.",
+          'Added a link to the website changelog in the project README.',
+        ],
+      },
+    ],
+  },
+  {
     version: '0.18.1',
     tag: 'v0.18.1',
     date: '2026-10-24',
