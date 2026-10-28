@@ -28,6 +28,35 @@ export async function GET() {
 
   const searchItems: SearchDoc[] = [];
 
+  // Homepage / r0 product entry
+  searchItems.push({
+    id: '/',
+    url: '/',
+    title: 'r0 IDE',
+    description: 'A desktop IDE for modern software development with AI coding agents, Git, an integrated terminal, and database tools.',
+    category: 'product',
+    type: 'Docs',
+    body: [
+      'r0',
+      'r0 IDE',
+      'r zero',
+      'rzero',
+      'ro',
+      'ro ide',
+      'desktop code editor',
+      'desktop IDE',
+      'modern software development',
+      'AI-assisted coding',
+      'AI coding agents',
+      'Git',
+      'integrated terminal',
+      'database tools',
+      'Windows',
+      'Linux',
+      'desktop editor',
+      'software development',
+    ].join(' '),
+  });
   // Documentation entries
   for (const doc of docs) {
     searchItems.push({
