@@ -15,6 +15,37 @@ export interface ReleaseEntry {
 
 export const releases: ReleaseEntry[] = [
   {
+    version: '0.18.4',
+    tag: 'v0.18.4',
+    date: '2026-10-27',
+    title: 'Safer Git actions and reliable folder deletion',
+    summary: 'This release fixes folder deletion in the file explorer, protects Git operations when the repository is not on a branch, and makes the release process and CI checks clearer for maintainers.',
+    commitRange: 'v0.18.3...v0.18.4',
+    categories: [
+      {
+        name: 'Fixes',
+        items: [
+          'Fixed a folder deletion failure caused by the delete action losing the information that its target was a directory. The file explorer now passes the directory flag through each layer of the file-system store to the workspace delete provider, so the provider selects its folder-delete path instead of treating the target as a regular file.',
+          'The file-tree cache is invalidated according to the target type: deleting a folder clears the directory-level ignore cache, while deleting a file clears that file path. Added a regression test to confirm folder deletions pass the directory flag to the provider.',
+        ],
+      },
+      {
+        name: 'Git workflow improvements',
+        items: [
+          'Source Control now labels a detached repository state as Detached HEAD instead of presenting it like an ordinary branch. A detached HEAD points directly to a commit, so new work would not automatically belong to a named branch.',
+          'Commit and push operations are blocked while HEAD is detached, and r0 explains that you need to create or switch to a branch first. This avoids making commits that are difficult to find later or attempting a push without a current branch.',
+        ],
+      },
+      {
+        name: 'Release process and documentation',
+        items: [
+          'Updated the release guide and README with the current release steps: synchronize the version across the app and Rust project files, update the lockfile, create and push the matching version tag, monitor CI, publish the draft release, and verify its assets.',
+          'Cargo Audit still runs in CI, but advisory findings in transitive crates that the project cannot directly update no longer fail the whole check. This keeps the findings visible while allowing the rest of the CI and release validation to proceed.',
+        ],
+      },
+    ],
+  },
+  {
     version: '0.18.3',
     tag: 'v0.18.3',
     date: '2026-10-25',

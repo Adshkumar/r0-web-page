@@ -1,5 +1,5 @@
 export const GITHUB = "https://github.com/Adshkumar/r0";
-export const VERSION = "0.18.3";
+export const VERSION = "0.18.4";
 export const RELEASES = `${GITHUB}/releases`;
 export const LATEST_RELEASE = `/releases`;
 export const ISSUES = `${GITHUB}/issues`;
