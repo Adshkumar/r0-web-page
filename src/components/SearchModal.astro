@@ -689,7 +689,21 @@
 
     if (!miniSearch) return;
 
-    const matches = miniSearch.search(q);
+    let matches = miniSearch.search(q);
+
+    // Retry common r0 product-name variations if the initial search finds nothing.
+    if (matches.length === 0) {
+      const normalizedQuery = q
+        .replace(/\br[\s-]*zero\b/gi, 'r0')
+        .replace(/\br[\s-]*o\b/gi, 'r0')
+        .replace(/\br0[\s-]*ide\b/gi, 'r0 ide')
+        .replace(/\brzero\b/gi, 'r0');
+
+      if (normalizedQuery.toLowerCase() !== q.toLowerCase()) {
+        matches = miniSearch.search(normalizedQuery);
+      }
+    }
+
     currentResults = matches.map((m) => m as unknown as SearchItem);
 
     if (emptyState) emptyState.hidden = true;
