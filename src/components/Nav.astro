@@ -54,6 +54,8 @@ const navItems = [
 
       <a href="/releases" class="nav-ver" title="View release notes">v{latestVersion}</a>
 
+      <a href="/auth" class="nav-account">Sign in</a>
+
       <button id="theme-toggle" class="icon-btn" aria-label="Toggle colour theme" style="display: none;">
         <svg class="sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
           <circle cx="12" cy="12" r="4"></circle>
@@ -190,6 +192,22 @@ const navItems = [
     color: var(--amber);
     text-decoration: none;
     transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+
+  .nav-account {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 10px;
+    border: 1px solid var(--amber-line);
+    color: var(--amber);
+    font-size: 11px;
+    text-decoration: none;
+  }
+
+  .nav-account:hover {
+    background: var(--amber-wash);
+    color: var(--txt);
   }
 
   .nav-ver:hover {

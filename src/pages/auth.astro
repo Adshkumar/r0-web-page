@@ -1,0 +1,146 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL ?? "";
+const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
+const enabledProviders = (import.meta.env.PUBLIC_SUPABASE_PROVIDERS ?? "")
+  .split(",")
+  .map((provider: string) => provider.trim().toLowerCase())
+  .filter((provider: string): provider is "google" | "github" => provider === "google" || provider === "github");
+---
+
+<Layout
+  title="Sign in to r0"
+  description="Sign in to your r0 account or create an account."
+  keywords="r0 account, sign in, create account"
+>
+  <main
+    class="auth-page"
+    data-supabase-url={supabaseUrl}
+    data-supabase-anon-key={supabaseAnonKey}
+    data-providers={enabledProviders.join(",")}
+  >
+    <header class="auth-header">
+      <a class="brand" href="/" aria-label="r0 home">
+        <img src="/r0-icon.png" alt="" width="36" height="36" />
+      </a>
+      <p id="mode-prompt">New to r0? <button type="button" class="mode-link" data-mode="signup">Create account</button></p>
+    </header>
+
+    <section class="auth-content" aria-labelledby="auth-title">
+      <h1 id="auth-title">Welcome back</h1>
+      <p id="auth-subtitle" class="subtitle">Sign in to continue to r0.</p>
+
+      <div id="auth-config-error" class="notice notice-error" role="alert" hidden>
+        Account sign-in is not configured for this deployment. Set the public Supabase URL and anon key, then rebuild the site.
+      </div>
+      <div id="auth-message" class="notice" role="status" aria-live="polite" hidden></div>
+
+      <form id="auth-form" novalidate>
+        <label class="sr-only" for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="Email" />
+
+        <div id="password-fields" class="password-fields" hidden>
+          <button id="change-email" type="button" class="inline-link change-email">Use a different email</button>
+          <div class="password-heading">
+            <label class="sr-only" for="password">Password</label>
+            <button id="forgot-password" type="button" class="inline-link">Forgot password?</button>
+          </div>
+          <input id="password" name="password" type="password" autocomplete="current-password" required minlength="8" placeholder="Password" />
+          <div id="confirm-wrap" hidden>
+            <label class="sr-only" for="confirm-password">Confirm password</label>
+            <input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" minlength="8" placeholder="Confirm password" />
+          </div>
+        </div>
+
+        <button id="submit-button" class="primary-button" type="submit">
+          <span class="button-label">Continue</span>
+          <span class="spinner" aria-hidden="true" hidden></span>
+        </button>
+      </form>
+
+      <form id="recovery-form" novalidate hidden>
+        <label class="sr-only" for="recovery-email">Email</label>
+        <input id="recovery-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="Email" />
+        <button class="primary-button" type="submit"><span class="button-label">Send reset link</span><span class="spinner" aria-hidden="true" hidden></span></button>
+        <button id="back-to-signin" type="button" class="return-link">Back to sign in</button>
+      </form>
+
+      <form id="new-password-form" novalidate hidden>
+        <label class="sr-only" for="new-password">New password</label>
+        <input id="new-password" name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="New password" />
+        <label class="sr-only" for="new-password-confirm">Confirm new password</label>
+        <input id="new-password-confirm" name="confirm-password" type="password" autocomplete="new-password" required minlength="8" placeholder="Confirm new password" />
+        <button class="primary-button" type="submit"><span class="button-label">Update password</span><span class="spinner" aria-hidden="true" hidden></span></button>
+      </form>
+
+      <section id="account-panel" class="account-panel" hidden aria-labelledby="account-title">
+        <div class="account-avatar" aria-hidden="true">r0</div>
+        <h2 id="account-title">You're signed in</h2>
+        <p id="account-email" class="account-email"></p>
+        <p id="account-verification" class="account-verification"></p>
+        <p class="account-note">This website account is not yet linked to r0 Desktop accounts. It also does not connect GitHub or an AI provider; those connections are managed separately in r0.</p>
+        <button id="signout-button" class="secondary-button" type="button">Sign out</button>
+      </section>
+
+      <div id="social-options" class="social-options">
+        <div class="separator"><span>or</span></div>
+        {enabledProviders.includes("google") && <button type="button" class="social-button" data-provider="google"><span class="google-mark" aria-hidden="true">G</span>Continue with Google</button>}
+        <button type="button" class="social-button" data-provider="github"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.54v-1.9c-3.1.68-3.76-1.31-3.76-1.31-.5-1.28-1.23-1.62-1.23-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.7 1.15 1.7 1.15.99 1.7 2.6 1.21 3.23.93.1-.72.39-1.21.7-1.49-2.48-.28-5.1-1.24-5.1-5.52 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.06 1.15a10.64 10.64 0 0 1 5.57 0c2.12-1.45 3.06-1.15 3.06-1.15.61 1.54.23 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.29-2.62 5.24-5.12 5.52.4.35.75 1.03.75 2.08v3.08c0 .3.2.65.77.54A11.1 11.1 0 0 0 12 .9Z"/></svg>Continue with GitHub</button>
+      </div>
+
+      <p id="terms-copy" class="terms-copy">By continuing you agree to the <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a>.</p>
+    </section>
+  </main>
+
+  <script>
+    import "../scripts/auth.ts";
+  </script>
+</Layout>
+
+<style>
+  .auth-page { position: relative; z-index: 1; min-height: 100svh; display: grid; grid-template-rows: auto 1fr; color: var(--txt); }
+  .auth-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 18px clamp(20px, 3vw, 52px); }
+  .brand { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; }
+  .brand img { display: block; object-fit: contain; }
+  .auth-header p { margin: 0; color: var(--txt-2); font-size: 15px; }
+  .mode-link,.inline-link,.return-link { padding: 0; border: 0; background: none; color: var(--amber); font: inherit; cursor: pointer; }
+  .mode-link:hover,.inline-link:hover,.return-link:hover { text-decoration: underline; }
+  .mode-link { margin-left: 4px; }
+  .auth-content { width: min(100% - 36px, 480px); align-self: center; justify-self: center; margin: 0 auto; padding: 34px; transform: translateY(-12px); border: 1px solid var(--bdr); background: color-mix(in srgb, var(--bg-elev) 94%, transparent); box-shadow: var(--shadow-card); }
+  h1 { margin: 0 0 38px; color: var(--txt); font-family: var(--display); font-size: clamp(30px, 4vw, 38px); font-weight: 500; letter-spacing: -.045em; text-align: center; }
+  .subtitle { margin: -26px 0 26px; color: var(--txt-2); font-size: 14px; text-align: center; }
+  #auth-form input,#recovery-form input,#new-password-form input { width: 100%; height: 50px; margin: 0 0 14px; padding: 0 15px; border: 1px solid var(--bdr-hi); border-radius: var(--radius-sm); outline: none; background: var(--surface-solid); color: var(--txt); font: inherit; font-size: 15px; transition: border-color .16s, box-shadow .16s; }
+  #auth-form input::placeholder,#recovery-form input::placeholder,#new-password-form input::placeholder { color: var(--txt-3); opacity: 1; }
+  #auth-form input:focus,#recovery-form input:focus,#new-password-form input:focus { border-color: var(--amber); box-shadow: 0 0 0 3px var(--amber-line); }
+  .password-heading { display: flex; justify-content: flex-end; margin: -2px 0 8px; }
+  .inline-link { color: var(--amber); font-size: 12px; }
+  .change-email { display: block; margin: 0 0 10px; }
+  .primary-button { width: 100%; min-height: 50px; display: flex; justify-content: center; align-items: center; gap: 9px; margin: 1px 0 18px; border: 1px solid var(--amber-line); border-radius: var(--radius-sm); background: var(--amber-fill); color: #171717; font: inherit; font-weight: 600; cursor: pointer; transition: background .16s, transform .16s; }
+  .primary-button:hover { background: var(--amber-fill-hover); transform: translateY(-1px); }
+  .primary-button:disabled,.social-button:disabled,.secondary-button:disabled { opacity: .55; cursor: wait; }
+  .spinner { width: 15px; height: 15px; border: 2px solid #17171755; border-top-color: #171717; border-radius: 50%; animation: spin .75s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .social-options { margin-top: 4px; }
+  .separator { display: flex; align-items: center; gap: 15px; margin: 18px 0; color: var(--txt-2); font-size: 13px; }
+  .separator::before,.separator::after { content: ""; flex: 1; height: 1px; background: var(--bdr-hi); }
+  .social-button { width: 100%; height: 50px; display: flex; justify-content: center; align-items: center; gap: 11px; margin: 10px 0; border: 1px solid var(--bdr-hi); border-radius: var(--radius-sm); background: var(--surface); color: var(--txt); font: inherit; cursor: pointer; transition: border-color .16s, background .16s; }
+  .social-button:hover { background: var(--amber-wash); border-color: var(--amber-line); }
+  .google-mark { color: var(--txt); font: 600 20px Arial,sans-serif; }
+  .notice { margin: 0 0 18px; padding: 12px 14px; border: 1px solid var(--amber-line); border-radius: var(--radius-sm); background: var(--amber-wash); color: var(--txt); font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+  .notice-error { border-color: color-mix(in srgb, #b42318 32%, var(--bdr)); background: color-mix(in srgb, #b42318 8%, var(--bg-elev)); color: #8e2424; }
+  .account-panel { text-align: center; }
+  .account-avatar { width: 54px; height: 54px; display: grid; place-items: center; margin: 0 auto 14px; border: 1px solid var(--amber-line); border-radius: 50%; background: var(--amber-wash); color: var(--amber); font-weight: 700; }
+  .account-panel h2 { margin: 0; font-size: 20px; font-weight: 500; }
+  .account-email,.account-verification { margin: 8px 0 0; color: var(--txt-2); font-size: 14px; overflow-wrap: anywhere; }
+  .account-note { margin: 20px 0; padding: 13px; border: 1px solid var(--bdr); background: var(--surface); color: var(--txt-2); font-size: 13px; line-height: 1.7; }
+  .secondary-button { min-height: 40px; padding: 0 18px; border: 1px solid var(--bdr-hi); border-radius: var(--radius-sm); background: var(--surface); color: var(--txt); font: inherit; cursor: pointer; }
+  .secondary-button:hover { border-color: var(--amber); }
+  .return-link { display: block; margin: 4px auto 16px; color: var(--amber); font-size: 13px; }
+  .terms-copy { margin: 42px 0 0; color: var(--txt-3); font-size: 12px; text-align: center; }
+  .terms-copy a { color: var(--txt); text-decoration: underline; text-decoration-color: var(--amber-line); text-underline-offset: 3px; }
+  .terms-copy a:hover { text-decoration: underline; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  @media (max-width: 560px) { .auth-header { padding: 14px 18px; } .auth-header p { font-size: 13px; } .auth-content { transform: none; padding: 26px 20px; } h1 { margin-bottom: 32px; } .terms-copy { margin-top: 32px; line-height: 1.7; } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2s; } }
+</style>

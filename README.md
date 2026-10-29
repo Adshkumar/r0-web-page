@@ -28,3 +28,7 @@ npm run preview
 - `scripts/` - website-specific validation and screenshot tools
 
 The product repository and its release notes are the source of truth for r0 features, supported platforms, and installation steps.
+
+## Account sign-in
+
+The `/auth` route uses Supabase Auth for website accounts. See [account authentication setup](docs/account-auth.md) for environment variables, provider setup, redirects, and the current desktop integration boundary. The privacy and terms pages are drafts and must be reviewed before public account registration is promoted.

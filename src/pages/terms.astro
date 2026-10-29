@@ -1,0 +1,32 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Terms of Service — r0" description="Terms for access to the r0 website account feature.">
+  <main class="policy wrap">
+    <p class="eyebrow">R0 ACCOUNT</p>
+    <h1>Terms of Service</h1>
+    <p class="updated">Draft for review before production account launch</p>
+    <p>These draft terms describe the r0 website account feature. They must be reviewed and completed by the project operator before accounts are enabled for public use.</p>
+    <h2>Account security</h2>
+    <p>Keep your account credentials private and use the sign-out control on devices you do not control. You are responsible for activity performed through a session signed in to your account. Contact the project maintainer if you believe your account has been accessed without permission.</p>
+    <h2>Separate integrations</h2>
+    <p>An r0 account does not grant GitHub repository access or access to an AI provider. Connect those services separately in r0 and review each requested permission before authorizing it.</p>
+    <p>Website Supabase accounts are not yet connected to the desktop IDE's existing r0 account service. Do not assume website sign-in signs in the desktop app.</p>
+    <h2>Availability and changes</h2>
+    <p>Account access depends on the authentication providers configured for the website and may be unavailable during maintenance or provider outages. The project may change or discontinue account features.</p>
+    <h2>Contact</h2>
+    <p>For account questions, use the contact method listed on the <a href="https://adshkumar.is-a.dev/" target="_blank" rel="noopener noreferrer">project maintainer’s website</a>.</p>
+    <p class="review-note">Before launch, the project operator must provide the governing entity, effective date, jurisdiction, service limitations, termination rules, and any other terms required for the service.</p>
+  </main>
+</Layout>
+
+<style>
+  .policy { position: relative; z-index: 1; max-width: 820px; padding-top: 120px; padding-bottom: 90px; }
+  .eyebrow,.updated { color: var(--txt-3); font-size: 10px; }
+  h1 { margin: 12px 0; font-size: clamp(30px, 6vw, 48px); letter-spacing: -.06em; }
+  .policy p { margin: 14px 0; color: var(--txt-2); line-height: 1.9; font-size: 12px; }
+  .policy h2 { margin: 30px 0 8px; color: var(--txt); font-size: 16px; }
+  .policy a { color: var(--amber); }
+  .policy .review-note { padding: 14px; border: 1px solid var(--amber-line); background: var(--amber-wash); color: var(--txt); }
+</style>
