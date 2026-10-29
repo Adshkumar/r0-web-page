@@ -2,23 +2,58 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Privacy Policy — r0" description="Privacy information for r0 website accounts.">
+<Layout title="Privacy Policy — r0" description="How r0 handles information in its website and desktop development environment.">
   <main class="policy wrap">
-    <p class="eyebrow">R0 ACCOUNT</p>
+    <p class="eyebrow">R0 · WEBSITE & DESKTOP IDE</p>
     <h1>Privacy Policy</h1>
-    <p class="updated">Draft for review before production account launch</p>
-    <p>This draft describes account authentication on the r0 website using Supabase Auth. It is not a privacy notice for every third-party service linked from r0.</p>
-    <h2>Information used for account access</h2>
-    <p>When you register or sign in, Supabase Auth processes the email address and provider information needed to authenticate your account. Email sign-in uses secure links; Google and GitHub sign-in are available when configured. Contact the project operator for details about data retention, account deletion, and configured providers.</p>
-    <h2>Website session storage</h2>
-    <p>The website uses the Supabase client to persist an authentication session in browser storage so email-link sign-in and OAuth redirects can complete. You can sign out from the account panel. The desktop IDE currently manages a separate r0 account session.</p>
-    <h2>Desktop application and project files</h2>
-    <p>The website account page does not upload your local source code. Signing in to an r0 account does not grant access to GitHub repositories or connect an AI provider. Those integrations require their own explicit setup in the desktop application.</p>
-    <h2>Service providers and configuration</h2>
-    <p>Account data is handled by the Supabase project configured for this site and its enabled email or social providers. The project operator must identify the project region and providers, configure production email delivery, and review their applicable privacy terms.</p>
-    <h2>Contact</h2>
-    <p>For a privacy request, use the contact method listed on the <a href="https://adshkumar.is-a.dev/" target="_blank" rel="noopener noreferrer">project maintainer’s website</a>.</p>
-    <p class="review-note">This draft must be reviewed and completed by the project operator before account registration is enabled in production, including applicable retention periods, legal basis, data-subject rights, and operator contact details.</p>
+    <p class="updated">Draft · last updated October 29, 2026</p>
+    <p class="review-note">This is a product-specific draft, not a final privacy notice. The project operator must complete the marked details and verify the actual production, desktop, hosting, and provider data practices before relying on or publishing it.</p>
+
+    <h2>1. Scope and who is responsible</h2>
+    <p>This notice describes information handled through the r0 website and r0 desktop development environment (together, “r0”). It does not replace the privacy notices of Google, GitHub, Supabase, AI providers, extension publishers, or other services you choose to connect. The responsible operator is <strong>[operator: insert legal name and contact address]</strong> (“r0,” “we,” or “us”).</p>
+
+    <h2>2. Information associated with website accounts</h2>
+    <p>If you use the website account page, Supabase Auth processes your email address and authentication information to send sign-in links, confirm your address, maintain your session, and support sign-out. If you choose Google or GitHub sign-in, the provider and Supabase may share account identifiers and profile information needed to complete authentication. The current site does not create a separate profile database.</p>
+
+    <h2>3. Browser storage and website requests</h2>
+    <p>The website stores your selected theme preference in browser storage. Supabase’s browser client also persists the authentication session in browser storage to keep you signed in and complete email-link or OAuth redirects. You can sign out from the account panel or clear site storage in your browser. Website hosting and security infrastructure may process request and device information, such as IP address, browser details, and access logs, to deliver and protect the site. The operator must confirm the hosting provider’s logging, retention, and analytics settings before publication.</p>
+
+    <h2>4. Desktop app, settings, and project files</h2>
+    <p>r0 is a desktop development environment for editing and navigating code, using terminals, Git workflows, database tools, extensions, language integrations, and AI or agent features. Project files and editor settings are used on your device for local development. The website account feature does not upload local source code. This statement does not cover content you choose to send through an AI provider, GitHub, a remote workspace, collaboration, a database connection, an extension, or another connected service.</p>
+    <p>The desktop IDE currently manages an account session separately from the website account. Signing into the website does not by itself sign you into the desktop app or connect an AI provider or GitHub.</p>
+
+    <h2>5. AI providers and agent features</h2>
+    <p>If you use an AI or agent feature, information you provide and project context you choose to include—such as prompts, selected files, code, terminal output, or tool results—may be sent to the provider or service configured for that feature. The provider may process that information under its own terms and privacy notice. Local model use may send requests to a local runtime or to an endpoint you configure. Review the selected provider, model, permissions, and provider data controls before using these features with confidential or personal information.</p>
+    <p>Agent features may read or change files and may use tools according to the permissions and confirmations available in your r0 version. Review proposed actions and outputs. Do not include secrets or personal information in prompts unless you have determined that the selected processing is appropriate.</p>
+
+    <h2>6. GitHub and other integrations</h2>
+    <p>GitHub repository browsing, Git operations, pull requests, and other connected-service features require separate authorization. When you connect an account, r0 and the provider process the account and permission information needed for the requested feature. Repository contents or related metadata may be transmitted to GitHub or another service when you use its features. The access granted and the provider’s use of information are governed by that provider’s privacy notice and your authorization choices.</p>
+
+    <h2>7. Why information is used</h2>
+    <p>Information is used to provide and secure account sign-in, respond to support and privacy requests, operate and maintain the website and desktop features you choose to use, prevent abuse, and meet legal obligations. The operator must identify any additional analytics, product improvement, marketing, or diagnostic purposes and the applicable legal basis before collecting data for them.</p>
+
+    <h2>8. Service providers and sharing</h2>
+    <p>Information may be processed by providers needed to deliver a feature you use, including Supabase for website authentication, website hosting and delivery providers, Google or GitHub when enabled, and the AI, database, extension, or collaboration services you connect. We do not sell account information through the website account feature. The operator must replace this summary with a complete current provider list and explain any other disclosures, including legal requests or a change in ownership.</p>
+
+    <h2>9. International processing</h2>
+    <p>r0’s providers may process information in countries other than your own. The operator must identify the Supabase project region, hosting region, provider locations, and any transfer safeguards required by the laws applicable to the service.</p>
+
+    <h2>10. Retention and account deletion</h2>
+    <p>Authentication records are retained by the configured Supabase project under its settings and policies. Information sent to third-party providers is subject to their retention practices. The project operator has not documented final retention periods or an account-deletion workflow in this repository. Contact <strong>[operator: insert privacy contact]</strong> to ask about access, correction, or deletion; the operator must implement and document the applicable process before production launch.</p>
+
+    <h2>11. Security</h2>
+    <p>We use the security controls available in the application and its service providers to protect information. No internet transmission or storage system can be guaranteed secure. Keep your email account, provider credentials, and device secure, and report suspected account compromise using the contact details below.</p>
+
+    <h2>12. Your choices and rights</h2>
+    <p>You can choose whether to use a website account, connect an external provider, or use an AI feature. You may sign out, disconnect providers where the relevant feature supports it, and control browser storage through your device. Depending on where you live, you may have rights to access, correct, delete, restrict, or object to certain processing, or to complain to a regulator. Contact the operator to make a request; the operator must add the correct rights, legal bases, response process, and regulator details for the jurisdictions served.</p>
+
+    <h2>13. Children</h2>
+    <p>r0 is a software development tool and is not directed to children who are not legally able to use the service in their location. The operator must set and publish the applicable minimum age and process for handling information collected from children before public launch.</p>
+
+    <h2>14. Changes and contact</h2>
+    <p>We may update this notice when r0 or its data practices change. The date above indicates the latest revision. For questions or privacy requests, use the contact method listed on the <a href="https://adshkumar.is-a.dev/" target="_blank" rel="noopener noreferrer">project maintainer’s website</a>, or contact <strong>[operator: insert privacy email or address]</strong>.</p>
+
+    <p class="review-note">Before publication, fill in the legal operator, contact, age, project and hosting regions, complete provider list, purposes and legal bases, retention periods, account deletion process, applicable user rights, and diagnostic/analytics behavior. Confirm the statements above against the shipped desktop builds and production configuration.</p>
   </main>
 </Layout>
 

@@ -55,7 +55,7 @@ const enabledProviders = (import.meta.env.PUBLIC_SUPABASE_PROVIDERS ?? "")
         <h2 id="account-title">You're signed in</h2>
         <p id="account-email" class="account-email"></p>
         <p id="account-verification" class="account-verification"></p>
-        <p class="account-note">This website account is not yet linked to r0 Desktop accounts. It also does not connect GitHub or an AI provider; those connections are managed separately in r0.</p>
+        <a class="secondary-button dashboard-link" href="/dashboard">Open the dashboard</a>
         <button id="signout-button" class="secondary-button" type="button">Sign out</button>
       </section>
 
@@ -109,9 +109,9 @@ const enabledProviders = (import.meta.env.PUBLIC_SUPABASE_PROVIDERS ?? "")
   .account-avatar { width: 54px; height: 54px; display: grid; place-items: center; margin: 0 auto 14px; border: 1px solid var(--amber-line); border-radius: 50%; background: var(--amber-wash); color: var(--amber); font-weight: 700; }
   .account-panel h2 { margin: 0; font-size: 20px; font-weight: 500; }
   .account-email,.account-verification { margin: 8px 0 0; color: var(--txt-2); font-size: 14px; overflow-wrap: anywhere; }
-  .account-note { margin: 20px 0; padding: 13px; border: 1px solid var(--bdr); background: var(--surface); color: var(--txt-2); font-size: 13px; line-height: 1.7; }
   .secondary-button { min-height: 40px; padding: 0 18px; border: 1px solid var(--bdr-hi); border-radius: var(--radius-sm); background: var(--surface); color: var(--txt); font: inherit; cursor: pointer; }
   .secondary-button:hover { border-color: var(--amber); }
+  .dashboard-link { display: inline-flex; align-items: center; justify-content: center; margin: 20px 8px 0 0; text-decoration: none; }
   .return-link { display: block; margin: 4px auto 16px; color: var(--amber); font-size: 13px; }
   .terms-copy { margin: 42px 0 0; color: var(--txt-3); font-size: 12px; text-align: center; }
   .terms-copy a { color: var(--txt); text-decoration: underline; text-decoration-color: var(--amber-line); text-underline-offset: 3px; }

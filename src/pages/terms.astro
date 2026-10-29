@@ -2,22 +2,56 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Terms of Service — r0" description="Terms for access to the r0 website account feature.">
+<Layout title="Terms of Service — r0" description="Terms for using the r0 website and desktop development environment.">
   <main class="policy wrap">
-    <p class="eyebrow">R0 ACCOUNT</p>
+    <p class="eyebrow">R0 · WEBSITE & DESKTOP IDE</p>
     <h1>Terms of Service</h1>
-    <p class="updated">Draft for review before production account launch</p>
-    <p>These draft terms describe the r0 website account feature. They must be reviewed and completed by the project operator before accounts are enabled for public use.</p>
-    <h2>Account security</h2>
-    <p>Keep your account credentials private and use the sign-out control on devices you do not control. You are responsible for activity performed through a session signed in to your account. Contact the project maintainer if you believe your account has been accessed without permission.</p>
-    <h2>Separate integrations</h2>
-    <p>An r0 account does not grant GitHub repository access or access to an AI provider. Connect those services separately in r0 and review each requested permission before authorizing it.</p>
-    <p>Website Supabase accounts are not yet connected to the desktop IDE's existing r0 account service. Do not assume website sign-in signs in the desktop app.</p>
-    <h2>Availability and changes</h2>
-    <p>Account access depends on the authentication providers configured for the website and may be unavailable during maintenance or provider outages. The project may change or discontinue account features.</p>
-    <h2>Contact</h2>
-    <p>For account questions, use the contact method listed on the <a href="https://adshkumar.is-a.dev/" target="_blank" rel="noopener noreferrer">project maintainer’s website</a>.</p>
-    <p class="review-note">Before launch, the project operator must provide the governing entity, effective date, jurisdiction, service limitations, termination rules, and any other terms required for the service.</p>
+    <p class="updated">Draft · last updated October 29, 2026</p>
+    <p class="review-note">This is a product-specific draft, not a final legal agreement. The project operator must complete the marked legal details and have these terms reviewed for the jurisdictions where r0 is offered before relying on them.</p>
+
+    <h2>1. Agreement and scope</h2>
+    <p>These terms apply to the r0 website, account features, and r0 desktop development environment, including related downloads and documentation (together, the “Services”). By accessing or using a Service, you agree to these terms. If you use r0 for an organization, you confirm that you have authority to accept these terms for it.</p>
+
+    <h2>2. The r0 product</h2>
+    <p>r0 is a development environment that may provide code editing, project navigation, terminals, Git and GitHub workflows, database tools, extensions, language integrations, and AI-assisted or agent workflows. Available capabilities vary by operating system, release, configuration, installed tools, provider availability, and user permissions. Features may change, be unavailable, or remain experimental. Check the release notes and documentation for the current behavior of a specific feature.</p>
+
+    <h2>3. Software and open-source licenses</h2>
+    <p>Rights to the r0 source code and desktop application are governed by the license included with the applicable source code or software distribution. Third-party components, extensions, and integrations may have their own licenses and terms. These website terms do not replace or limit rights that an applicable open-source license grants to you.</p>
+
+    <h2>4. Accounts and sign-in</h2>
+    <p>Some website features require an account. Keep access to your email account and sign-in links secure, do not impersonate another person, and promptly report suspected unauthorized access using the contact method below. You are responsible for actions taken through a session you control, subject to rights that cannot legally be assigned to you.</p>
+    <p>Email sign-in uses Supabase Auth links. Google or GitHub sign-in is offered only when the provider is enabled. Website accounts currently use a separate authentication service from the desktop IDE account; signing in on the website does not by itself sign you in to the desktop app or grant access to GitHub or an AI provider.</p>
+
+    <h2>5. Your projects and content</h2>
+    <p>You retain your rights to code, prompts, files, and other content that you create or provide. You are responsible for having the rights and permissions needed to use that content with r0 and any connected service. The website account feature does not upload local project files. Desktop features that you choose to use—such as AI providers, GitHub, remote workspaces, collaboration, extensions, or database connections—may process or transmit relevant content to the selected service. Review the feature and provider settings before sending private or sensitive information.</p>
+
+    <h2>6. AI and automated features</h2>
+    <p>AI-generated suggestions, code, explanations, commands, and agent actions may be incomplete, inaccurate, insecure, unsuitable, or subject to separate provider terms. They are not professional advice and are not guaranteed to be original, accurate, or free of third-party rights. Review and test output before relying on it, running commands, changing files, or including it in a release. You remain responsible for your project and for reviewing any action before confirming it in r0.</p>
+
+    <h2>7. GitHub and other connected services</h2>
+    <p>GitHub access and other provider connections are separate from an r0 website account. When you connect a service, you authorize the permissions shown by that service and are also subject to its terms and privacy practices. Repository access, cloning, commits, pushes, pull requests, and other actions depend on the permissions granted and the service’s availability. Review the target repository and proposed changes before authorizing or performing an operation.</p>
+
+    <h2>8. Acceptable use</h2>
+    <p>You may not use a Service to violate law or another person’s rights; gain unauthorized access to systems, accounts, or data; distribute malware; interfere with the security or operation of a Service; evade access controls; or misuse provider credentials, repositories, extensions, or AI features. Do not use r0 to generate or execute actions against systems unless you have permission. The operator may restrict access when reasonably necessary to protect users, the Services, or third parties, subject to applicable law.</p>
+
+    <h2>9. Third-party services</h2>
+    <p>Supabase, Google, GitHub, AI providers, extension publishers, package sources, and other external services are operated by their respective providers. r0 does not control their availability, policies, or content. Your use of them may require separate accounts and is governed by their own terms. Links to third-party services do not mean that those providers endorse r0.</p>
+
+    <h2>10. Availability, updates, and termination</h2>
+    <p>The operator may maintain, update, change, suspend, or discontinue a Service or feature. Account access may be interrupted by maintenance, network problems, or provider outages. You may stop using the Services at any time and sign out of the website account. The operator may suspend or terminate access for a material breach of these terms or to address a security, legal, or operational risk, subject to applicable law. Provisions that by their nature should continue after termination will continue.</p>
+
+    <h2>11. Disclaimers and liability</h2>
+    <p>To the extent permitted by applicable law, the Services are provided “as is” and “as available,” without warranties that they will be uninterrupted, error-free, secure, or suitable for a particular purpose. Nothing in these terms excludes a warranty or consumer right that cannot legally be excluded.</p>
+    <p>To the extent permitted by applicable law, the operator will not be liable for indirect, incidental, special, consequential, exemplary, or punitive loss, or loss of data, profits, or business arising from use of the Services. The operator’s total liability for claims relating to the Services will be limited to the amount, if any, you paid the operator for the relevant Service during the 12 months before the event giving rise to the claim. These limits do not apply where prohibited by law or to liability that cannot legally be limited.</p>
+
+    <h2>12. Changes to these terms</h2>
+    <p>The operator may update these terms as the product changes or as required by law. The “last updated” date above identifies the current draft. For material changes, the operator should provide notice through the website or another appropriate channel. Continued use after updated terms take effect means acceptance only where applicable law permits that result.</p>
+
+    <h2>13. Governing law and contact</h2>
+    <p>These terms are intended to be governed by the laws of <strong>[operator: insert governing jurisdiction]</strong>, without limiting mandatory rights under the laws that apply to you. Courts or dispute procedures: <strong>[operator: insert venue and dispute process after legal review]</strong>.</p>
+    <p>For questions about these terms, use the contact method listed on the <a href="https://adshkumar.is-a.dev/" target="_blank" rel="noopener noreferrer">project maintainer’s website</a>.</p>
+
+    <p class="review-note">Before publication, replace the jurisdiction and dispute placeholders; confirm the legal operator name and service address; review the liability and termination clauses; and confirm that the software license, provider behavior, privacy policy, and actual product features match these terms.</p>
   </main>
 </Layout>
 

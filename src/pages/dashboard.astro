@@ -1,0 +1,85 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL ?? "";
+const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
+---
+
+<Layout title="Your r0 account" description="View your r0 website account.">
+  <main class="dashboard-page wrap" data-supabase-url={supabaseUrl} data-supabase-anon-key={supabaseAnonKey}>
+    <section class="dashboard-card" aria-labelledby="dashboard-title">
+      <p class="eyebrow">R0 ACCOUNT</p>
+      <h1 id="dashboard-title">Your dashboard</h1>
+      <p id="dashboard-status" class="dashboard-status" role="status" aria-live="polite">Checking your account…</p>
+      <div id="dashboard-details" hidden>
+        <p class="field-label">Signed in as</p>
+        <p id="dashboard-email" class="account-email"></p>
+        <p id="dashboard-verification" class="account-verification"></p>
+        <button id="dashboard-signout" class="secondary-button" type="button">Sign out</button>
+      </div>
+      <a class="back-link" href="/">Back to r0</a>
+    </section>
+  </main>
+
+  <script>
+    import { createClient } from "@supabase/supabase-js";
+
+    const root = document.querySelector<HTMLElement>(".dashboard-page")!;
+    const status = document.querySelector<HTMLElement>("#dashboard-status")!;
+    const details = document.querySelector<HTMLElement>("#dashboard-details")!;
+    const url = root.dataset.supabaseUrl?.trim() ?? "";
+    const key = root.dataset.supabaseAnonKey?.trim() ?? "";
+
+    if (!url || !key || !URL.canParse(url)) {
+      status.textContent = "Account access is not configured for this deployment. Please try again later.";
+    } else {
+      const supabase = createClient(url, key, {
+        auth: { flowType: "pkce", autoRefreshToken: true, persistSession: true, detectSessionInUrl: true },
+      });
+
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !session) {
+        location.replace("/auth");
+      } else {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error || !user) {
+          await supabase.auth.signOut({ scope: "local" });
+          location.replace("/auth");
+        } else {
+          status.hidden = true;
+          details.hidden = false;
+          document.querySelector<HTMLElement>("#dashboard-email")!.textContent = user.email ?? "Signed-in account";
+          document.querySelector<HTMLElement>("#dashboard-verification")!.textContent = user.email_confirmed_at ? "Email verified" : "Email verification pending";
+        }
+      }
+
+      document.querySelector<HTMLButtonElement>("#dashboard-signout")!.addEventListener("click", async (event) => {
+        const button = event.currentTarget as HTMLButtonElement;
+        button.disabled = true;
+        const { error } = await supabase.auth.signOut({ scope: "local" });
+        if (error) {
+          status.hidden = false;
+          status.textContent = "Sign-out failed. Check your connection and try again.";
+          button.disabled = false;
+          return;
+        }
+        location.replace("/auth");
+      });
+    }
+  </script>
+</Layout>
+
+<style>
+  .dashboard-page { position: relative; z-index: 1; min-height: 100svh; display: grid; place-items: center; padding-top: 80px; padding-bottom: 48px; }
+  .dashboard-card { width: min(100%, 560px); padding: clamp(24px, 6vw, 40px); border: 1px solid var(--bdr); background: color-mix(in srgb, var(--bg-elev) 94%, transparent); box-shadow: var(--shadow-card); }
+  .eyebrow,.field-label { color: var(--txt-3); font-size: 11px; }
+  h1 { margin: 8px 0 28px; color: var(--txt); font-family: var(--display); font-size: clamp(28px, 6vw, 40px); letter-spacing: -.045em; }
+  .dashboard-status,.account-verification { color: var(--txt-2); font-size: 14px; line-height: 1.7; }
+  .field-label { margin: 0 0 6px; text-transform: uppercase; letter-spacing: .08em; }
+  .account-email { margin: 0; color: var(--txt); font-size: 16px; overflow-wrap: anywhere; }
+  .account-verification { margin: 8px 0 24px; }
+  .secondary-button { min-height: 40px; padding: 0 18px; border: 1px solid var(--bdr-hi); border-radius: var(--radius-sm); background: var(--surface); color: var(--txt); font: inherit; cursor: pointer; }
+  .secondary-button:hover { border-color: var(--amber); }
+  .secondary-button:disabled { opacity: .55; cursor: wait; }
+  .back-link { display: inline-block; margin-top: 28px; color: var(--amber); font-size: 13px; }
+</style>

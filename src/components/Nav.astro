@@ -103,6 +103,7 @@ const navItems = [
     display: flex;
     align-items: center;
     gap: 14px;
+    flex-shrink: 0;
   }
 
   .nav-mid {
@@ -144,6 +145,7 @@ const navItems = [
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
   }
 
   .nav-search-btn {
@@ -197,12 +199,15 @@ const navItems = [
   .nav-account {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     height: 28px;
     padding: 0 10px;
     border: 1px solid var(--amber-line);
     color: var(--amber);
     font-size: 11px;
     text-decoration: none;
+    white-space: nowrap;
+    flex: 0 0 auto;
   }
 
   .nav-account:hover {
@@ -283,6 +288,8 @@ const navItems = [
 
   @media (max-width: 520px) {
     .nav-mid {
+      min-width: 0;
+      flex: 1 1 auto;
       gap: 10px;
       overflow-x: auto;
       scrollbar-width: none;
