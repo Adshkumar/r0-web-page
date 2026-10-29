@@ -9,9 +9,9 @@ import Layout from "../layouts/Layout.astro";
     <p class="updated">Draft for review before production account launch</p>
     <p>This draft describes account authentication on the r0 website using Supabase Auth. It is not a privacy notice for every third-party service linked from r0.</p>
     <h2>Information used for account access</h2>
-    <p>When you register or sign in, Supabase Auth processes the email address and credential or provider information needed to authenticate your account. The website does not store your password in its own application database. Contact the project operator for details about data retention, account deletion, and the configured email and social providers.</p>
+    <p>When you register or sign in, Supabase Auth processes the email address and provider information needed to authenticate your account. Email sign-in uses secure links; Google and GitHub sign-in are available when configured. Contact the project operator for details about data retention, account deletion, and configured providers.</p>
     <h2>Website session storage</h2>
-    <p>The website uses the Supabase client to persist an authentication session in browser storage so sign-in, OAuth redirects, and password recovery can complete. You can sign out from the account panel. The desktop IDE currently manages a separate r0 account session.</p>
+    <p>The website uses the Supabase client to persist an authentication session in browser storage so email-link sign-in and OAuth redirects can complete. You can sign out from the account panel. The desktop IDE currently manages a separate r0 account session.</p>
     <h2>Desktop application and project files</h2>
     <p>The website account page does not upload your local source code. Signing in to an r0 account does not grant access to GitHub repositories or connect an AI provider. Those integrations require their own explicit setup in the desktop application.</p>
     <h2>Service providers and configuration</h2>

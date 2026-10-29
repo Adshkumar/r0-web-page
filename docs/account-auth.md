@@ -1,6 +1,6 @@
 # r0 website authentication
 
-The `/auth` page uses Supabase Auth in the browser. It supports email/password registration and sign-in, email-confirmation redirects, password reset, PKCE OAuth callbacks, current-account display, and local sign-out. Google and GitHub buttons appear only when that provider is explicitly listed at build time. Apple is not shown because it has not been configured here.
+The `/auth` page uses Supabase Auth in the browser. It supports passwordless email sign-in and account creation through magic links, PKCE OAuth callbacks, current-account display, and local sign-out. Google and GitHub buttons are shown; each provider starts OAuth only when it is enabled in `PUBLIC_SUPABASE_PROVIDERS` and configured in Supabase. Apple is not included.
 
 ## Environment variables
 
@@ -18,9 +18,9 @@ If Supabase URL/key are unset, the page shows a configuration message and disabl
 
 ## Supabase dashboard setup
 
-1. Create or select the r0 Supabase project. Keep Auth email/password enabled and email confirmation enabled.
+1. Create or select the r0 Supabase project. Enable email sign-in and configure email templates/SMTP so Supabase can send magic links.
 2. In **Authentication → URL Configuration**, set the production Site URL to `https://r0-ide.vercel.app` and add redirect URLs for `https://r0-ide.vercel.app/auth` and `http://localhost:6079/auth` (plus any actual preview origins used for testing).
-3. Configure email templates and a production SMTP provider for verification and recovery. Supabase's default email sender is intended for trials and is rate-limited.
+3. Configure the email template to send the Supabase sign-in link and set up a production SMTP provider. Supabase's default email sender is intended for trials and is rate-limited.
 4. To enable GitHub sign-in, create a GitHub OAuth App (or a GitHub App configured for OAuth), use `https://<project-ref>.supabase.co/auth/v1/callback` as its Authorization callback URL, then copy its client ID and client secret into **Supabase → Authentication → Sign In / Providers → GitHub** and enable the provider. Add `https://r0-ide.vercel.app/auth` and your local `/auth` URL to Supabase's redirect URL allow-list. Set `PUBLIC_SUPABASE_PROVIDERS=github` for the website build to show the GitHub button. The secret stays only in GitHub/Supabase; never add it to Astro environment variables.
 5. Google can be enabled the same way with a Google OAuth client and the callback URL supplied by Supabase. Set `PUBLIC_SUPABASE_PROVIDERS=google,github` to show both buttons.
 6. Add `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, and `PUBLIC_SUPABASE_PROVIDERS` to the Vercel project environment for the relevant environments and redeploy. For GitHub only, use `PUBLIC_SUPABASE_PROVIDERS=github`.
