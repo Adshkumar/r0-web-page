@@ -13,15 +13,6 @@ import {
 
 const latestVersion = VERSION;
 
-const stats = [
-  { v: 'AI', u: '', k: 'coding agents', d: 'supported providers and integrations', hi: true },
-  { v: 'Git', u: '', k: 'source control', d: 'manage changes alongside your code' },
-  { v: 'CLI', u: '', k: 'integrated terminal', d: 'run project commands in the editor' },
-  { v: 'DB', u: '', k: 'database tools', d: 'connect to supported databases' },
-  { v: 'Themes', u: '', k: 'customization', d: 'extensions and themes' },
-  { v: '2', u: ' platforms', k: 'desktop editor', d: 'Windows and Linux' },
-];
-
 const RUST_KW = new Set('async await const else fn impl let match move pub return self Some None Ok Err'.split(' '));
 const RUST_TYPES = new Set('bool char i8 i16 i32 i64 i128 isize u8 u16 u32 u64 u128 usize str String Option Result Vec'.split(' '));
 
@@ -179,15 +170,6 @@ const ideData = {
         </div>
       </div>
 
-      <dl class="hero-stats">
-        {stats.map((s) => (
-          <div class:list={['stat', { 'stat--hi': s.hi }]}>
-            <dt class="stat-k">{s.k}</dt>
-            <dd class="stat-v">{s.v}{s.u && <small>{s.u}</small>}</dd>
-            <dd class="stat-d">{s.d}</dd>
-          </div>
-        ))}
-      </dl>
     </div>
 
     <div class="stage" id="stage" data-phase="boot">
@@ -217,13 +199,11 @@ const ideData = {
               </ul>
               <ul class="ide-tree v-open">
                 {BACKEND_FILE_WINDOW.map((entry) => {
-                  const dir = entry.endsWith('/');
-                  const name = dir ? entry.slice(0, -1) : entry;
                   return (
-                    <li class:list={['in', { dir, on: name === 'intelligence.rs' }]}>
-                      <span class="chev">{dir ? '▸' : ''}</span>
-                      {!dir && <i class={`fi x-${ext(name)}`}></i>}
-                      <span class="tree-name">{name}</span>
+                    <li class:list={[`depth-${entry.depth}`, { dir: entry.dir, on: entry.selected }]}>
+                      <span class="chev">{entry.dir ? (entry.expanded ? '▾' : '▸') : ''}</span>
+                      {!entry.dir && <i class={`fi x-${ext(entry.name)}`}></i>}
+                      <span class="tree-name">{entry.name}</span>
                     </li>
                   );
                 })}
@@ -309,7 +289,7 @@ const ideData = {
                 ))}
                 <div class="insp-sec">outline · intelligence.rs</div>
                 {BACKEND_SYMBOLS.map((s) => (
-                  <div class:list={['sym', { on: s.name === 'bounded_paths_stay_in_workspace' }]}><span class="kd">{s.kind}</span><span class="nm">{s.name}</span><span class="l">{s.line}</span></div>
+                  <div class:list={['sym', { on: s.name === 'bounded_paths_stay_in_workspace' }]}><span class="kd">{s.kind}</span><span class="nm" title={s.name}>{s.name}</span><span class="l">{s.line}</span></div>
                 ))}
               </div>
             </aside>
@@ -345,6 +325,7 @@ const ideData = {
   /* ── announcement pill ── */
   .hero-announcement {
     display: flex;
+    justify-content: center;
     margin-bottom: 16px;
   }
 
@@ -385,6 +366,7 @@ const ideData = {
   /* ── meta strip ── */
   .hero-meta {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     border: 1px solid var(--bdr);
     font-size: 10.5px;
@@ -404,18 +386,20 @@ const ideData = {
     font-weight: 600;
   }
 
-  /* ── copy + stats ── */
+  /* ── centered hero copy ── */
   .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    display: block;
     border: 1px solid var(--bdr);
     border-top: 0;
     background: color-mix(in srgb, var(--bg) 70%, transparent);
   }
 
   .hero-copy {
-    padding: 44px 40px 40px;
-    border-right: 1px solid var(--bdr);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(40px, 6vw, 72px) clamp(20px, 7vw, 88px);
+    text-align: center;
   }
 
   .kicker {
@@ -429,6 +413,7 @@ const ideData = {
 
   h1 {
     margin: 18px 0 24px;
+    font-family: 'IBM Plex Mono', var(--display);
     font-size: clamp(42px, 6.6vw, 92px);
     font-weight: 800;
     line-height: 0.94;
@@ -450,7 +435,8 @@ const ideData = {
   }
 
   .hero-sub {
-    max-width: 620px;
+    max-width: 760px;
+    margin-inline: auto;
     font-size: 14px;
     line-height: 1.75;
     color: var(--txt-2);
@@ -579,12 +565,13 @@ const ideData = {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    max-width: 660px;
+    width: min(100%, 660px);
     margin-top: 28px;
   }
 
   .hero-cta {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
   }
@@ -592,6 +579,7 @@ const ideData = {
   .hero-harnesses {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     gap: 8px;
     padding-top: 4px;
@@ -629,56 +617,6 @@ const ideData = {
     height: 5px;
     border-radius: 50%;
     background: var(--amber);
-  }
-
-  .hero-stats {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .stat {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 6px;
-    padding: 20px 22px;
-    border-right: 1px solid var(--bdr);
-    border-bottom: 1px solid var(--bdr);
-  }
-
-  .stat:nth-child(2n) { border-right: 0; }
-  .stat:nth-last-child(-n + 2) { border-bottom: 0; }
-
-  .stat-k {
-    font-size: 10.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--txt-3);
-  }
-
-  .stat-v {
-    font-size: clamp(30px, 3.2vw, 46px);
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.05em;
-    color: var(--txt);
-  }
-
-  .stat-v small {
-    margin-left: 0.15em;
-    font-size: 0.4em;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: var(--txt-3);
-  }
-
-  .stat--hi .stat-v {
-    color: var(--amber);
-  }
-
-  .stat-d {
-    font-size: 11.5px;
-    color: var(--txt-3);
   }
 
   /* ── stage ── */
@@ -865,8 +803,8 @@ const ideData = {
 
   .ide-body {
     display: grid;
-    grid-template-columns: 208px minmax(0, 1fr) 250px;
-    height: 600px;
+    grid-template-columns: 248px minmax(0, 1fr) 250px;
+    height: clamp(700px, 78svh, 900px);
   }
 
   /* sidebar */
@@ -919,9 +857,10 @@ const ideData = {
     color: var(--t-fg);
   }
 
-  .ide-tree li.in {
-    padding-left: 26px;
-  }
+  .ide-tree li.depth-0 { padding-left: 12px; }
+  .ide-tree li.depth-1 { padding-left: 26px; }
+  .ide-tree li.depth-2 { padding-left: 40px; }
+  .ide-tree li.depth-3 { padding-left: 54px; }
 
   .tree-name {
     flex: 1;
@@ -1484,23 +1423,26 @@ const ideData = {
 
   .sym .kd {
     width: 6ch;
+    flex-shrink: 0;
     color: var(--t-k);
+  }
+
+  .sym .nm {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .sym .l {
     margin-left: auto;
+    flex-shrink: 0;
     color: var(--t-faint);
   }
 
   /* ── responsive ── */
   @media (max-width: 1100px) {
-    .hero-grid { grid-template-columns: minmax(0, 1fr); }
-    .hero-copy { border-right: 0; border-bottom: 1px solid var(--bdr); }
-    .hero-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .stat:nth-child(2n) { border-right: 1px solid var(--bdr); }
-    .stat:nth-child(3n) { border-right: 0; }
-    .stat:nth-last-child(-n + 3) { border-bottom: 0; }
-    .ide-body { grid-template-columns: 190px minmax(0, 1fr); }
+    .ide-body { grid-template-columns: 210px minmax(0, 1fr); }
     .ide-insp { display: none; }
   }
 
@@ -1508,13 +1450,7 @@ const ideData = {
     .stage { display: none; }
     .hero-meta span:nth-child(n + 3) { display: none; }
     .hero-meta span:nth-child(2) { border-right: 0; white-space: normal; }
-    .hero-copy { padding: 24px 16px; }
-    .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .stat { padding: 14px; }
-    .stat:nth-child(3n) { border-right: 1px solid var(--bdr); }
-    .stat:nth-child(2n) { border-right: 0; }
-    .stat:nth-last-child(-n + 3) { border-bottom: 1px solid var(--bdr); }
-    .stat:nth-last-child(-n + 2) { border-bottom: 0; }
+    .hero-copy { padding: 36px 16px; }
     .hh-pills { flex-wrap: wrap; gap: 6px; }
     .hh-pill { font-size: 11px; padding: 2px 8px; }
   }

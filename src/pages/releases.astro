@@ -17,7 +17,7 @@ function formatDate(iso: string) {
 
 <Layout
   title="Releases - r0"
-  description="Verified release notes for r0, including fixes, improvements, and new features."
+  description="Release notes and details for every r0 version tag, including published releases, drafts, fixes, and improvements."
 >
   <Nav />
 
@@ -33,7 +33,7 @@ function formatDate(iso: string) {
 
         <div class="cl-headline-row">
           <div>
-            <p class="kicker"><span>//</span> published release notes</p>
+            <p class="kicker"><span>//</span> releases and version tags</p>
             <h1 class="cl-title">Releases</h1>
           </div>
           <div class="cl-actions">
@@ -44,7 +44,7 @@ function formatDate(iso: string) {
         </div>
 
         <p class="cl-sub">
-          Changes below are summarized from published GitHub release notes and commit comparisons. The public issue tracker currently has no issue records to link, so fixes are described by the behavior changed. Draft releases and tags without published release notes are not listed.
+          Every version tag in the GitHub repository is listed. Published releases are based on their release notes; drafts and tags without a published release are clearly labeled and described from their draft notes and commit history.
         </p>
 
         <!-- Quick Jump Navigation -->
@@ -60,24 +60,28 @@ function formatDate(iso: string) {
         </div>
       </header>
 
-      <!-- Published release notes -->
-      <section class="cl-timeline" aria-label="Release entries">
+      <section class="cl-timeline" aria-label="Release and version tag entries">
         {releaseEntries.map((release, idx) => (
           <article class="cl-entry" id={release.tag}>
             <div class="cl-entry-aside">
               <div class="cl-ver-badge">
                 <span class="cl-ver-num">{release.tag}</span>
                 {idx === 0 && <span class="cl-tag-latest">Latest</span>}
+                {release.availability && (
+                  <span class:list={['cl-tag-status', { 'cl-tag-status--draft': release.availability === 'draft' }]}>
+                    {release.availability === 'draft' ? 'Draft' : 'Tag only'}
+                  </span>
+                )}
               </div>
               <time class="cl-date" datetime={release.date}>{formatDate(release.date)}</time>
               <div class="cl-links">
                 <a
-                  href={`${GITHUB}/releases/tag/${release.tag}`}
+                  href={release.availability ? `${GITHUB}/tree/${release.tag}` : `${GITHUB}/releases/tag/${release.tag}`}
                   class="cl-ext-link"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  View release &rarr;
+                  {release.availability ? 'View tag' : 'View release'} &rarr;
                 </a>
                 {release.commitRange.includes('..') && (
                   <a
@@ -306,6 +310,22 @@ function formatDate(iso: string) {
     border: 1px solid var(--amber-line);
     background: var(--amber-wash);
     color: var(--amber);
+  }
+
+  .cl-tag-status {
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 2px 6px;
+    border: 1px solid var(--bdr-hi);
+    color: var(--txt-3);
+  }
+
+  .cl-tag-status--draft {
+    border-color: var(--bdr-hi);
+    background: var(--surface);
+    color: var(--txt-2);
   }
 
   .cl-date {
