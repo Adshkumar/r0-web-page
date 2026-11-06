@@ -23,12 +23,15 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
 
   <script>
     import { createClient } from "@supabase/supabase-js";
+    import { AUTH_URL } from "../data/links";
+    import { getAuthUrl } from "../scripts/auth-redirect";
 
     const root = document.querySelector<HTMLElement>(".dashboard-page")!;
     const status = document.querySelector<HTMLElement>("#dashboard-status")!;
     const details = document.querySelector<HTMLElement>("#dashboard-details")!;
     const url = root.dataset.supabaseUrl?.trim() ?? "";
     const key = root.dataset.supabaseAnonKey?.trim() ?? "";
+    const signInUrl = getAuthUrl(window.location.pathname + window.location.search + window.location.hash);
 
     if (!url || !key || !URL.canParse(url)) {
       status.textContent = "Account access is not configured for this deployment. Please try again later.";
@@ -39,12 +42,12 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
 
       const { data: { session }, error: sessionError } = await supabase.auth.getSession();
       if (sessionError || !session) {
-        location.replace("/auth");
+        location.replace(signInUrl);
       } else {
         const { data: { user }, error } = await supabase.auth.getUser();
         if (error || !user) {
           await supabase.auth.signOut({ scope: "local" });
-          location.replace("/auth");
+          location.replace(signInUrl);
         } else {
           status.hidden = true;
           details.hidden = false;
@@ -63,7 +66,7 @@ const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
           button.disabled = false;
           return;
         }
-        location.replace("/auth");
+        location.replace(AUTH_URL);
       });
     }
   </script>

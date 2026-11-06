@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { DISCUSSIONS } from "../data/links";
 ---
 
 <Layout title="Terms of Service — r0" description="Terms for using the r0 website and desktop development environment.">
@@ -20,7 +21,7 @@ import Layout from "../layouts/Layout.astro";
 
     <h2>4. Accounts and sign-in</h2>
     <p>Some website features require an account. Keep access to your email account and sign-in links secure, do not impersonate another person, and promptly report suspected unauthorized access using the contact method below. You are responsible for actions taken through a session you control, subject to rights that cannot legally be assigned to you.</p>
-    <p>Email sign-in uses Supabase Auth links. Google or GitHub sign-in is offered only when the provider is enabled. Website accounts currently use a separate authentication service from the desktop IDE account; signing in on the website does not by itself sign you in to the desktop app or grant access to GitHub or an AI provider.</p>
+    <p>Website sign-in uses Supabase Auth. Google or GitHub sign-in is offered only when the provider is enabled. To sign in to r0 Desktop, you must separately approve the desktop sign-in request; the r0 account API then exchanges the verified website identity for a desktop credential. Signing in to the website alone does not sign you in to the desktop app or grant access to GitHub or an AI provider.</p>
 
     <h2>5. Your projects and content</h2>
     <p>You retain your rights to code, prompts, files, and other content that you create or provide. You are responsible for having the rights and permissions needed to use that content with r0 and any connected service. The website account feature does not upload local project files. Desktop features that you choose to use—such as AI providers, GitHub, remote workspaces, collaboration, extensions, or database connections—may process or transmit relevant content to the selected service. Review the feature and provider settings before sending private or sensitive information.</p>
@@ -49,7 +50,7 @@ import Layout from "../layouts/Layout.astro";
 
     <h2>13. Governing law and contact</h2>
     <p>These terms are intended to be governed by the laws of <strong>[operator: insert governing jurisdiction]</strong>, without limiting mandatory rights under the laws that apply to you. Courts or dispute procedures: <strong>[operator: insert venue and dispute process after legal review]</strong>.</p>
-    <p>For questions about these terms, use the contact method listed on the <a href="https://adshkumar.is-a.dev/" target="_blank" rel="noopener noreferrer">project maintainer’s website</a>.</p>
+    <p>For general questions about these terms, use <a href={DISCUSSIONS} target="_blank" rel="noopener noreferrer">r0 GitHub Discussions</a>. Do not post personal, account, or other sensitive information publicly.</p>
 
     <p class="review-note">Before publication, replace the jurisdiction and dispute placeholders; confirm the legal operator name and service address; review the liability and termination clauses; and confirm that the software license, provider behavior, privacy policy, and actual product features match these terms.</p>
   </main>

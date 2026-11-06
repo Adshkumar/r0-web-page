@@ -1,5 +1,6 @@
 ---
 import { GITHUB, INSTALL_CMD, VERSION, STARS } from '../data/links';
+import { getAuthUrl } from '../scripts/auth-redirect';
 import { THEMES } from '../data/themes';
 import {
   BACKEND_EXCERPT,
@@ -151,6 +152,7 @@ const ideData = {
           </div>
 
           <div class="hero-cta">
+            <a class="btn btn-ghost" href={getAuthUrl(null, 'signup')}>Get started</a>
             <a class="btn btn-primary" href={GITHUB} target="_blank" rel="noopener noreferrer">
               <span>Explore r0 on GitHub</span>
               <span class="btn-star-count" aria-label={`${STARS} stars`}>★ {STARS}</span>

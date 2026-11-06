@@ -55,6 +55,11 @@ const enabledProviders = (import.meta.env.PUBLIC_SUPABASE_PROVIDERS ?? "")
         <h2 id="account-title">You're signed in</h2>
         <p id="account-email" class="account-email"></p>
         <p id="account-verification" class="account-verification"></p>
+        <section id="desktop-consent" class="desktop-consent" hidden aria-labelledby="desktop-consent-title">
+          <h3 id="desktop-consent-title">Continue in r0 Desktop?</h3>
+          <p>Allow the r0 Desktop app to use this account on this device.</p>
+          <button id="desktop-authorize" class="primary-button" type="button">Authorize r0 Desktop</button>
+        </section>
         <a class="secondary-button dashboard-link" href="/dashboard">Open the dashboard</a>
         <button id="signout-button" class="secondary-button" type="button">Sign out</button>
       </section>
@@ -108,6 +113,9 @@ const enabledProviders = (import.meta.env.PUBLIC_SUPABASE_PROVIDERS ?? "")
   .account-panel { text-align: center; }
   .account-avatar { width: 54px; height: 54px; display: grid; place-items: center; margin: 0 auto 14px; border: 1px solid var(--amber-line); border-radius: 50%; background: var(--amber-wash); color: var(--amber); font-weight: 700; }
   .account-panel h2 { margin: 0; font-size: 20px; font-weight: 500; }
+  .desktop-consent { margin-top: 20px; padding: 18px; border: 1px solid var(--bdr-hi); border-radius: var(--radius-sm); }
+  .desktop-consent h3 { margin: 0; font-size: 16px; font-weight: 600; }
+  .desktop-consent p { margin: 8px 0 14px; color: var(--txt-2); font-size: 14px; }
   .account-email,.account-verification { margin: 8px 0 0; color: var(--txt-2); font-size: 14px; overflow-wrap: anywhere; }
   .secondary-button { min-height: 40px; padding: 0 18px; border: 1px solid var(--bdr-hi); border-radius: var(--radius-sm); background: var(--surface); color: var(--txt); font: inherit; cursor: pointer; }
   .secondary-button:hover { border-color: var(--amber); }

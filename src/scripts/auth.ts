@@ -1,4 +1,5 @@
 import { createClient, type User } from "@supabase/supabase-js";
+import { getSafeReturnPath } from "./auth-redirect";
 
 const root = document.querySelector<HTMLElement>(".auth-page");
 if (!root) throw new Error("r0 account page is missing its root element");
@@ -24,6 +25,8 @@ const message = document.querySelector<HTMLElement>("#auth-message")!;
 const configError = document.querySelector<HTMLElement>("#auth-config-error")!;
 const socialOptions = document.querySelector<HTMLElement>("#social-options")!;
 const termsCopy = document.querySelector<HTMLElement>("#terms-copy")!;
+const desktopConsent = document.querySelector<HTMLElement>("#desktop-consent")!;
+const desktopAuthorizeButton = document.querySelector<HTMLButtonElement>("#desktop-authorize")!;
 const submitButton = document.querySelector<HTMLButtonElement>("#submit-button")!;
 const emailInput = document.querySelector<HTMLInputElement>("#email")!;
 const title = document.querySelector<HTMLElement>("#auth-title")!;
@@ -31,7 +34,15 @@ const subtitle = document.querySelector<HTMLElement>("#auth-subtitle")!;
 const modePrompt = document.querySelector<HTMLElement>("#mode-prompt")!;
 
 type AuthMode = "signin" | "signup";
-let mode: AuthMode = new URLSearchParams(location.search).get("mode") === "signup" ? "signup" : "signin";
+const query = new URLSearchParams(location.search);
+let mode: AuthMode = query.get("mode") === "signup" ? "signup" : "signin";
+const nextPath = getSafeReturnPath(query.get("next"));
+const requestedDesktopSession = query.get("desktop_session");
+const desktopSessionId =
+  requestedDesktopSession && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(requestedDesktopSession)
+    ? requestedDesktopSession
+    : null;
+let hasRedirected = false;
 
 function showMessage(text: string, isError = false) {
   message.textContent = text;
@@ -88,10 +99,28 @@ function showAccount(user: User) {
   document.querySelector<HTMLElement>("#account-verification")!.textContent = user.email_confirmed_at
     ? "Email verified"
     : "Email verification pending";
+  desktopConsent.hidden = !desktopSessionId;
+  document.querySelector<HTMLElement>(".dashboard-link")!.hidden = Boolean(desktopSessionId);
+  if (!desktopSessionId && requestedDesktopSession) {
+    showMessage("This desktop sign-in request is invalid. Start sign-in again from r0 Desktop.", true);
+  }
+  if (!desktopSessionId && nextPath && !hasRedirected) {
+    hasRedirected = true;
+    location.replace(nextPath);
+  }
+}
+
+function getAuthCallbackUrl() {
+  const callbackUrl = new URL("/auth", location.origin);
+  if (nextPath) callbackUrl.searchParams.set("next", nextPath);
+  if (desktopSessionId) callbackUrl.searchParams.set("desktop_session", desktopSessionId);
+  return callbackUrl.toString();
 }
 
 function showSignedOut() {
   accountPanel.hidden = true;
+  desktopConsent.hidden = true;
+  document.querySelector<HTMLElement>(".dashboard-link")!.hidden = false;
   modePrompt.hidden = false;
   termsCopy.hidden = false;
   form.hidden = false;
@@ -117,7 +146,7 @@ form.addEventListener("submit", async (event) => {
     const { error } = await supabase.auth.signInWithOtp({
       email: emailInput.value.trim(),
       options: {
-        emailRedirectTo: `${location.origin}/auth`,
+        emailRedirectTo: getAuthCallbackUrl(),
         shouldCreateUser: mode === "signup",
       },
     });
@@ -150,7 +179,7 @@ document.querySelectorAll<HTMLButtonElement>(".social-button").forEach((button) 
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
-        options: { redirectTo: `${location.origin}/auth` },
+        options: { redirectTo: getAuthCallbackUrl() },
       });
       if (error) throw error;
     } catch (error) {
@@ -160,6 +189,42 @@ document.querySelectorAll<HTMLButtonElement>(".social-button").forEach((button) 
   });
 });
 
+desktopAuthorizeButton.addEventListener("click", async () => {
+  if (!supabase || !desktopSessionId) return;
+  desktopAuthorizeButton.disabled = true;
+  showMessage("");
+  try {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) throw error;
+    if (!data.session?.access_token) {
+      throw new Error("Your r0 session expired. Sign in again before authorizing Desktop.");
+    }
+
+    const response = await fetch("/api/auth/desktop/session/authorize", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${data.session.access_token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ sessionId: desktopSessionId }),
+    });
+    const payload: unknown = await response.json().catch(() => null);
+    if (!response.ok) {
+      const errorText =
+        payload && typeof payload === "object" && "error" in payload &&
+        typeof payload.error === "string"
+          ? payload.error
+          : `Desktop authorization failed (${response.status}).`;
+      throw new Error(errorText);
+    }
+    desktopAuthorizeButton.textContent = "Authorized";
+    showMessage("r0 Desktop is authorized. Return to the app to finish signing in.");
+  } catch (error) {
+    showMessage(explainError(error), true);
+    desktopAuthorizeButton.disabled = false;
+  }
+});
+
 document.querySelector<HTMLButtonElement>("#signout-button")!.addEventListener("click", async (event) => {
   if (!supabase) return;
   const button = event.currentTarget as HTMLButtonElement;
@@ -167,7 +232,7 @@ document.querySelector<HTMLButtonElement>("#signout-button")!.addEventListener("
   try {
     const { error } = await supabase.auth.signOut({ scope: "local" });
     if (error) throw error;
-    history.replaceState({}, document.title, "/auth");
+    history.replaceState({}, document.title, location.pathname);
     showSignedOut();
     showMessage("You are signed out.");
   } catch (error) {

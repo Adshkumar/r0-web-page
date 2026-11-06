@@ -1,5 +1,6 @@
 ---
 import { DISCUSSIONS, GITHUB, INSTALL_CMD, ISSUES, LATEST_RELEASE, RELEASES, STARS, VERSION, WINDOWS_CMD_INSTALL_CMD } from '../data/links';
+import { getAuthUrl } from '../scripts/auth-redirect';
 import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
 ---
 
@@ -68,6 +69,7 @@ import { PRODUCT_FEATURES, THEME_FAMILIES } from '../data/features';
         </div>
       </section>
       <div class="mobile-hero-cta">
+        <a class="mobile-hero-secondary" href={getAuthUrl(null, 'signup')}>Get started</a>
         <a class="mobile-hero-primary" href={GITHUB} target="_blank" rel="noopener noreferrer">
           <span>Explore r0 on GitHub</span>
           <span class="mobile-star-count" aria-label={`${STARS} stars`}>★ {STARS}</span>

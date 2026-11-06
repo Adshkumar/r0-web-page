@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "astro dev --port 6079",
     "build": "astro build",
+    "check": "astro check",
+    "test": "bun test",
     "preview": "astro preview",
     "preview:cf": "wrangler dev",
     "deploy": "astro build && wrangler deploy",
@@ -20,8 +22,11 @@
     "minisearch": "^7.2.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.12",
     "@astrojs/sitemap": "^3.7.3",
+    "@types/bun": "^1.4.4",
     "playwright-core": "^1.63.0",
+    "typescript": "^6.0.3",
     "wrangler": "^4.149.0"
   }
 }

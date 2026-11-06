@@ -1,5 +1,5 @@
 ---
-import { GITHUB, RELEASES, LATEST_RELEASE, ISSUES, LICENSE, VERSION, INSTALL_CMD, DISCUSSIONS } from '../data/links';
+import { AUTH_URL, GITHUB, RELEASES, LATEST_RELEASE, ISSUES, LICENSE, VERSION, INSTALL_CMD, DISCUSSIONS } from '../data/links';
 
 const latestVersion = VERSION;
 const year = new Date().getFullYear();
@@ -12,6 +12,7 @@ const cols = [
       { label: 'AI-assisted coding', href: '/features#features' },
       { label: 'Git & terminal', href: '/features#features' },
       { label: 'Database tools', href: '/features#features' },
+      { label: 'Sign in / Get started', href: AUTH_URL },
       { label: 'Latest Release', href: LATEST_RELEASE, ext: true },
       { label: 'Themes & shortcuts', href: '/features#themes' },
       { label: 'Project README', href: LICENSE, ext: true },
@@ -72,9 +73,6 @@ const cols = [
             rel={'ext' in l && l.ext ? 'noopener noreferrer' : undefined}
           >{l.label}</a>
         ))}
-        {c.title === 'project & code' && (
-          <a class="f-contact" href="https://adshkumar.is-a.dev/" target="_blank" rel="noopener noreferrer">Contact</a>
-        )}
       </nav>
     ))}
   </div>
@@ -158,10 +156,6 @@ const cols = [
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--amber);
-  }
-
-  .f-contact {
-    margin-top: 0;
   }
 
   .f-col a {

@@ -7,6 +7,7 @@ export const LICENSE = `${GITHUB}#readme`;
 export const repoDoc = (name: string) => `${GITHUB}/blob/main/${name}`;
 export const DISCUSSIONS = `${GITHUB}/discussions`;
 export const AUTHOR = GITHUB;
+export const AUTH_URL = "https://r0-ide.vercel.app/auth";
 
 /** Design Partner Program link (set to a Tally/Typeform URL or empty to use the structured email gate) */
 export const DESIGN_PARTNER_FORM_URL = "";
